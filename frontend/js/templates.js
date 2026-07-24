@@ -252,10 +252,6 @@ var SaltyTemplates = (function () {
 
     var html = '';
     html += '<div class="page-hero">';
-    html += '<div class="status-badge">';
-    html += '<div class="status-badge__dot"></div>';
-    html += '<span class="status-badge__text">\u0412\u0441\u0435 \u043F\u0440\u043E\u0442\u043E\u043A\u043E\u043B\u044B \u0430\u043A\u0442\u0438\u0432\u043D\u044B</span>';
-    html += '</div>';
     html += '<div class="page-hero__title">Safety Briefing</div>';
     html += '<div class="page-hero__subtitle">\u041F\u0440\u043E\u0432\u0435\u0441\u0442\u0438 \u043F\u0435\u0440\u0435\u0434 \u0432\u044B\u0445\u043E\u0434\u043E\u043C \u0432 \u043F\u0435\u0440\u0432\u044B\u0439 \u0434\u0435\u043D\u044C</div>';
     html += '</div>';
