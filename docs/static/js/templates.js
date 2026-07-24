@@ -39,6 +39,19 @@ var SaltyTemplates = (function () {
     return div.innerHTML;
   }
 
+  /**
+   * Escape text, then turn markdown-style [label](url) links into <a> tags.
+   * Use for any free-text field (checklist items, step text) that may
+   * contain a link — plain esc() alone renders the brackets literally.
+   */
+  function escLink(str) {
+    var escaped = esc(str);
+    return escaped.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, function (match, label, url) {
+      var href = /^https?:\/\//i.test(url) ? url : 'https://' + url;
+      return '<a href="' + href + '" target="_blank" rel="noopener noreferrer">' + label + '</a>';
+    });
+  }
+
   function pad2(n) {
     return n < 10 ? '0' + n : '' + n;
   }
@@ -274,12 +287,12 @@ var SaltyTemplates = (function () {
           var doneClass = item.checked ? ' protocol-card__check--done' : '';
           html += '<div class="protocol-card__check' + doneClass + '">';
           html += '<div class="protocol-card__check-icon"></div>';
-          html += '<span>' + esc(item.text) + '</span>';
+          html += '<span>' + escLink(item.text) + '</span>';
           html += '</div>';
         } else {
           html += '<div class="protocol-card__step">';
           html += '<span class="protocol-card__step-number">' + pad2(j + 1) + '</span>';
-          html += '<span class="protocol-card__step-text">' + esc(item.text) + '</span>';
+          html += '<span class="protocol-card__step-text">' + escLink(item.text) + '</span>';
           html += '</div>';
         }
       }
@@ -595,7 +608,7 @@ var SaltyTemplates = (function () {
           var key = checklistKey(page, cat.name + ' ' + (sub.name || ''), item.text);
           html += '<div class="checklist-card__item' + done + '" data-check-key="' + esc(key) + '">';
           html += '<div class="checklist-card__item-check"></div>';
-          html += '<span>' + esc(item.text) + '</span>';
+          html += '<span>' + escLink(item.text) + '</span>';
           html += '</div>';
         }
 
@@ -738,7 +751,7 @@ var SaltyTemplates = (function () {
         var ckKey = checklistKey(page, 'status', item.text);
         html += '<div class="checklist-card__item' + done + '" data-check-key="' + esc(ckKey) + '">';
         html += '<div class="checklist-card__item-check"></div>';
-        html += '<span>' + esc(item.text) + '</span>';
+        html += '<span>' + escLink(item.text) + '</span>';
         html += '</div>';
       }
       html += '</div>';
@@ -905,7 +918,7 @@ var SaltyTemplates = (function () {
           var docKey = checklistKey(page, cat.name, item.text);
           html += '<div class="checklist-card__item' + done + '" data-check-key="' + esc(docKey) + '">';
           html += '<div class="checklist-card__item-check"></div>';
-          html += '<span>' + esc(item.text) + '</span>';
+          html += '<span>' + escLink(item.text) + '</span>';
           html += '</div>';
         }
         html += '</div>';
