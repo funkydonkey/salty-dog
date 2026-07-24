@@ -20,6 +20,7 @@ def extract_structured_data(template: str, raw_markdown: str) -> dict:
         "provisions": parse_provisions,
         "trip_overview": parse_trip_overview,
         "boat_and_house_rules": parse_boat_and_house_rules,
+        "documents_and_money": parse_documents_and_money,
     }
     parser = parsers.get(template)
     if not parser:
@@ -628,5 +629,61 @@ def parse_boat_and_house_rules(md: str) -> dict:
             if bullet_match and current_cat is not None:
                 current_cat["items"].append(_clean_bold(bullet_match.group(1)))
     result["rules"] = rules
+
+    return result if any(v for v in result.values()) else {}
+
+
+def parse_documents_and_money(md: str) -> dict:
+    """Парсит Документы и деньги: чек-лист категории + факты о стране + список приложений."""
+    result = {}
+    checklists = []
+    facts = []
+    apps = []
+    current = None
+    mode = None
+
+    for line in md.split("\n"):
+        stripped = line.strip()
+
+        h2_match = re.match(r"^##\s+(.+)$", stripped)
+        if h2_match:
+            title = h2_match.group(1).strip()
+            if "нужно знать" in title.lower():
+                mode = "facts"
+                current = None
+            elif "приложени" in title.lower():
+                mode = "apps"
+                current = None
+            else:
+                mode = "checklist"
+                current = {"name": title, "note": "", "items": []}
+                checklists.append(current)
+            continue
+
+        if mode == "checklist" and current is not None:
+            if stripped.startswith(">"):
+                current["note"] = _clean_bold(stripped.lstrip("> ").strip())
+                continue
+            cb_match = re.match(r"^-\s*\[([ xX])\]\s*(.+)$", stripped)
+            if cb_match:
+                current["items"].append({
+                    "text": _clean_bold(cb_match.group(2)),
+                    "checked": cb_match.group(1).lower() == "x",
+                })
+        elif mode == "facts":
+            fact_match = re.match(r"^-\s+\*\*(.+?):\*\*\s*(.+)$", stripped)
+            if fact_match:
+                facts.append({
+                    "label": fact_match.group(1).strip(),
+                    "value": fact_match.group(2).strip(),
+                })
+        elif mode == "apps":
+            bullet_match = re.match(r"^-\s+(.+)$", stripped)
+            if bullet_match:
+                apps.append(_clean_bold(bullet_match.group(1)))
+
+    result["checklists"] = checklists
+    result["facts"] = facts
+    result["apps"] = apps
 
     return result if any(v for v in result.values()) else {}

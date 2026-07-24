@@ -774,9 +774,31 @@ var SaltyTemplates = (function () {
     html += '<div class="page-hero__title">' + esc((tripData && tripData.boat) || 'Boat') + '</div>';
     html += '</div>';
 
-    // Facts
     var facts = data.facts || {};
     var factKeys = Object.keys(facts);
+
+    // Short summary — a handful of key facts, always visible
+    var shortKeys = ['Каюты', 'Спальных мест', 'Гальюнов', 'Бак воды'];
+    var shownShort = shortKeys.filter(function (k) { return facts[k]; });
+    if (shownShort.length > 0) {
+      html += '<div class="bento-grid">';
+      html += '<div class="bento-card bento-card--wide">';
+      html += '<div class="bento-card__label">Кратко</div>';
+      for (var sk = 0; sk < shownShort.length; sk++) {
+        var skey = shownShort[sk];
+        html += '<div class="bento-card__row">';
+        html += '<span class="bento-card__row-label">' + esc(skey) + '</span>';
+        html += '<span class="bento-card__row-value">' + esc(facts[skey]) + '</span>';
+        html += '</div>';
+      }
+      html += '</div>';
+      html += '</div>';
+    }
+
+    html += '<details class="tpl-details">';
+    html += '<summary class="tpl-details__summary">Подробнее о лодке</summary>';
+
+    // Full facts
     if (factKeys.length > 0) {
       html += '<div class="bento-grid">';
       html += '<div class="bento-card bento-card--wide">';
@@ -830,6 +852,76 @@ var SaltyTemplates = (function () {
       html += '</div>';
     }
 
+    html += '</details>';
+
+    return html;
+  }
+
+  // -----------------------------------------------------------------------
+  // documents_and_money — Checklist categories + country facts + apps
+  // -----------------------------------------------------------------------
+
+  function renderDocumentsAndMoney(data, page, section, tripData) {
+    var html = '';
+    html += '<div class="page-hero">';
+    html += '<div class="page-hero__label">План</div>';
+    html += '<div class="page-hero__title">Документы и деньги</div>';
+    html += '</div>';
+
+    var checklists = data.checklists || [];
+    if (checklists.length > 0) {
+      html += '<div class="checklist-grid">';
+      for (var c = 0; c < checklists.length; c++) {
+        var cat = checklists[c];
+        var total = cat.items.length;
+        var checked = cat.items.filter(function (it) { return it.checked; }).length;
+
+        html += '<div class="checklist-card">';
+        html += '<div class="checklist-card__header">';
+        html += '<span class="checklist-card__title">' + esc(cat.name) + '</span>';
+        html += '<span class="checklist-card__count">' + checked + '/' + total + '</span>';
+        html += '</div>';
+        if (cat.note) {
+          html += '<div class="tpl-placeholder">' + esc(cat.note) + '</div>';
+        }
+        for (var it = 0; it < cat.items.length; it++) {
+          var item = cat.items[it];
+          var done = item.checked ? ' checklist-card__item--done' : '';
+          html += '<div class="checklist-card__item' + done + '">';
+          html += '<div class="checklist-card__item-check"></div>';
+          html += '<span>' + esc(item.text) + '</span>';
+          html += '</div>';
+        }
+        html += '</div>';
+      }
+      html += '</div>';
+    }
+
+    var facts = data.facts || [];
+    if (facts.length > 0) {
+      html += '<div class="tpl-section-title">Турция — что нужно знать</div>';
+      html += '<div class="bento-card">';
+      for (var f = 0; f < facts.length; f++) {
+        html += '<div class="bento-card__row">';
+        html += '<span class="bento-card__row-label">' + esc(facts[f].label) + '</span>';
+        html += '<span class="bento-card__row-value">' + esc(facts[f].value) + '</span>';
+        html += '</div>';
+      }
+      html += '</div>';
+    }
+
+    var apps = data.apps || [];
+    if (apps.length > 0) {
+      html += '<div class="tpl-section-title">Полезные приложения</div>';
+      html += '<div class="bento-card">';
+      for (var a = 0; a < apps.length; a++) {
+        html += '<div class="bento-card__row">';
+        html += '<span class="bento-card__row-label">' + esc(apps[a]) + '</span>';
+        html += '</div>';
+      }
+      html += '</div>';
+    }
+
     return html;
   }
 
@@ -847,7 +939,8 @@ var SaltyTemplates = (function () {
     equipment_checklist: renderEquipmentChecklist,
     provisions: renderProvisions,
     trip_overview: renderTripOverview,
-    boat_and_house_rules: renderBoatAndHouseRules
+    boat_and_house_rules: renderBoatAndHouseRules,
+    documents_and_money: renderDocumentsAndMoney
   };
 
   return {
