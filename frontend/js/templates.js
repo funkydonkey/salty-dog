@@ -764,6 +764,76 @@ var SaltyTemplates = (function () {
   }
 
   // -----------------------------------------------------------------------
+  // boat_and_house_rules — Facts card + amenities + rule categories
+  // -----------------------------------------------------------------------
+
+  function renderBoatAndHouseRules(data, page, section, tripData) {
+    var html = '';
+    html += '<div class="page-hero">';
+    html += '<div class="page-hero__label">О лодке</div>';
+    html += '<div class="page-hero__title">' + esc((tripData && tripData.boat) || 'Boat') + '</div>';
+    html += '</div>';
+
+    // Facts
+    var facts = data.facts || {};
+    var factKeys = Object.keys(facts);
+    if (factKeys.length > 0) {
+      html += '<div class="bento-grid">';
+      html += '<div class="bento-card bento-card--wide">';
+      html += '<div class="bento-card__label">Характеристики</div>';
+      for (var fk = 0; fk < factKeys.length; fk++) {
+        var key = factKeys[fk];
+        html += '<div class="bento-card__row">';
+        html += '<span class="bento-card__row-label">' + esc(key) + '</span>';
+        html += '<span class="bento-card__row-value">' + esc(facts[key]) + '</span>';
+        html += '</div>';
+      }
+      html += '</div>';
+      html += '</div>';
+    }
+
+    // Amenities
+    var amenities = data.amenities || [];
+    if (amenities.length > 0) {
+      html += '<div class="tpl-section-title">Оснащение</div>';
+      html += '<div class="bento-card">';
+      for (var a = 0; a < amenities.length; a++) {
+        html += '<div class="bento-card__row">';
+        html += '<span class="bento-card__row-label">' + esc(amenities[a]) + '</span>';
+        html += '</div>';
+      }
+      html += '</div>';
+    }
+
+    if (data.note) {
+      html += '<div class="tpl-placeholder">' + esc(data.note) + '</div>';
+    }
+
+    // Rules by category
+    var rules = data.rules || [];
+    if (rules.length > 0) {
+      html += '<div class="tpl-section-title">Правила пользования</div>';
+      html += '<div class="checklist-grid">';
+      for (var r = 0; r < rules.length; r++) {
+        var cat = rules[r];
+        html += '<div class="checklist-card">';
+        html += '<div class="checklist-card__header">';
+        html += '<span class="checklist-card__title">' + esc(cat.name) + '</span>';
+        html += '</div>';
+        for (var it = 0; it < cat.items.length; it++) {
+          html += '<div class="checklist-card__item">';
+          html += '<span>' + esc(cat.items[it]) + '</span>';
+          html += '</div>';
+        }
+        html += '</div>';
+      }
+      html += '</div>';
+    }
+
+    return html;
+  }
+
+  // -----------------------------------------------------------------------
   // Registry
   // -----------------------------------------------------------------------
 
@@ -776,7 +846,8 @@ var SaltyTemplates = (function () {
     crew_list: renderCrewList,
     equipment_checklist: renderEquipmentChecklist,
     provisions: renderProvisions,
-    trip_overview: renderTripOverview
+    trip_overview: renderTripOverview,
+    boat_and_house_rules: renderBoatAndHouseRules
   };
 
   return {

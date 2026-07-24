@@ -19,6 +19,7 @@ def extract_structured_data(template: str, raw_markdown: str) -> dict:
         "equipment_checklist": parse_equipment_checklist,
         "provisions": parse_provisions,
         "trip_overview": parse_trip_overview,
+        "boat_and_house_rules": parse_boat_and_house_rules,
     }
     parser = parsers.get(template)
     if not parser:
@@ -575,5 +576,57 @@ def parse_trip_overview(md: str) -> dict:
     table = _find_tables_after_header(md, r"^##\s+Участники")
     if table:
         result["roster"] = _parse_horizontal_table(table)
+
+    return result if any(v for v in result.values()) else {}
+
+
+def parse_boat_and_house_rules(md: str) -> dict:
+    """Парсит О лодке и правила: факты + оснащение (буллеты) + правила по категориям (### + буллеты)."""
+    result = {}
+
+    table = _find_tables_after_header(md, r"^##\s+Характеристики")
+    if table:
+        result["facts"] = _parse_vertical_table(table)
+
+    amenities = []
+    note = ""
+    in_amenities = False
+    for line in md.split("\n"):
+        stripped = line.strip()
+        if re.match(r"^##\s+Оснащение", stripped):
+            in_amenities = True
+            continue
+        if in_amenities:
+            if stripped.startswith("## "):
+                break
+            if stripped.startswith(">"):
+                note = _clean_bold(stripped.lstrip("> ").strip())
+                continue
+            bullet_match = re.match(r"^-\s+(.+)$", stripped)
+            if bullet_match:
+                amenities.append(_clean_bold(bullet_match.group(1)))
+    result["amenities"] = amenities
+    result["note"] = note
+
+    rules = []
+    current_cat = None
+    in_rules = False
+    for line in md.split("\n"):
+        stripped = line.strip()
+        if re.match(r"^##\s+Правила", stripped):
+            in_rules = True
+            continue
+        if in_rules:
+            if stripped.startswith("## "):
+                break
+            cat_match = re.match(r"^###\s+(.+)$", stripped)
+            if cat_match:
+                current_cat = {"name": cat_match.group(1).strip(), "items": []}
+                rules.append(current_cat)
+                continue
+            bullet_match = re.match(r"^-\s+(.+)$", stripped)
+            if bullet_match and current_cat is not None:
+                current_cat["items"].append(_clean_bold(bullet_match.group(1)))
+    result["rules"] = rules
 
     return result if any(v for v in result.values()) else {}
