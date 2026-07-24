@@ -164,20 +164,9 @@ var SaltyTemplates = (function () {
   function renderTravelLogistics(data, page, section, tripData) {
     var html = '';
 
-    // Countdown
-    var departure = tripData && tripData.departure_date;
-    var daysLeft = daysUntil(departure);
-
     html += '<div class="page-hero">';
     html += '<div class="page-hero__label">\u041F\u0435\u0440\u0435\u043B\u0451\u0442\u044B \u0438 \u0442\u0440\u0430\u043D\u0441\u0444\u0435\u0440\u044B</div>';
-    if (daysLeft !== null) {
-      html += '<div class="countdown">';
-      html += '<div class="countdown__number">' + daysLeft + '</div>';
-      html += '<div class="countdown__unit">\u0434\u043D\u0435\u0439 \u0434\u043E \u0432\u044B\u0445\u043E\u0434\u0430</div>';
-      html += '</div>';
-    } else {
-      html += '<div class="page-hero__title">Travel Logistics</div>';
-    }
+    html += '<div class="page-hero__title">Travel Logistics</div>';
     html += '</div>';
 
     html += '<div class="bento-grid">';
@@ -696,9 +685,20 @@ var SaltyTemplates = (function () {
 
   function renderTripOverview(data, page, section, tripData) {
     var html = '';
+
+    var departure = tripData && tripData.departure_date;
+    var daysLeft = daysUntil(departure);
+
     html += '<div class="page-hero">';
     html += '<div class="page-hero__label">Обзор поездки</div>';
-    html += '<div class="page-hero__title">' + esc((tripData && tripData.boat) || 'Trip overview') + '</div>';
+    if (daysLeft !== null) {
+      html += '<div class="countdown">';
+      html += '<div class="countdown__number">' + daysLeft + '</div>';
+      html += '<div class="countdown__unit">дней до выхода</div>';
+      html += '</div>';
+    } else {
+      html += '<div class="page-hero__title">' + esc((tripData && tripData.boat) || 'Trip overview') + '</div>';
+    }
     html += '</div>';
 
     // Facts
