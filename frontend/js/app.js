@@ -252,6 +252,7 @@
     html += renderLastUpdated();
     container.innerHTML = html;
     attachAccordionListeners(container);
+    attachChecklistListeners(container);
   }
 
   /**
@@ -281,6 +282,7 @@
     html += renderLastUpdated();
     container.innerHTML = html;
     attachAccordionListeners(container);
+    attachChecklistListeners(container);
   }
 
   /**
@@ -318,6 +320,7 @@
     html += renderLastUpdated();
     container.innerHTML = html;
     attachAccordionListeners(container);
+    attachChecklistListeners(container);
   }
 
   /**
@@ -351,6 +354,7 @@
     container.innerHTML = html;
 
     attachAccordionListeners(container);
+    attachChecklistListeners(container);
 
     // Attach sub-tab listeners
     attachSubTabListeners(container);
@@ -462,6 +466,80 @@
     var isOpen = body.classList.contains('open');
     body.classList.toggle('open', !isOpen);
     header.setAttribute('aria-expanded', !isOpen ? 'true' : 'false');
+  }
+
+  // -----------------------------------------------------------------------
+  // Checklist item tap-to-toggle (state persisted per device)
+  // -----------------------------------------------------------------------
+
+  var CHECK_STORAGE_KEY = 'saltydog:checked:v1';
+
+  function loadCheckedState() {
+    try {
+      return JSON.parse(localStorage.getItem(CHECK_STORAGE_KEY) || '{}');
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveCheckedState(state) {
+    try {
+      localStorage.setItem(CHECK_STORAGE_KEY, JSON.stringify(state));
+    } catch (e) {
+      // Storage unavailable (private mode, quota) — toggle still works for the session.
+    }
+  }
+
+  function updateCardCount(card) {
+    var countEl = card.querySelector('.checklist-card__count');
+    if (!countEl) return;
+    var items = card.querySelectorAll('.checklist-card__item[data-check-key]');
+    var done = card.querySelectorAll('.checklist-card__item--done[data-check-key]').length;
+    countEl.textContent = done + '/' + items.length;
+  }
+
+  function toggleChecklistItem(e) {
+    var item = e.currentTarget;
+    var key = item.getAttribute('data-check-key');
+    if (!key) return;
+
+    var nowDone = !item.classList.contains('checklist-card__item--done');
+    item.classList.toggle('checklist-card__item--done', nowDone);
+    item.setAttribute('aria-checked', nowDone ? 'true' : 'false');
+
+    var state = loadCheckedState();
+    state[key] = nowDone;
+    saveCheckedState(state);
+
+    var card = item.closest('.checklist-card');
+    if (card) updateCardCount(card);
+  }
+
+  /**
+   * Attach tap-to-toggle listeners to all checklist items within a container
+   * and apply any previously saved checked state.
+   */
+  function attachChecklistListeners(container) {
+    var state = loadCheckedState();
+    var items = container.querySelectorAll('.checklist-card__item[data-check-key]');
+    items.forEach(function (item) {
+      var key = item.getAttribute('data-check-key');
+      if (Object.prototype.hasOwnProperty.call(state, key)) {
+        item.classList.toggle('checklist-card__item--done', !!state[key]);
+      }
+      item.setAttribute('role', 'checkbox');
+      item.setAttribute('tabindex', '0');
+      item.setAttribute('aria-checked', item.classList.contains('checklist-card__item--done') ? 'true' : 'false');
+      item.addEventListener('click', toggleChecklistItem);
+      item.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggleChecklistItem.call(this, e);
+        }
+      });
+    });
+
+    container.querySelectorAll('.checklist-card').forEach(updateCardCount);
   }
 
   // -----------------------------------------------------------------------

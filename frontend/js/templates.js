@@ -59,6 +59,19 @@ var SaltyTemplates = (function () {
     return trimmed !== '' && trimmed !== 'NM' && trimmed !== '[ ]';
   }
 
+  function slugPart(str) {
+    return String(str || '')
+      .toLowerCase()
+      .replace(/[^a-z0-9а-яё]+/gi, '-')
+      .replace(/^-+|-+$/g, '')
+      .slice(0, 40);
+  }
+
+  function checklistKey(page, category, text) {
+    var pageId = (page && (page.filename || page.title)) || 'page';
+    return slugPart(pageId) + '__' + slugPart(category) + '__' + slugPart(text);
+  }
+
   // -----------------------------------------------------------------------
   // route_plan — Vertical timeline with day markers
   // -----------------------------------------------------------------------
@@ -560,7 +573,7 @@ var SaltyTemplates = (function () {
   // equipment_checklist — Category cards with items
   // -----------------------------------------------------------------------
 
-  function renderEquipmentChecklist(data) {
+  function renderEquipmentChecklist(data, page) {
     var categories = data.categories || [];
     if (categories.length === 0) return '<div class="tpl-placeholder">\u0421\u043F\u0438\u0441\u043E\u043A \u043F\u0443\u0441\u0442</div>';
 
@@ -590,7 +603,8 @@ var SaltyTemplates = (function () {
         for (var it = 0; it < sub.items.length; it++) {
           var item = sub.items[it];
           var done = item.checked ? ' checklist-card__item--done' : '';
-          html += '<div class="checklist-card__item' + done + '">';
+          var key = checklistKey(page, cat.name + ' ' + (sub.name || ''), item.text);
+          html += '<div class="checklist-card__item' + done + '" data-check-key="' + esc(key) + '">';
           html += '<div class="checklist-card__item-check"></div>';
           html += '<span>' + esc(item.text) + '</span>';
           html += '</div>';
@@ -721,7 +735,8 @@ var SaltyTemplates = (function () {
       for (var s = 0; s < status.length; s++) {
         var item = status[s];
         var done = item.checked ? ' checklist-card__item--done' : '';
-        html += '<div class="checklist-card__item' + done + '">';
+        var ckKey = checklistKey(page, 'status', item.text);
+        html += '<div class="checklist-card__item' + done + '" data-check-key="' + esc(ckKey) + '">';
         html += '<div class="checklist-card__item-check"></div>';
         html += '<span>' + esc(item.text) + '</span>';
         html += '</div>';
@@ -887,7 +902,8 @@ var SaltyTemplates = (function () {
         for (var it = 0; it < cat.items.length; it++) {
           var item = cat.items[it];
           var done = item.checked ? ' checklist-card__item--done' : '';
-          html += '<div class="checklist-card__item' + done + '">';
+          var docKey = checklistKey(page, cat.name, item.text);
+          html += '<div class="checklist-card__item' + done + '" data-check-key="' + esc(docKey) + '">';
           html += '<div class="checklist-card__item-check"></div>';
           html += '<span>' + esc(item.text) + '</span>';
           html += '</div>';

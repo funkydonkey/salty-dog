@@ -500,6 +500,19 @@
   color: var(--md-on-surface);
 }
 
+.checklist-card__item[data-check-key] {
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  border-radius: 6px;
+  margin: 0 -6px;
+  padding: 5px 6px;
+}
+
+.checklist-card__item[data-check-key]:active {
+  background: var(--md-surface-container-high);
+}
+
 .checklist-card__item-check {
   width: 16px;
   height: 16px;
