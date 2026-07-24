@@ -583,9 +583,13 @@ var SaltyTemplates = (function () {
         var total = sub.items.length;
         var checked = sub.items.filter(function(it) { return it.checked; }).length;
 
+        var showSubTitle = sub.name && sub.name !== cat.name;
+
         html += '<div class="checklist-card">';
         html += '<div class="checklist-card__header">';
-        html += '<span class="checklist-card__title">' + esc(sub.name || 'Items') + '</span>';
+        if (showSubTitle) {
+          html += '<span class="checklist-card__title">' + esc(sub.name) + '</span>';
+        }
         html += '<span class="checklist-card__count">' + checked + '/' + total + '</span>';
         html += '</div>';
 
