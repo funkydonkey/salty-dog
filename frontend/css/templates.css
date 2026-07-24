@@ -721,6 +721,7 @@
 
 .contact-card--emergency {
   border-left: 3px solid var(--md-error);
+  margin-bottom: 12px;
 }
 
 .contact-card__title {
