@@ -18,6 +18,7 @@ def extract_structured_data(template: str, raw_markdown: str) -> dict:
         "crew_list": parse_crew_list,
         "equipment_checklist": parse_equipment_checklist,
         "provisions": parse_provisions,
+        "trip_overview": parse_trip_overview,
     }
     parser = parsers.get(template)
     if not parser:
@@ -541,5 +542,38 @@ def parse_provisions(md: str) -> dict:
             if bullet_match:
                 restock.append(bullet_match.group(1).strip())
     result["restock"] = restock
+
+    return result if any(v for v in result.values()) else {}
+
+
+def parse_trip_overview(md: str) -> dict:
+    """Парсит Trip overview: вертикальная таблица фактов + статус (чекбоксы) + ростер (таблица)."""
+    result = {}
+
+    table = _find_tables_after_header(md, r"^##\s+На одном экране")
+    if table:
+        result["facts"] = _parse_vertical_table(table)
+
+    status = []
+    in_status = False
+    for line in md.split("\n"):
+        stripped = line.strip()
+        if re.match(r"^##\s+Статус", stripped):
+            in_status = True
+            continue
+        if in_status:
+            if stripped.startswith("## "):
+                break
+            cb_match = re.match(r"^-\s*\[([ xX])\]\s*(.+)$", stripped)
+            if cb_match:
+                status.append({
+                    "text": _clean_bold(cb_match.group(2)),
+                    "checked": cb_match.group(1).lower() == "x",
+                })
+    result["status"] = status
+
+    table = _find_tables_after_header(md, r"^##\s+Участники")
+    if table:
+        result["roster"] = _parse_horizontal_table(table)
 
     return result if any(v for v in result.values()) else {}

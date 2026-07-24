@@ -677,6 +677,93 @@ var SaltyTemplates = (function () {
   }
 
   // -----------------------------------------------------------------------
+  // trip_overview — Facts card + status checklist + roster
+  // -----------------------------------------------------------------------
+
+  function renderTripOverview(data, page, section, tripData) {
+    var html = '';
+    html += '<div class="page-hero">';
+    html += '<div class="page-hero__label">Обзор поездки</div>';
+    html += '<div class="page-hero__title">' + esc((tripData && tripData.boat) || 'Trip overview') + '</div>';
+    html += '</div>';
+
+    // Facts
+    var facts = data.facts || {};
+    var factKeys = Object.keys(facts);
+    if (factKeys.length > 0) {
+      html += '<div class="bento-grid">';
+      html += '<div class="bento-card bento-card--wide">';
+      html += '<div class="bento-card__label">На одном экране</div>';
+      for (var fk = 0; fk < factKeys.length; fk++) {
+        var key = factKeys[fk];
+        html += '<div class="bento-card__row">';
+        html += '<span class="bento-card__row-label">' + esc(key) + '</span>';
+        html += '<span class="bento-card__row-value">' + esc(facts[key]) + '</span>';
+        html += '</div>';
+      }
+      html += '</div>';
+      html += '</div>';
+    }
+
+    // Status checklist
+    var status = data.status || [];
+    if (status.length > 0) {
+      var totalStatus = status.length;
+      var doneStatus = status.filter(function (it) { return it.checked; }).length;
+
+      html += '<div class="tpl-section-title">Статус подготовки</div>';
+      html += '<div class="checklist-grid">';
+      html += '<div class="checklist-card">';
+      html += '<div class="checklist-card__header">';
+      html += '<span class="checklist-card__title">Подготовка</span>';
+      html += '<span class="checklist-card__count">' + doneStatus + '/' + totalStatus + '</span>';
+      html += '</div>';
+      for (var s = 0; s < status.length; s++) {
+        var item = status[s];
+        var done = item.checked ? ' checklist-card__item--done' : '';
+        html += '<div class="checklist-card__item' + done + '">';
+        html += '<div class="checklist-card__item-check"></div>';
+        html += '<span>' + esc(item.text) + '</span>';
+        html += '</div>';
+      }
+      html += '</div>';
+      html += '</div>';
+    }
+
+    // Roster
+    var roster = data.roster || [];
+    var filledRoster = roster.filter(function (r) {
+      return hasValue(r['Имя']);
+    });
+    if (roster.length > 0) {
+      html += '<div class="tpl-section-title">Участники</div>';
+      if (filledRoster.length === 0) {
+        html += '<div class="tpl-placeholder">Состав будет добавлен</div>';
+      } else {
+        html += '<div class="crew-grid">';
+        for (var r = 0; r < filledRoster.length; r++) {
+          var member = filledRoster[r];
+          var name = member['Имя'] || '';
+          var phone = member['Телефон'] || '';
+          var diet = member['Диета / Аллергии'] || '';
+          var initials = name.charAt(0).toUpperCase();
+
+          html += '<div class="crew-card">';
+          html += '<div class="crew-card__avatar">' + esc(initials) + '</div>';
+          html += '<div class="crew-card__info">';
+          html += '<div class="crew-card__name">' + esc(name) + '</div>';
+          if (hasValue(phone)) html += '<span class="crew-card__role">' + esc(phone) + '</span>';
+          if (hasValue(diet)) html += '<div class="crew-card__detail">' + esc(diet) + '</div>';
+          html += '</div></div>';
+        }
+        html += '</div>';
+      }
+    }
+
+    return html;
+  }
+
+  // -----------------------------------------------------------------------
   // Registry
   // -----------------------------------------------------------------------
 
@@ -688,7 +775,8 @@ var SaltyTemplates = (function () {
     kids_on_board: renderKidsOnBoard,
     crew_list: renderCrewList,
     equipment_checklist: renderEquipmentChecklist,
-    provisions: renderProvisions
+    provisions: renderProvisions,
+    trip_overview: renderTripOverview
   };
 
   return {

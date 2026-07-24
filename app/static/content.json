@@ -39,10 +39,84 @@
         {
           "filename": "Trip overview",
           "title": "Обзор поездки",
-          "html_content": "<h1>Обзор поездки</h1>\n<h2>На одном экране</h2>\n<table>\n<thead>\n<tr>\n<th></th>\n<th></th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>Даты</strong></td>\n<td>10–17 октября 2026 (7 ночей / 8 дней)</td>\n</tr>\n<tr>\n<td><strong>Лодка</strong></td>\n<td>Hanse 458 | Gobun (2019) → <a href=\"#page-boat-and-house-rules\" class=\"wikilink\">подробнее</a></td>\n</tr>\n<tr>\n<td><strong>Чартерная компания</strong></td>\n<td>Saysail</td>\n</tr>\n<tr>\n<td><strong>База</strong></td>\n<td>D-Marin Göçek Marina, Göçek, Турция</td>\n</tr>\n<tr>\n<td><strong>Маршрут</strong></td>\n<td>Göçek — Fethiye, ~60 NM по кругу</td>\n</tr>\n</tbody>\n</table>\n<h2>Статус подготовки</h2>\n<ul>\n<li>[x] Выбрать даты — 10–17 октября 2026</li>\n<li>[x] Выбрать чартерную компанию и лодку — Saysail, Hanse 458 \"Gobun\"</li>\n<li>[ ] Собрать экипаж и документы</li>\n<li>[ ] Спланировать маршрут по дням</li>\n<li>[ ] Закупки и провизия</li>\n</ul>\n<h2>Участники</h2>\n<table>\n<thead>\n<tr>\n<th>#</th>\n<th>Имя</th>\n<th>Телефон</th>\n<th>Email</th>\n<th>Диета / Аллергии</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>1</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n<tr>\n<td>2</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n<tr>\n<td>3</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n<tr>\n<td>4</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n<tr>\n<td>5</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n<tr>\n<td>6</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n</tbody>\n</table>",
-          "raw_markdown": "# Обзор поездки\n\n## На одном экране\n| | |\n|---|---|\n| **Даты** | 10–17 октября 2026 (7 ночей / 8 дней) |\n| **Лодка** | Hanse 458 \\| Gobun (2019) → [[Boat and house rules\\|подробнее]] |\n| **Чартерная компания** | Saysail |\n| **База** | D-Marin Göçek Marina, Göçek, Турция |\n| **Маршрут** | Göçek — Fethiye, ~60 NM по кругу |\n\n## Статус подготовки\n- [x] Выбрать даты — 10–17 октября 2026\n- [x] Выбрать чартерную компанию и лодку — Saysail, Hanse 458 \"Gobun\"\n- [ ] Собрать экипаж и документы\n- [ ] Спланировать маршрут по дням\n- [ ] Закупки и провизия\n\n## Участники\n| # | Имя | Телефон | Email | Диета / Аллергии |\n|---|-----|---------|-------|-------------------|\n| 1 |     |         |       |                   |\n| 2 |     |         |       |                   |\n| 3 |     |         |       |                   |\n| 4 |     |         |       |                   |\n| 5 |     |         |       |                   |\n| 6 |     |         |       |                   |",
-          "template": "",
-          "structured_data": {}
+          "html_content": "<h1>Обзор поездки</h1>\n<h2>На одном экране</h2>\n<table>\n<thead>\n<tr>\n<th></th>\n<th></th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>Даты</strong></td>\n<td>10–17 октября 2026 (7 ночей / 8 дней)</td>\n</tr>\n<tr>\n<td><strong>Лодка</strong></td>\n<td>Hanse 458 «Gobun» (2019)</td>\n</tr>\n<tr>\n<td><strong>Чартерная компания</strong></td>\n<td>Saysail</td>\n</tr>\n<tr>\n<td><strong>База</strong></td>\n<td>D-Marin Göçek Marina, Göçek, Турция</td>\n</tr>\n<tr>\n<td><strong>Маршрут</strong></td>\n<td>Göçek — Fethiye, ~60 NM по кругу</td>\n</tr>\n</tbody>\n</table>\n<h2>Статус подготовки</h2>\n<ul>\n<li>[x] Выбрать даты — 10–17 октября 2026</li>\n<li>[x] Выбрать чартерную компанию и лодку — Saysail, Hanse 458 \"Gobun\"</li>\n<li>[ ] Собрать экипаж и документы</li>\n<li>[ ] Спланировать маршрут по дням</li>\n<li>[ ] Закупки и провизия</li>\n</ul>\n<h2>Участники</h2>\n<table>\n<thead>\n<tr>\n<th>#</th>\n<th>Имя</th>\n<th>Телефон</th>\n<th>Email</th>\n<th>Диета / Аллергии</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>1</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n<tr>\n<td>2</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n<tr>\n<td>3</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n<tr>\n<td>4</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n<tr>\n<td>5</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n<tr>\n<td>6</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n</tbody>\n</table>",
+          "raw_markdown": "# Обзор поездки\n\n## На одном экране\n| | |\n|---|---|\n| **Даты** | 10–17 октября 2026 (7 ночей / 8 дней) |\n| **Лодка** | Hanse 458 «Gobun» (2019) |\n| **Чартерная компания** | Saysail |\n| **База** | D-Marin Göçek Marina, Göçek, Турция |\n| **Маршрут** | Göçek — Fethiye, ~60 NM по кругу |\n\n## Статус подготовки\n- [x] Выбрать даты — 10–17 октября 2026\n- [x] Выбрать чартерную компанию и лодку — Saysail, Hanse 458 \"Gobun\"\n- [ ] Собрать экипаж и документы\n- [ ] Спланировать маршрут по дням\n- [ ] Закупки и провизия\n\n## Участники\n| # | Имя | Телефон | Email | Диета / Аллергии |\n|---|-----|---------|-------|-------------------|\n| 1 |     |         |       |                   |\n| 2 |     |         |       |                   |\n| 3 |     |         |       |                   |\n| 4 |     |         |       |                   |\n| 5 |     |         |       |                   |\n| 6 |     |         |       |                   |",
+          "template": "trip_overview",
+          "structured_data": {
+            "facts": {
+              "Даты": "10–17 октября 2026 (7 ночей / 8 дней)",
+              "Лодка": "Hanse 458 «Gobun» (2019)",
+              "Чартерная компания": "Saysail",
+              "База": "D-Marin Göçek Marina, Göçek, Турция",
+              "Маршрут": "Göçek — Fethiye, ~60 NM по кругу"
+            },
+            "status": [
+              {
+                "text": "Выбрать даты — 10–17 октября 2026",
+                "checked": true
+              },
+              {
+                "text": "Выбрать чартерную компанию и лодку — Saysail, Hanse 458 \"Gobun\"",
+                "checked": true
+              },
+              {
+                "text": "Собрать экипаж и документы",
+                "checked": false
+              },
+              {
+                "text": "Спланировать маршрут по дням",
+                "checked": false
+              },
+              {
+                "text": "Закупки и провизия",
+                "checked": false
+              }
+            ],
+            "roster": [
+              {
+                "#": "1",
+                "Имя": "",
+                "Телефон": "",
+                "Email": "",
+                "Диета / Аллергии": ""
+              },
+              {
+                "#": "2",
+                "Имя": "",
+                "Телефон": "",
+                "Email": "",
+                "Диета / Аллергии": ""
+              },
+              {
+                "#": "3",
+                "Имя": "",
+                "Телефон": "",
+                "Email": "",
+                "Диета / Аллергии": ""
+              },
+              {
+                "#": "4",
+                "Имя": "",
+                "Телефон": "",
+                "Email": "",
+                "Диета / Аллергии": ""
+              },
+              {
+                "#": "5",
+                "Имя": "",
+                "Телефон": "",
+                "Email": "",
+                "Диета / Аллергии": ""
+              },
+              {
+                "#": "6",
+                "Имя": "",
+                "Телефон": "",
+                "Email": "",
+                "Диета / Аллергии": ""
+              }
+            ]
+          }
         },
         {
           "filename": "Travel logistics",
@@ -688,6 +762,6 @@
   "route": {
     "waypoints": []
   },
-  "content_hash": "2f7294a10f19",
-  "built_at": "2026-07-24T16:23:28.778082"
+  "content_hash": "6f7c4a00c276",
+  "built_at": "2026-07-24T16:51:24.681104"
 }
