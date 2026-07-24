@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: salty-dog
+    runtime: python
+    plan: free
+    buildCommand: pip install .
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: APP_ENV
+        value: production
+    healthCheckPath: /health

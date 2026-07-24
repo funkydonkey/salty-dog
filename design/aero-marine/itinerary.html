@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Aero Marine | Itinerary</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&amp;family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed-variant": "#005964",
+              "inverse-on-surface": "#9b9d9e",
+              "surface-container-highest": "#dadddf",
+              "tertiary-dim": "#5d4f00",
+              "secondary-fixed": "#26e6ff",
+              "outline": "#757778",
+              "inverse-primary": "#cffc00",
+              "background": "#f5f6f7",
+              "secondary-fixed-dim": "#00d7f0",
+              "on-primary-container": "#4b5e00",
+              "on-error": "#ffefec",
+              "on-background": "#2c2f30",
+              "error-container": "#f95630",
+              "on-secondary": "#d8f8ff",
+              "tertiary-fixed-dim": "#efd138",
+              "primary-fixed-dim": "#c2ed00",
+              "surface-dim": "#d1d5d7",
+              "on-tertiary-container": "#5d4f00",
+              "on-secondary-fixed": "#003a42",
+              "secondary": "#006571",
+              "outline-variant": "#abadae",
+              "on-tertiary": "#fff3c8",
+              "on-tertiary-fixed": "#483d00",
+              "secondary-container": "#26e6ff",
+              "surface-variant": "#dadddf",
+              "tertiary": "#6b5b00",
+              "primary-fixed": "#cffc00",
+              "surface-bright": "#f5f6f7",
+              "on-primary-fixed": "#3b4a00",
+              "tertiary-fixed": "#fedf46",
+              "primary-container": "#cffc00",
+              "error": "#b02500",
+              "surface-tint": "#506300",
+              "primary": "#506300",
+              "on-tertiary-fixed-variant": "#685900",
+              "primary-dim": "#455600",
+              "on-primary": "#e2ff81",
+              "on-error-container": "#520c00",
+              "secondary-dim": "#005863",
+              "surface": "#f5f6f7",
+              "inverse-surface": "#0c0f10",
+              "on-surface-variant": "#595c5d",
+              "error-dim": "#b92902",
+              "surface-container-lowest": "#ffffff",
+              "on-surface": "#2c2f30",
+              "on-secondary-container": "#004f59",
+              "on-primary-fixed-variant": "#546800",
+              "tertiary-container": "#fedf46",
+              "surface-container-high": "#e0e3e4",
+              "surface-container-low": "#eff1f2",
+              "surface-container": "#e6e8ea"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .liquid-glass {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .text-vertical {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Top Navigation Bar -->
+<nav class="bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl docked full-width top-0 sticky z-50 shadow-[0_20px_40px_rgba(0,0,0,0.04)] dark:shadow-none">
+<div class="flex justify-between items-center w-full px-8 py-4 max-w-screen-2xl mx-auto">
+<div class="text-2xl font-black tracking-tighter text-[#506300] dark:text-[#cffc00]">AERO MARINE</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-[#506300] dark:hover:text-[#cffc00] transition-colors" href="#">Dashboard</a>
+<a class="text-[#506300] dark:text-[#cffc00] font-bold border-b-2 border-[#506300] dark:border-[#cffc00] pb-1" href="#">Itinerary</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-[#506300] dark:hover:text-[#cffc00] transition-colors" href="#">Safety</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-[#506300] dark:hover:text-[#cffc00] transition-colors" href="#">Info</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-[#506300] dark:hover:text-[#cffc00] transition-colors" href="#">Crew</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-slate-100/50 dark:hover:bg-slate-800/50 transition-all duration-300 ease-out active:scale-[0.98]">
+<span class="material-symbols-outlined text-on-surface">account_circle</span>
+</button>
+<button class="p-2 rounded-full hover:bg-slate-100/50 dark:hover:bg-slate-800/50 transition-all duration-300 ease-out active:scale-[0.98]">
+<span class="material-symbols-outlined text-on-surface">notifications</span>
+</button>
+</div>
+</div>
+</nav>
+<main class="max-w-screen-2xl mx-auto px-8 py-16">
+<!-- Header Section -->
+<header class="mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8">
+<div class="max-w-2xl">
+<h1 class="font-headline font-extrabold text-[4rem] md:text-[6rem] leading-[0.9] tracking-tighter uppercase mb-6">
+                    Route <span class="text-primary">01</span>
+</h1>
+<p class="font-label text-lg font-medium text-on-surface-variant max-w-lg leading-relaxed">
+                    A high-performance trajectory through the Mediterranean. Designed for velocity, curated for absolute serenity.
+                </p>
+</div>
+<div class="flex flex-col items-end">
+<div class="font-headline text-2xl font-black text-primary uppercase">Active Charter</div>
+<div class="font-label text-outline uppercase tracking-widest text-xs">Vessel: Aero Alpha V-01</div>
+</div>
+</header>
+<!-- Vertical Timeline Container -->
+<div class="relative">
+<!-- Central Vertical Track -->
+<div class="absolute left-8 md:left-1/2 top-0 bottom-0 w-[2px] bg-surface-container-high transform -translate-x-1/2"></div>
+<!-- Day 01 -->
+<section class="relative mb-40">
+<div class="flex flex-col md:flex-row items-start md:items-center gap-12">
+<div class="w-full md:w-1/2 md:text-right order-2 md:order-1">
+<div class="inline-block liquid-glass p-8 rounded-full shadow-sm hover:shadow-xl transition-all duration-500 group">
+<div class="w-full h-64 md:h-80 overflow-hidden rounded-full mb-6">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="Aerial view of yacht departing port" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDR-hiqWMcuoQmsp2dj1fqN-tu8g5-WY3G5xTvjbRPUSExfsgD3qIMMesCf4xT5sgQSij-PzIHeR9cMZ7Gy6aKV84jeTTMda4RYV1sbqghV0ONN9cNRoKQZ4zV5iQ73DMOf5xQlxaq6_tCEJun22dS7C2rvuyvQ2o9E9PA9hRgygf2w0iftdz0EUHPFgRMtx4VCnova0sIyrtSD1XmJSbnoqTF5-SV3LXINwK97Fh9pAS8hSxswiEZImDyhvV02kjyCGNus9sLCaMU"/>
+</div>
+<h3 class="font-headline font-bold text-3xl mb-2">THE DEPARTURE</h3>
+<p class="font-label text-sm text-on-surface-variant leading-relaxed mb-6">Initial velocity test from Monaco. Testing stabilization systems at 40 knots heading due South-East.</p>
+<div class="flex justify-end gap-4">
+<span class="px-4 py-1 rounded-full bg-primary-container text-on-primary-container text-[10px] font-bold tracking-widest uppercase">Monaco</span>
+<span class="px-4 py-1 rounded-full bg-surface-container text-on-surface-variant text-[10px] font-bold tracking-widest uppercase">18nm Passage</span>
+</div>
+</div>
+</div>
+<!-- Numeric Anchor -->
+<div class="relative z-10 order-1 md:order-2">
+<div class="w-16 h-16 md:w-20 md:h-20 bg-primary rounded-full flex items-center justify-center border-8 border-background shadow-lg">
+<span class="material-symbols-outlined text-on-primary font-bold">anchor</span>
+</div>
+<div class="absolute top-20 left-1/2 -translate-x-1/2">
+<div class="font-headline font-black text-7xl md:text-9xl text-surface-container-highest/40 select-none">01</div>
+</div>
+</div>
+<div class="w-full md:w-1/2 order-3">
+<div class="relative h-64 md:h-80 w-full rounded-full overflow-hidden liquid-glass border border-white/20">
+<div class="absolute inset-0 bg-gradient-to-br from-primary-container/10 to-transparent"></div>
+<img class="w-full h-full object-cover opacity-40 mix-blend-multiply" data-alt="Satellite map of coastal waters" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB12m2e7QxPlUKbFWwV7zyFe3NEcDkiNgRMJ4qzulBuOtbKIXMTeZoFBu9ZnIe5JKi82PY3Hnd-uUbU1r7_tF4dB7o_2iFE8b5ci4Q8KfM2OYDD_Tl6feCgykVVURFUW2dibbmGda0kaCPw2xyYrD-ZqJXrH6ul5C9YlRK1M6WT9zkqYcgy7kwddIDQt8nBt2Y9C7xsPIj1Na51qRf6qxtfHFOPSW3i2L5gE36ykzfDyUORENzaKQX0_SZmakBCrF4wHpJZOf5-R5w"/>
+<!-- Volt Path Marker -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none" viewbox="0 0 400 300">
+<path d="M 100 250 Q 200 150 300 100" fill="none" stroke="#506300" stroke-dasharray="8 4" stroke-linecap="round" stroke-width="4"></path>
+<circle cx="100" cy="250" fill="#506300" r="6"></circle>
+<circle cx="300" cy="100" fill="#506300" r="8"></circle>
+</svg>
+<div class="absolute bottom-6 left-12">
+<span class="font-label text-[10px] uppercase font-black tracking-widest text-primary">GPS TRACE ACTIVE</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Day 02 -->
+<section class="relative mb-40">
+<div class="flex flex-col md:flex-row items-start md:items-center gap-12">
+<div class="w-full md:w-1/2 order-2 md:order-1">
+<div class="relative h-64 md:h-80 w-full rounded-full overflow-hidden liquid-glass border border-white/20">
+<div class="absolute inset-0 bg-gradient-to-tr from-secondary-container/10 to-transparent"></div>
+<img class="w-full h-full object-cover opacity-30 mix-blend-multiply" data-alt="Topographical map of rocky islands" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_8UIlQXairjFJjrvi6kRe6rSPaMWe8cC4SMQx_7HKGZQGHZrNAmOaaiUteXqeVYyqdhmBTZwYGCQf18DESFjx5PpVMMH-BD7RG3MC0WOzPdBUCYQIs6wBdUmVnOteS2cmRlCdZtmcG8yC3KOIV6SVJBr-mlPhLSSCp7FruJWGzs4Ojd2QGFGCokYTsADaXjat4x_5WzfLBTrqnfph4LgaXlEiQ0RAHmIzhbYQIoLYCdnR1gQiPvfxqcf3w2LiSCLlBejkyC8h2Hw"/>
+<svg class="absolute inset-0 w-full h-full pointer-events-none" viewbox="0 0 400 300">
+<path d="M 300 100 Q 250 200 150 220" fill="none" stroke="#506300" stroke-dasharray="8 4" stroke-linecap="round" stroke-width="4"></path>
+<circle cx="150" cy="220" fill="#506300" r="8"></circle>
+</svg>
+</div>
+</div>
+<!-- Numeric Anchor -->
+<div class="relative z-10 order-1 md:order-2">
+<div class="w-16 h-16 md:w-20 md:h-20 bg-surface-container-lowest rounded-full flex items-center justify-center border-8 border-background shadow-lg group hover:bg-primary transition-all">
+<span class="material-symbols-outlined text-on-surface font-bold group-hover:text-on-primary">explore</span>
+</div>
+<div class="absolute top-20 left-1/2 -translate-x-1/2">
+<div class="font-headline font-black text-7xl md:text-9xl text-surface-container-highest/40 select-none">02</div>
+</div>
+</div>
+<div class="w-full md:w-1/2 order-3">
+<div class="inline-block liquid-glass p-8 rounded-full shadow-sm hover:shadow-xl transition-all duration-500 group">
+<div class="w-full h-64 md:h-80 overflow-hidden rounded-full mb-6">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="Pristine white beach with crystal water" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWt2WaH6dJ1oOFpdH6zGRop9Ek5eioLzCvOo5DpQMZiCBVQGx5MJ-sOJoZO42vOPrlKSXh1OvbIG6jCINc8JFC1YdMl-0TbPk6EkGwNt7yaEjZO5TZgRdPnTc6BSZ_fDI8thamAfyrbY0TtD4BFbSWVc5FwaYHscz6SRcSy8l9yUG_8B3rgi-cWM9Q7T49gvFoZfTIeQ5jICr9xmMjzWWGRnDupVVthAWyp1qOOMD8OMLxo6L2mdXchVYdJXkOKfbON5W0jV2V0DM"/>
+</div>
+<h3 class="font-headline font-bold text-3xl mb-2 uppercase">THE COVE</h3>
+<p class="font-label text-sm text-on-surface-variant leading-relaxed mb-6">Discovery of secluded bays near Corsica. Hydrofoil deployment for shallow water exploration.</p>
+<div class="flex gap-4">
+<span class="px-4 py-1 rounded-full bg-primary-container text-on-primary-container text-[10px] font-bold tracking-widest uppercase">Corsica</span>
+<span class="px-4 py-1 rounded-full bg-surface-container text-on-surface-variant text-[10px] font-bold tracking-widest uppercase">Stealth Mode</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Day 03 (Condensed technical view) -->
+<section class="relative mb-40">
+<div class="flex flex-col md:flex-row items-start md:items-center gap-12">
+<div class="w-full md:w-1/2 md:text-right order-2 md:order-1">
+<div class="bg-primary px-12 py-16 rounded-[4rem] text-on-primary shadow-2xl relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-8 opacity-10">
+<span class="material-symbols-outlined text-[10rem]">bolt</span>
+</div>
+<h3 class="font-headline font-black text-5xl mb-4 tracking-tighter">DEEP SEA VELOCITY</h3>
+<p class="font-label text-lg opacity-90 max-w-sm ml-auto">Pushing the triple-turbine configuration across the Tyrrhenian gap.</p>
+<div class="mt-8 flex justify-end items-center gap-8">
+<div class="text-right">
+<div class="text-4xl font-headline font-black italic">52.4</div>
+<div class="text-[10px] uppercase tracking-widest opacity-70">Max Knots</div>
+</div>
+<div class="text-right">
+<div class="text-4xl font-headline font-black italic">140</div>
+<div class="text-[10px] uppercase tracking-widest opacity-70">Mile Reach</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Numeric Anchor -->
+<div class="relative z-10 order-1 md:order-2">
+<div class="w-16 h-16 md:w-20 md:h-20 bg-surface-container-lowest rounded-full flex items-center justify-center border-8 border-background shadow-lg">
+<span class="material-symbols-outlined text-primary font-bold" style="font-variation-settings: 'FILL' 1;">speed</span>
+</div>
+<div class="absolute top-20 left-1/2 -translate-x-1/2">
+<div class="font-headline font-black text-7xl md:text-9xl text-surface-container-highest/40 select-none">03</div>
+</div>
+</div>
+<div class="w-full md:w-1/2 order-3">
+<div class="h-64 md:h-96 w-full rounded-[4rem] bg-surface-container-low flex items-center justify-center p-12">
+<div class="text-center">
+<div class="font-label text-xs tracking-widest text-outline uppercase mb-4">Route Status</div>
+<div class="font-headline font-bold text-4xl text-on-surface">OPTIMIZED</div>
+<div class="w-32 h-[2px] bg-primary mx-auto my-6"></div>
+<p class="text-on-surface-variant font-label text-sm uppercase tracking-tight">Weather Window: Perfect<br/>Sea State: Glass</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Pagination / Call to Action -->
+<div class="mt-20 flex flex-col items-center">
+<button class="bg-primary text-on-primary px-12 py-6 rounded-full font-headline font-bold text-lg hover:bg-primary-dim transition-all active:scale-95 shadow-xl">
+                VIEW FULL 7-DAY LOG
+            </button>
+<p class="mt-8 font-label text-xs uppercase tracking-[0.2em] text-outline">Continue Navigation to Day 04-07</p>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-100 dark:bg-slate-950 full-width py-12 px-8 mt-32">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+<div>
+<div class="text-lg font-black text-slate-900 dark:text-slate-100">AERO MARINE PERF.</div>
+<p class="text-xs font-medium tracking-tight Manrope text-slate-400 dark:text-slate-600 mt-2">© 2024 AERO MARINE PERF.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="text-xs font-medium tracking-tight Manrope text-slate-400 dark:text-slate-600 hover:text-slate-900 dark:hover:text-slate-100 transition-colors" href="#">Privacy</a>
+<a class="text-xs font-medium tracking-tight Manrope text-slate-400 dark:text-slate-600 hover:text-slate-900 dark:hover:text-slate-100 transition-colors" href="#">Terms of Service</a>
+<a class="text-xs font-medium tracking-tight Manrope text-slate-400 dark:text-slate-600 hover:text-slate-900 dark:hover:text-slate-100 transition-colors" href="#">Vessel Specs</a>
+<a class="text-xs font-medium tracking-tight Manrope text-slate-400 dark:text-slate-600 hover:text-slate-900 dark:hover:text-slate-100 transition-colors" href="#">Contact</a>
+</div>
+</div>
+</footer>
+<!-- Bottom Navigation Bar (Mobile) -->
+<div class="md:hidden fixed bottom-0 left-0 w-full z-50 rounded-t-[2rem] bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl shadow-[0_-10px_40px_rgba(0,0,0,0.04)] px-4 pb-8 pt-4 flex justify-around items-center">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:text-[#506300] hover:scale-110 transition-transform duration-300" href="#">
+<span class="material-symbols-outlined">speed</span>
+<span class="text-[10px] font-bold uppercase tracking-widest Manrope mt-1">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-[#506300] dark:bg-[#cffc00] text-white dark:text-black rounded-full px-6 py-2 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="text-[10px] font-bold uppercase tracking-widest Manrope mt-1">Itinerary</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:text-[#506300] hover:scale-110 transition-transform duration-300" href="#">
+<span class="material-symbols-outlined">emergency</span>
+<span class="text-[10px] font-bold uppercase tracking-widest Manrope mt-1">Safety</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:text-[#506300] hover:scale-110 transition-transform duration-300" href="#">
+<span class="material-symbols-outlined">contact_support</span>
+<span class="text-[10px] font-bold uppercase tracking-widest Manrope mt-1">Info</span>
+</a>
+</div>
+</body></html>

@@ -1,0 +1,984 @@
+/* ==========================================================================
+   Salty Dog — Template component styles (BEM)
+   Rich layouts matching Aero Marine design reference.
+   Uses CSS custom properties from style.css.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   1. Page Hero — large title sections
+   --------------------------------------------------------------------------- */
+.page-hero {
+  margin-bottom: 24px;
+}
+
+.page-hero__label {
+  font-family: var(--font-label);
+  font-size: 0.625rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--md-primary);
+  margin-bottom: 6px;
+}
+
+.page-hero__title {
+  font-family: var(--font-headline);
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--md-on-background);
+  margin-bottom: 8px;
+}
+
+.page-hero__subtitle {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--md-on-surface-variant);
+  line-height: 1.5;
+}
+
+/* ---------------------------------------------------------------------------
+   2. Status Badge — active indicator dot
+   --------------------------------------------------------------------------- */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.status-badge__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--md-primary-fixed);
+  box-shadow: 0 0 12px var(--md-primary-fixed);
+}
+
+.status-badge__text {
+  font-family: var(--font-label);
+  font-size: 0.625rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--md-primary);
+}
+
+/* ---------------------------------------------------------------------------
+   3. Countdown — departure countdown
+   --------------------------------------------------------------------------- */
+.countdown {
+  margin-bottom: 24px;
+}
+
+.countdown__number {
+  font-family: var(--font-headline);
+  font-size: 5rem;
+  font-weight: 800;
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  color: var(--md-on-background);
+}
+
+.countdown__unit {
+  font-family: var(--font-headline);
+  font-size: 1.25rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--md-on-surface-variant);
+}
+
+/* ---------------------------------------------------------------------------
+   4. Bento Grid — dashboard card layout
+   --------------------------------------------------------------------------- */
+.bento-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.bento-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--glass-shadow);
+}
+
+.bento-card--wide {
+  grid-column: 1 / -1;
+}
+
+.bento-card__label {
+  font-family: var(--font-label);
+  font-size: 0.5625rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--md-on-surface-variant);
+  margin-bottom: 8px;
+}
+
+.bento-card__title {
+  font-family: var(--font-headline);
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--md-on-surface);
+  margin-bottom: 4px;
+  letter-spacing: -0.02em;
+}
+
+.bento-card__value {
+  font-family: var(--font-headline);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--md-on-background);
+}
+
+.bento-card__detail {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
+  margin-top: 4px;
+}
+
+.bento-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--md-surface-container);
+  margin-bottom: 12px;
+}
+
+.bento-card__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--md-surface-container);
+  font-size: 0.8125rem;
+}
+
+.bento-card__row:last-child {
+  border-bottom: none;
+}
+
+.bento-card__row-label {
+  color: var(--md-on-surface-variant);
+  font-weight: 500;
+}
+
+.bento-card__row-value {
+  font-weight: 700;
+  color: var(--md-on-surface);
+}
+
+/* ---------------------------------------------------------------------------
+   5. Timeline — vertical route timeline
+   --------------------------------------------------------------------------- */
+.timeline {
+  position: relative;
+  padding-left: 32px;
+  margin-bottom: 16px;
+}
+
+.timeline__track {
+  position: absolute;
+  left: 11px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--md-surface-container-high);
+}
+
+.timeline__day {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.timeline__day:last-child {
+  margin-bottom: 0;
+}
+
+.timeline__marker {
+  position: absolute;
+  left: -32px;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--md-primary);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-headline);
+  font-size: 0.625rem;
+  font-weight: 800;
+  border: 3px solid var(--md-background);
+  box-shadow: 0 2px 8px rgba(80, 99, 0, 0.2);
+  z-index: 1;
+}
+
+.timeline__marker--empty {
+  background: var(--md-surface-container-lowest);
+  color: var(--md-on-surface-variant);
+  border-color: var(--md-surface-container-high);
+  box-shadow: none;
+}
+
+.timeline__step-number {
+  position: absolute;
+  left: -80px;
+  top: -8px;
+  font-family: var(--font-headline);
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--md-surface-container-high);
+  opacity: 0.5;
+  line-height: 1;
+  user-select: none;
+  z-index: 0;
+}
+
+.timeline__card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  box-shadow: var(--glass-shadow);
+}
+
+.timeline__day-title {
+  font-family: var(--font-headline);
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--md-on-surface);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.timeline__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.timeline__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-label);
+  font-size: 0.5625rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.timeline__badge--location {
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+}
+
+.timeline__badge--info {
+  background: var(--md-surface-container);
+  color: var(--md-on-surface-variant);
+}
+
+.timeline__detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  font-size: 0.8125rem;
+}
+
+.timeline__detail-key {
+  color: var(--md-on-surface-variant);
+  font-weight: 500;
+}
+
+.timeline__detail-value {
+  font-weight: 700;
+  color: var(--md-on-surface);
+}
+
+.timeline__bullets {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+}
+
+.timeline__bullets li {
+  padding: 4px 0;
+  font-size: 0.8125rem;
+  color: var(--md-on-surface);
+  position: relative;
+  padding-left: 16px;
+}
+
+.timeline__bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--md-primary-container);
+}
+
+/* ---------------------------------------------------------------------------
+   6. Protocol Grid — safety protocol cards
+   --------------------------------------------------------------------------- */
+.protocol-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.protocol-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--glass-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.protocol-card--emergency {
+  border-left: 3px solid var(--md-error);
+}
+
+.protocol-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.protocol-card__title {
+  font-family: var(--font-headline);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--md-on-surface);
+  letter-spacing: -0.02em;
+}
+
+.protocol-card__badge {
+  display: inline-flex;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-label);
+  font-size: 0.5625rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background: var(--md-surface-container);
+  color: var(--md-on-surface-variant);
+  white-space: nowrap;
+}
+
+.protocol-card__step {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.protocol-card__step:last-child {
+  margin-bottom: 0;
+}
+
+.protocol-card__step-number {
+  font-family: var(--font-headline);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--md-outline-variant);
+  opacity: 0.4;
+  line-height: 1;
+  min-width: 28px;
+  flex-shrink: 0;
+}
+
+.protocol-card__step-text {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--md-on-surface);
+  line-height: 1.4;
+  padding-top: 2px;
+}
+
+/* Checkbox-style steps */
+.protocol-card__check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 6px 0;
+  font-size: 0.875rem;
+  color: var(--md-on-surface);
+}
+
+.protocol-card__check-icon {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--md-outline-variant);
+  border-radius: 5px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.protocol-card__check--done .protocol-card__check-icon {
+  background: var(--md-primary);
+  border-color: var(--md-primary);
+}
+
+/* ---------------------------------------------------------------------------
+   7. Checklist Grid — equipment & packing cards
+   --------------------------------------------------------------------------- */
+.checklist-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.checklist-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  box-shadow: var(--glass-shadow);
+}
+
+.checklist-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.checklist-card__title {
+  font-family: var(--font-headline);
+  font-size: 0.9375rem;
+  font-weight: 800;
+  color: var(--md-on-surface);
+  letter-spacing: -0.01em;
+}
+
+.checklist-card__count {
+  font-family: var(--font-label);
+  font-size: 0.5625rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--md-on-surface-variant);
+}
+
+.checklist-card__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 5px 0;
+  font-size: 0.8125rem;
+  color: var(--md-on-surface);
+}
+
+.checklist-card__item-check {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--md-outline-variant);
+  border-radius: 4px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.checklist-card__item--done .checklist-card__item-check {
+  background: var(--md-primary);
+  border-color: var(--md-primary);
+}
+
+.checklist-card__item--done {
+  color: var(--md-outline-variant);
+  text-decoration: line-through;
+}
+
+/* ---------------------------------------------------------------------------
+   8. Crew Grid — crew roster cards
+   --------------------------------------------------------------------------- */
+.crew-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.crew-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  box-shadow: var(--glass-shadow);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.crew-card__avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--md-surface-container);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  color: var(--md-on-surface-variant);
+}
+
+.crew-card__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.crew-card__name {
+  font-family: var(--font-headline);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--md-on-surface);
+  margin-bottom: 2px;
+}
+
+.crew-card__role {
+  display: inline-flex;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+  font-family: var(--font-label);
+  font-size: 0.5625rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.crew-card__detail {
+  font-size: 0.75rem;
+  color: var(--md-on-surface-variant);
+  margin-top: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+   9. Provisions Grid — shopping & meal plan
+   --------------------------------------------------------------------------- */
+.provisions-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.provisions-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  box-shadow: var(--glass-shadow);
+}
+
+.provisions-card__title {
+  font-family: var(--font-headline);
+  font-size: 0.9375rem;
+  font-weight: 800;
+  color: var(--md-on-surface);
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+
+.provisions-card__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--md-surface-container);
+  font-size: 0.8125rem;
+}
+
+.provisions-card__item:last-child {
+  border-bottom: none;
+}
+
+.provisions-card__product {
+  color: var(--md-on-surface);
+  font-weight: 500;
+}
+
+.provisions-card__qty {
+  font-weight: 700;
+  color: var(--md-on-surface-variant);
+  font-size: 0.75rem;
+}
+
+.meal-plan-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.meal-plan-row {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  display: grid;
+  grid-template-columns: 60px 1fr 1fr 1fr;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.75rem;
+}
+
+.meal-plan-row__day {
+  font-family: var(--font-headline);
+  font-weight: 800;
+  color: var(--md-primary);
+  font-size: 0.6875rem;
+}
+
+.meal-plan-row__meal {
+  color: var(--md-on-surface);
+  font-weight: 500;
+}
+
+/* ---------------------------------------------------------------------------
+   10. Equipment badges
+   --------------------------------------------------------------------------- */
+.equipment-badge--required {
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+}
+
+.equipment-badge--optional {
+  background: var(--md-surface-container);
+  color: var(--md-on-surface-variant);
+}
+
+/* ---------------------------------------------------------------------------
+   11. Contact cards (emergency contacts)
+   --------------------------------------------------------------------------- */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.contact-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  box-shadow: var(--glass-shadow);
+}
+
+.contact-card--emergency {
+  border-left: 3px solid var(--md-error);
+}
+
+.contact-card__title {
+  font-family: var(--font-headline);
+  font-size: 0.9375rem;
+  font-weight: 800;
+  color: var(--md-on-surface);
+  margin-bottom: 10px;
+}
+
+.contact-card__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--md-surface-container);
+  font-size: 0.8125rem;
+}
+
+.contact-card__row:last-child {
+  border-bottom: none;
+}
+
+.contact-card__service {
+  color: var(--md-on-surface);
+  font-weight: 500;
+}
+
+.contact-card__number {
+  font-family: var(--font-headline);
+  font-weight: 800;
+  color: var(--md-on-surface);
+  font-size: 0.875rem;
+}
+
+.contact-card__number--prominent {
+  color: var(--md-error);
+  font-size: 1rem;
+}
+
+/* VHF channel cards */
+.vhf-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.vhf-card {
+  background: var(--md-surface-container-low);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  text-align: center;
+}
+
+.vhf-card__channel {
+  font-family: var(--font-headline);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--md-on-surface);
+}
+
+.vhf-card__label {
+  font-family: var(--font-label);
+  font-size: 0.5625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--md-on-surface-variant);
+  margin-top: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+   12. Activity cards (kids on board)
+   --------------------------------------------------------------------------- */
+.activity-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.activity-card {
+  background: var(--md-surface-container-low);
+  border-radius: var(--radius-md);
+  padding: 16px;
+}
+
+.activity-card__title {
+  font-family: var(--font-headline);
+  font-size: 0.9375rem;
+  font-weight: 800;
+  color: var(--md-on-surface);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.activity-card__item {
+  padding: 3px 0;
+  font-size: 0.8125rem;
+  color: var(--md-on-surface);
+  padding-left: 16px;
+  position: relative;
+}
+
+.activity-card__item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--md-primary-container);
+}
+
+/* ---------------------------------------------------------------------------
+   13. Rules list (numbered)
+   --------------------------------------------------------------------------- */
+.rules-list {
+  margin-bottom: 16px;
+}
+
+.rules-list__item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--md-surface-container);
+}
+
+.rules-list__item:last-child {
+  border-bottom: none;
+}
+
+.rules-list__number {
+  font-family: var(--font-headline);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--md-outline-variant);
+  opacity: 0.5;
+  min-width: 24px;
+  flex-shrink: 0;
+}
+
+.rules-list__text {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--md-on-surface);
+  line-height: 1.4;
+  padding-top: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+   14. Section divider (within templates)
+   --------------------------------------------------------------------------- */
+.tpl-section-title {
+  font-family: var(--font-label);
+  font-size: 0.6875rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--md-on-surface-variant);
+  padding: 16px 0 8px;
+}
+
+/* ---------------------------------------------------------------------------
+   15. Placeholder for empty/draft data
+   --------------------------------------------------------------------------- */
+.tpl-placeholder {
+  text-align: center;
+  padding: 24px 16px;
+  color: var(--md-outline);
+  font-family: var(--font-label);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* ---------------------------------------------------------------------------
+   16. Responsive: Tablet+
+   --------------------------------------------------------------------------- */
+@media (min-width: 768px) {
+  .page-hero__title {
+    font-size: 2.5rem;
+  }
+
+  .countdown__number {
+    font-size: 6rem;
+  }
+
+  .bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .protocol-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .checklist-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .crew-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .provisions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .contact-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .activity-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .vhf-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   17. Sub-tabs (for nested navigation within a tab)
+   --------------------------------------------------------------------------- */
+.sub-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 0 0 16px;
+  margin-bottom: 16px;
+  border-bottom: 2px solid var(--md-surface-container);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.sub-tab-btn {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--md-on-surface-variant);
+  background: transparent;
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.sub-tab-btn:hover {
+  background: var(--md-surface-container-low);
+  color: var(--md-on-surface);
+}
+
+.sub-tab-btn.active {
+  background: var(--md-primary);
+  color: var(--md-on-primary);
+}
+
+.sub-tab-content {
+  display: none;
+}
+
+.sub-tab-content.active {
+  display: block;
+}

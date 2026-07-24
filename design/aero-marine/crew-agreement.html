@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AERO MARINE | Crew Agreement</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed-variant": "#005964",
+              "inverse-on-surface": "#9b9d9e",
+              "surface-container-highest": "#dadddf",
+              "tertiary-dim": "#5d4f00",
+              "secondary-fixed": "#26e6ff",
+              "outline": "#757778",
+              "inverse-primary": "#cffc00",
+              "background": "#f5f6f7",
+              "secondary-fixed-dim": "#00d7f0",
+              "on-primary-container": "#4b5e00",
+              "on-error": "#ffefec",
+              "on-background": "#2c2f30",
+              "error-container": "#f95630",
+              "on-secondary": "#d8f8ff",
+              "tertiary-fixed-dim": "#efd138",
+              "primary-fixed-dim": "#c2ed00",
+              "surface-dim": "#d1d5d7",
+              "on-tertiary-container": "#5d4f00",
+              "on-secondary-fixed": "#003a42",
+              "secondary": "#006571",
+              "outline-variant": "#abadae",
+              "on-tertiary": "#fff3c8",
+              "on-tertiary-fixed": "#483d00",
+              "secondary-container": "#26e6ff",
+              "surface-variant": "#dadddf",
+              "tertiary": "#6b5b00",
+              "primary-fixed": "#cffc00",
+              "surface-bright": "#f5f6f7",
+              "on-primary-fixed": "#3b4a00",
+              "tertiary-fixed": "#fedf46",
+              "primary-container": "#cffc00",
+              "error": "#b02500",
+              "surface-tint": "#506300",
+              "primary": "#506300",
+              "on-tertiary-fixed-variant": "#685900",
+              "primary-dim": "#455600",
+              "on-primary": "#e2ff81",
+              "on-error-container": "#520c00",
+              "secondary-dim": "#005863",
+              "surface": "#f5f6f7",
+              "inverse-surface": "#0c0f10",
+              "on-surface-variant": "#595c5d",
+              "error-dim": "#b92902",
+              "surface-container-lowest": "#ffffff",
+              "on-surface": "#2c2f30",
+              "on-secondary-container": "#004f59",
+              "on-primary-fixed-variant": "#546800",
+              "tertiary-container": "#fedf46",
+              "surface-container-high": "#e0e3e4",
+              "surface-container-low": "#eff1f2",
+              "surface-container": "#e6e8ea"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(20px);
+      }
+      .liquid-progress {
+        background: linear-gradient(90deg, #506300 0%, #cffc00 100%);
+      }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopNavBar -->
+<nav class="bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl docked full-width top-0 sticky z-50 shadow-[0_20px_40px_rgba(0,0,0,0.04)] dark:shadow-none">
+<div class="flex justify-between items-center w-full px-8 py-4 max-w-screen-2xl mx-auto">
+<div class="text-2xl font-black tracking-tighter text-[#506300] dark:text-[#cffc00]">AERO MARINE</div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-[#506300] dark:hover:text-[#cffc00] transition-colors" href="#">Dashboard</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-[#506300] dark:hover:text-[#cffc00] transition-colors" href="#">Itinerary</a>
+<a class="text-[#506300] dark:text-[#cffc00] font-bold border-b-2 border-[#506300] dark:border-[#cffc00] pb-1" href="#">Crew Pact</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-[#506300] dark:hover:text-[#cffc00] transition-colors" href="#">Safety</a>
+</div>
+<div class="flex gap-4 items-center">
+<span class="material-symbols-outlined p-2 rounded-full hover:bg-slate-100/50 cursor-pointer">notifications</span>
+<span class="material-symbols-outlined p-2 rounded-full hover:bg-slate-100/50 cursor-pointer">account_circle</span>
+</div>
+</div>
+</nav>
+<main class="max-w-7xl mx-auto px-8 py-12 md:py-24">
+<!-- Hero Section -->
+<header class="mb-20">
+<span class="font-label text-primary font-bold tracking-[0.2em] uppercase text-xs mb-4 block">Charter Identity</span>
+<h1 class="font-headline text-5xl md:text-7xl font-extrabold tracking-tighter text-on-surface mb-6 leading-[0.9]">
+                The Crew <br/><span class="text-primary-dim">Pact.</span>
+</h1>
+<p class="max-w-xl text-lg text-on-surface-variant leading-relaxed">
+                A shared commitment between companions. This agreement defines our velocity, our safety protocols, and the collective harmony of the Aero Marine experience.
+            </p>
+</header>
+<!-- Bento Layout for Content -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Budget Status (Liquid Glass) -->
+<section class="lg:col-span-7 bg-surface-container-low rounded-[2rem] p-10 flex flex-col justify-between overflow-hidden relative">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary-container/10 blur-[100px] rounded-full -mr-20 -mt-20"></div>
+<div>
+<h2 class="font-label text-xs font-extrabold tracking-widest text-on-surface-variant uppercase mb-8">Expedition Provisions</h2>
+<div class="flex items-baseline gap-2 mb-2">
+<span class="font-headline text-8xl font-extrabold tracking-tighter text-primary">12.5</span>
+<span class="font-headline text-4xl font-bold text-outline-variant">k</span>
+</div>
+<p class="font-body text-sm font-semibold text-on-surface-variant mb-12">Allocated Budget (USD)</p>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between text-xs font-bold uppercase tracking-tighter">
+<span class="text-on-surface">Resource Velocity</span>
+<span class="text-primary">68% Remaining</span>
+</div>
+<div class="h-4 w-full bg-surface-container-highest rounded-full overflow-hidden p-[2px]">
+<div class="h-full w-[68%] liquid-progress rounded-full relative">
+<div class="absolute inset-0 bg-white/20 blur-sm"></div>
+</div>
+</div>
+<div class="flex justify-between text-[10px] text-outline font-bold">
+<span>DEPARTURE</span>
+<span>ARRIVAL</span>
+</div>
+</div>
+</section>
+<!-- Galley Rotation & Roles -->
+<section class="lg:col-span-5 glass-card rounded-[2rem] p-10 shadow-[0_20px_40px_rgba(0,0,0,0.02)]">
+<h2 class="font-label text-xs font-extrabold tracking-widest text-on-surface-variant uppercase mb-8">Rotation Protocol</h2>
+<div class="space-y-6">
+<div class="flex items-center justify-between pb-4">
+<div>
+<p class="font-headline text-lg font-bold">Julian V.</p>
+<p class="font-label text-xs text-outline font-medium">Navigation &amp; Deck</p>
+</div>
+<span class="px-4 py-1 rounded-full bg-surface-container text-[10px] font-black uppercase tracking-widest">MON / THU</span>
+</div>
+<div class="flex items-center justify-between pb-4">
+<div>
+<p class="font-headline text-lg font-bold">Elena R.</p>
+<p class="font-label text-xs text-outline font-medium">Galley Chief</p>
+</div>
+<span class="px-4 py-1 rounded-full bg-surface-container text-[10px] font-black uppercase tracking-widest">TUE / FRI</span>
+</div>
+<div class="flex items-center justify-between pb-4">
+<div>
+<p class="font-headline text-lg font-bold">Marcus T.</p>
+<p class="font-label text-xs text-outline font-medium">Technical Ops</p>
+</div>
+<span class="px-4 py-1 rounded-full bg-surface-container text-[10px] font-black uppercase tracking-widest">WED / SAT</span>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant/10">
+<p class="font-label text-xs font-bold text-secondary italic">Sunday: Collective Port Call</p>
+</div>
+</div>
+</section>
+<!-- Signature Areas -->
+<section class="lg:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-8 mt-4">
+<div class="bg-surface-container-lowest p-8 rounded-[2rem] group cursor-pointer transition-all duration-500 hover:scale-[1.02]">
+<div class="h-32 mb-6 border-b border-outline-variant/20 flex items-center justify-center">
+<span class="text-outline-variant group-hover:text-primary transition-colors text-xs font-bold uppercase tracking-widest">Awaiting Signature</span>
+</div>
+<div class="flex justify-between items-end">
+<div>
+<p class="font-headline font-bold text-xl">Julian V.</p>
+<p class="font-label text-[10px] text-outline-variant uppercase font-bold tracking-widest">Captain's Endorsement</p>
+</div>
+<span class="material-symbols-outlined text-outline-variant">edit</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-[2rem] group cursor-pointer transition-all duration-500 hover:scale-[1.02]">
+<div class="h-32 mb-6 border-b border-outline-variant/20 flex items-center justify-center">
+<span class="font-headline text-4xl italic text-primary opacity-40 select-none">ElenaR</span>
+</div>
+<div class="flex justify-between items-end">
+<div>
+<p class="font-headline font-bold text-xl">Elena R.</p>
+<p class="font-label text-[10px] text-primary uppercase font-bold tracking-widest">Confirmed</p>
+</div>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-[2rem] group cursor-pointer transition-all duration-500 hover:scale-[1.02]">
+<div class="h-32 mb-6 border-b border-outline-variant/20 flex items-center justify-center">
+<span class="text-outline-variant group-hover:text-primary transition-colors text-xs font-bold uppercase tracking-widest">Awaiting Signature</span>
+</div>
+<div class="flex justify-between items-end">
+<div>
+<p class="font-headline font-bold text-xl">Marcus T.</p>
+<p class="font-label text-[10px] text-outline-variant uppercase font-bold tracking-widest">Technical Lead</p>
+</div>
+<span class="material-symbols-outlined text-outline-variant">edit</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Action Area -->
+<div class="mt-20 flex flex-col items-center">
+<button class="bg-primary text-on-primary font-headline text-lg font-extrabold px-16 py-6 rounded-full hover:bg-primary-fixed-dim transition-all duration-300 active:scale-[0.98] shadow-2xl shadow-primary/20 tracking-tight">
+                SUBMIT AGREEMENT
+            </button>
+<p class="mt-6 font-label text-[10px] text-outline uppercase tracking-[0.3em] font-bold">Legally binding within maritime jurisdiction</p>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-100 dark:bg-slate-950 full-width py-12 px-8">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="text-lg font-black text-slate-900 dark:text-slate-100">AERO MARINE</div>
+<div class="flex gap-8">
+<a class="text-slate-400 dark:text-slate-600 text-xs font-medium tracking-tight hover:text-slate-900 transition-colors" href="#">Privacy</a>
+<a class="text-slate-400 dark:text-slate-600 text-xs font-medium tracking-tight hover:text-slate-900 transition-colors" href="#">Terms of Service</a>
+<a class="text-slate-400 dark:text-slate-600 text-xs font-medium tracking-tight hover:text-slate-900 transition-colors" href="#">Vessel Specs</a>
+<a class="text-slate-400 dark:text-slate-600 text-xs font-medium tracking-tight hover:text-slate-900 transition-colors" href="#">Contact</a>
+</div>
+<div class="text-slate-400 dark:text-slate-600 text-xs font-medium tracking-tight">© 2024 AERO MARINE PERF.</div>
+</div>
+</footer>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 rounded-t-[2rem] bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl shadow-[0_-10px_40px_rgba(0,0,0,0.04)] flex justify-around items-center px-4 pb-8 pt-4">
+<div class="flex flex-col items-center justify-center text-slate-400 px-4 py-2">
+<span class="material-symbols-outlined">speed</span>
+<span class="text-[10px] font-bold uppercase tracking-widest mt-1">Dash</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 px-4 py-2">
+<span class="material-symbols-outlined">explore</span>
+<span class="text-[10px] font-bold uppercase tracking-widest mt-1">Itin</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-[#506300] dark:bg-[#cffc00] text-white dark:text-black rounded-full px-6 py-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">handshake</span>
+<span class="text-[10px] font-bold uppercase tracking-widest mt-1">Pact</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 px-4 py-2">
+<span class="material-symbols-outlined">group</span>
+<span class="text-[10px] font-bold uppercase tracking-widest mt-1">Crew</span>
+</div>
+</nav>
+</body></html>

@@ -1,0 +1,960 @@
+/* ==========================================================================
+   Salty Dog — "Aero Marine" design system
+   Light glass-morphism UI with olive/lime accent palette.
+   Typography: Plus Jakarta Sans (headlines), Manrope (body/labels).
+   ========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   1. CSS Custom Properties — all Aero Marine design tokens
+   --------------------------------------------------------------------------- */
+:root {
+  /* Core palette */
+  --md-primary: #506300;
+  --md-primary-dim: #455600;
+  --md-primary-container: #cffc00;
+  --md-on-primary: #e2ff81;
+  --md-on-primary-container: #4b5e00;
+  --md-primary-fixed: #cffc00;
+  --md-primary-fixed-dim: #c2ed00;
+
+  --md-secondary: #006571;
+  --md-secondary-container: #26e6ff;
+  --md-on-secondary: #d8f8ff;
+
+  --md-tertiary: #6b5b00;
+  --md-tertiary-container: #fedf46;
+
+  --md-error: #b02500;
+  --md-error-dim: #b92902;
+  --md-error-container: #f95630;
+  --md-on-error: #ffefec;
+  --md-on-error-container: #520c00;
+
+  /* Surfaces */
+  --md-background: #f5f6f7;
+  --md-surface: #f5f6f7;
+  --md-surface-dim: #d1d5d7;
+  --md-surface-bright: #f5f6f7;
+  --md-surface-container-lowest: #ffffff;
+  --md-surface-container-low: #eff1f2;
+  --md-surface-container: #e6e8ea;
+  --md-surface-container-high: #e0e3e4;
+  --md-surface-container-highest: #dadddf;
+  --md-surface-variant: #dadddf;
+  --md-inverse-surface: #0c0f10;
+
+  /* On-surface text */
+  --md-on-background: #2c2f30;
+  --md-on-surface: #2c2f30;
+  --md-on-surface-variant: #595c5d;
+  --md-outline: #757778;
+  --md-outline-variant: #abadae;
+
+  /* Glass card properties */
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-blur: blur(20px);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.4);
+  --glass-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+
+  /* Radii */
+  --radius-sm: 12px;
+  --radius-md: 1.5rem;
+  --radius-lg: 2rem;
+  --radius-xl: 2.5rem;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.04);
+  --shadow-card-hover: 0 20px 40px rgba(0, 0, 0, 0.08);
+  --shadow-tab-bar: 0 -10px 40px rgba(0, 0, 0, 0.04);
+
+  /* Layout */
+  --header-height: 56px;
+  --tab-bar-height: 72px;
+
+  /* Typography */
+  --font-headline: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-label: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Safe area insets for notch phones */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* ---------------------------------------------------------------------------
+   2. Reset & Base
+   --------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--md-background);
+  color: var(--md-on-surface);
+  line-height: 1.5;
+  overflow-x: hidden;
+  overscroll-behavior-y: contain;
+  /* Selection color matching the design system */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+}
+
+a {
+  color: var(--md-primary);
+  text-decoration: none;
+}
+
+a:hover,
+a:focus-visible {
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Material Symbols font settings */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  /* Prevent icon from affecting line-height */
+  vertical-align: middle;
+}
+
+/* ---------------------------------------------------------------------------
+   3. App Header — glass style with "SALTY DOG" branding
+   --------------------------------------------------------------------------- */
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: calc(var(--header-height) + var(--safe-top));
+  padding-top: var(--safe-top);
+  background: rgba(245, 246, 247, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+}
+
+.header-content {
+  min-width: 0;
+  flex: 1;
+}
+
+.header-title {
+  font-family: var(--font-headline);
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--md-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+}
+
+.header-subtitle {
+  font-family: var(--font-label);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--md-on-surface-variant);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.header-status {
+  flex-shrink: 0;
+  margin-left: 12px;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--md-primary-fixed);
+  box-shadow: 0 0 12px var(--md-primary-fixed);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.status-dot.offline {
+  background-color: var(--md-error-container);
+  box-shadow: 0 0 12px var(--md-error-container);
+}
+
+/* ---------------------------------------------------------------------------
+   4. Main Content Area
+   --------------------------------------------------------------------------- */
+.app-content {
+  margin-top: calc(var(--header-height) + var(--safe-top));
+  margin-bottom: calc(var(--tab-bar-height) + var(--safe-bottom));
+  min-height: calc(100vh - var(--header-height) - var(--tab-bar-height) - var(--safe-top) - var(--safe-bottom));
+  max-width: 768px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+/* ---------------------------------------------------------------------------
+   5. Tab Panels
+   --------------------------------------------------------------------------- */
+.tab-panel {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.tab-panel.hidden {
+  display: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tab-content {
+  padding: 16px;
+}
+
+/* ---------------------------------------------------------------------------
+   6. Bottom Tab Bar — glass pill style
+   --------------------------------------------------------------------------- */
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: calc(var(--tab-bar-height) + var(--safe-bottom));
+  padding-bottom: var(--safe-bottom);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  box-shadow: var(--shadow-tab-bar);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  max-width: 768px;
+  margin: 0 auto;
+  padding-left: 8px;
+  padding-right: 8px;
+  /* Extra bottom padding for gesture bar on modern iPhones */
+  padding-top: 6px;
+}
+
+.tab-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  background: none;
+  border: none;
+  color: var(--md-outline-variant);
+  cursor: pointer;
+  font-family: var(--font-label);
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 6px 10px;
+  border-radius: var(--radius-full);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tab-btn:focus-visible {
+  outline: 2px solid var(--md-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-full);
+}
+
+/* Active tab: pill shape with primary background */
+.tab-btn.active {
+  background-color: var(--md-primary);
+  color: #ffffff;
+  padding: 6px 16px;
+}
+
+/* Remove the old top-line indicator — pill shape replaces it */
+.tab-btn.active::before {
+  display: none;
+}
+
+.tab-icon {
+  font-size: 1.375rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Active tab icon should be filled */
+.tab-btn.active .material-symbols-outlined {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.tab-label {
+  font-size: 0.5625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+/* ---------------------------------------------------------------------------
+   7. Glass Cards (accordion)
+   --------------------------------------------------------------------------- */
+.card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-radius: var(--radius-lg);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.card-header {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: background-color 0.2s ease;
+  min-height: 52px;
+}
+
+.card-header:hover {
+  background-color: rgba(80, 99, 0, 0.04);
+}
+
+.card-header:active {
+  background-color: rgba(80, 99, 0, 0.08);
+}
+
+.card-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.card-title {
+  flex: 1;
+  font-family: var(--font-headline);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--md-on-surface);
+  min-width: 0;
+  letter-spacing: -0.01em;
+}
+
+.card-chevron {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: var(--md-outline-variant);
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.card-header[aria-expanded="true"] .card-chevron {
+  transform: rotate(180deg);
+}
+
+.card-body {
+  padding: 0 20px 20px;
+  display: none;
+}
+
+.card-body.open {
+  display: block;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Non-collapsible card (always visible body) */
+.card.card--static .card-header {
+  cursor: default;
+}
+
+.card.card--static .card-header:hover {
+  background-color: transparent;
+}
+
+.card.card--static .card-body {
+  display: block;
+}
+
+.card.card--static .card-chevron {
+  display: none;
+}
+
+/* ---------------------------------------------------------------------------
+   8. Map Container
+   --------------------------------------------------------------------------- */
+.map-container {
+  width: 100%;
+  height: 45vh;
+  min-height: 250px;
+  max-height: 400px;
+  background: var(--md-surface-container);
+  position: relative;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  overflow: hidden;
+}
+
+.map-container .leaflet-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+.map-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--md-on-surface-variant);
+  text-align: center;
+  padding: 20px;
+}
+
+.map-placeholder-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+  opacity: 0.4;
+}
+
+.map-placeholder-text {
+  font-size: 0.875rem;
+  font-family: var(--font-label);
+  font-weight: 500;
+  color: var(--md-outline);
+}
+
+/* Leaflet popup styling */
+.waypoint-popup {
+  font-family: var(--font-body);
+}
+
+.waypoint-popup strong {
+  font-family: var(--font-headline);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--md-on-surface);
+}
+
+.waypoint-popup p {
+  font-size: 0.75rem;
+  color: var(--md-on-surface-variant);
+  margin-top: 2px;
+}
+
+/* Custom numbered marker — uses primary color */
+.waypoint-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--md-primary);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  border: 3px solid var(--md-surface-container-lowest);
+  box-shadow: 0 2px 8px rgba(80, 99, 0, 0.3);
+  font-family: var(--font-headline);
+}
+
+/* ---------------------------------------------------------------------------
+   9. Content Typography (rendered from markdown)
+   --------------------------------------------------------------------------- */
+.card-body h1,
+.card-body h2,
+.card-body h3,
+.card-body h4 {
+  font-family: var(--font-headline);
+  color: var(--md-on-surface);
+  margin-top: 1.25em;
+  margin-bottom: 0.5em;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.card-body h1:first-child,
+.card-body h2:first-child,
+.card-body h3:first-child {
+  margin-top: 0;
+}
+
+.card-body h1 { font-size: 1.25rem; font-weight: 800; }
+.card-body h2 { font-size: 1.125rem; font-weight: 800; }
+.card-body h3 { font-size: 1rem; }
+.card-body h4 { font-size: 0.875rem; }
+
+.card-body p {
+  margin-bottom: 0.75em;
+  color: var(--md-on-surface);
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  font-weight: 400;
+}
+
+.card-body p:last-child {
+  margin-bottom: 0;
+}
+
+.card-body ul,
+.card-body ol {
+  margin-bottom: 0.75em;
+  padding-left: 1.5em;
+}
+
+.card-body li {
+  margin-bottom: 0.35em;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.card-body strong {
+  font-weight: 700;
+  color: var(--md-on-surface);
+}
+
+.card-body em {
+  font-style: italic;
+}
+
+.card-body blockquote {
+  border-left: 3px solid var(--md-primary);
+  margin: 0.75em 0;
+  padding: 0.75em 0 0.75em 1em;
+  color: var(--md-on-surface-variant);
+  font-style: italic;
+  background: var(--md-surface-container-low);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.card-body code {
+  font-family: 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85em;
+  background: var(--md-surface-container-low);
+  padding: 0.15em 0.4em;
+  border-radius: 6px;
+  color: var(--md-primary-dim);
+}
+
+.card-body pre {
+  background: var(--md-inverse-surface);
+  color: var(--md-surface-bright);
+  padding: 16px 20px;
+  border-radius: var(--radius-sm);
+  overflow-x: auto;
+  margin-bottom: 0.75em;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.card-body pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+}
+
+.card-body hr {
+  border: none;
+  border-top: 1px solid var(--md-surface-container-high);
+  margin: 1em 0;
+}
+
+/* Wikilinks */
+.card-body a.wikilink {
+  color: var(--md-primary);
+  font-weight: 600;
+  border-bottom: 1px dotted var(--md-primary-container);
+  transition: border-color 0.15s ease;
+}
+
+.card-body a.wikilink:hover {
+  border-bottom-color: var(--md-primary);
+  text-decoration: none;
+}
+
+/* ---------------------------------------------------------------------------
+   10. Tables
+   --------------------------------------------------------------------------- */
+.card-body .table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 0.75em;
+  border-radius: var(--radius-sm);
+  /* No border — tonal separation instead */
+  background: var(--md-surface-container-low);
+}
+
+.card-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+  white-space: nowrap;
+}
+
+.card-body thead th {
+  background: var(--md-surface-container);
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: none;
+  color: var(--md-on-surface-variant);
+}
+
+.card-body tbody td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--md-surface-container);
+  color: var(--md-on-surface);
+  font-weight: 500;
+}
+
+.card-body tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.card-body tbody tr:hover {
+  background-color: rgba(80, 99, 0, 0.04);
+}
+
+/* ---------------------------------------------------------------------------
+   11. Checkboxes (from Obsidian markdown)
+   --------------------------------------------------------------------------- */
+.card-body input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--md-outline-variant);
+  border-radius: 6px;
+  vertical-align: middle;
+  margin-right: 8px;
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.card-body input[type="checkbox"]:checked {
+  background-color: var(--md-primary);
+  border-color: var(--md-primary);
+}
+
+.card-body input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 1px;
+  width: 6px;
+  height: 10px;
+  border: solid #ffffff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.card-body input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--md-primary-container);
+  outline-offset: 2px;
+}
+
+/* Checklist items — remove bullet and align */
+.card-body li:has(input[type="checkbox"]) {
+  list-style: none;
+  margin-left: -1.5em;
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   12. Loading Screen
+   --------------------------------------------------------------------------- */
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  color: var(--md-on-surface-variant);
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--md-surface-container);
+  border-top: 3px solid var(--md-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  margin-top: 16px;
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--md-outline);
+}
+
+/* ---------------------------------------------------------------------------
+   13. Error Screen
+   --------------------------------------------------------------------------- */
+.error-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  color: var(--md-on-surface);
+  text-align: center;
+  padding: 20px;
+}
+
+.error-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+  opacity: 0.5;
+}
+
+.error-screen h2 {
+  font-family: var(--font-headline);
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: var(--md-on-surface);
+  letter-spacing: -0.02em;
+}
+
+.error-screen p {
+  font-size: 0.875rem;
+  color: var(--md-on-surface-variant);
+  margin-bottom: 24px;
+  max-width: 300px;
+}
+
+.btn-retry {
+  background: var(--md-primary);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 14px 32px;
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 44px;
+}
+
+.btn-retry:hover {
+  background: var(--md-primary-dim);
+}
+
+.btn-retry:active {
+  transform: scale(0.97);
+}
+
+/* ---------------------------------------------------------------------------
+   14. Section headers
+   --------------------------------------------------------------------------- */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 4px 8px;
+  color: var(--md-on-surface);
+}
+
+.section-header:first-child {
+  padding-top: 4px;
+}
+
+.section-header-icon {
+  font-size: 1.125rem;
+}
+
+.section-header-title {
+  font-family: var(--font-label);
+  font-size: 0.6875rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--md-on-surface-variant);
+}
+
+/* ---------------------------------------------------------------------------
+   15. Day badge, Safety callout, Crew avatar
+   --------------------------------------------------------------------------- */
+.day-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
+  font-family: var(--font-label);
+  font-size: 0.625rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+/* Safety cards: accent border */
+.card.card--safety .card-header {
+  border-left: 3px solid var(--md-error);
+}
+
+/* Crew card avatar placeholder */
+.crew-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--md-surface-container);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.125rem;
+  flex-shrink: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   16. Last updated timestamp
+   --------------------------------------------------------------------------- */
+.last-updated {
+  text-align: center;
+  padding: 20px;
+  font-family: var(--font-label);
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--md-outline);
+}
+
+/* ---------------------------------------------------------------------------
+   17. Empty state
+   --------------------------------------------------------------------------- */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--md-outline);
+}
+
+.empty-state-icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+  opacity: 0.3;
+}
+
+.empty-state-text {
+  font-family: var(--font-label);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* ---------------------------------------------------------------------------
+   18. Utility classes
+   --------------------------------------------------------------------------- */
+.hidden {
+  display: none !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   19. Responsive: Tablet+
+   --------------------------------------------------------------------------- */
+@media (min-width: 768px) {
+  .map-container {
+    height: 50vh;
+    max-height: 500px;
+  }
+
+  .tab-content {
+    padding: 20px 24px;
+  }
+
+  .card-body h1 { font-size: 1.375rem; }
+  .card-body h2 { font-size: 1.25rem; }
+  .card-body p,
+  .card-body li { font-size: 1rem; }
+}

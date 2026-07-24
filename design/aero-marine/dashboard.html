@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;600;800&amp;family=Manrope:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed-variant": "#005964",
+              "inverse-on-surface": "#9b9d9e",
+              "surface-container-highest": "#dadddf",
+              "tertiary-dim": "#5d4f00",
+              "secondary-fixed": "#26e6ff",
+              "outline": "#757778",
+              "inverse-primary": "#cffc00",
+              "background": "#f5f6f7",
+              "secondary-fixed-dim": "#00d7f0",
+              "on-primary-container": "#4b5e00",
+              "on-error": "#ffefec",
+              "on-background": "#2c2f30",
+              "error-container": "#f95630",
+              "on-secondary": "#d8f8ff",
+              "tertiary-fixed-dim": "#efd138",
+              "primary-fixed-dim": "#c2ed00",
+              "surface-dim": "#d1d5d7",
+              "on-tertiary-container": "#5d4f00",
+              "on-secondary-fixed": "#003a42",
+              "secondary": "#006571",
+              "outline-variant": "#abadae",
+              "on-tertiary": "#fff3c8",
+              "on-tertiary-fixed": "#483d00",
+              "secondary-container": "#26e6ff",
+              "surface-variant": "#dadddf",
+              "tertiary": "#6b5b00",
+              "primary-fixed": "#cffc00",
+              "surface-bright": "#f5f6f7",
+              "on-primary-fixed": "#3b4a00",
+              "tertiary-fixed": "#fedf46",
+              "primary-container": "#cffc00",
+              "error": "#b02500",
+              "surface-tint": "#506300",
+              "primary": "#506300",
+              "on-tertiary-fixed-variant": "#685900",
+              "primary-dim": "#455600",
+              "on-primary": "#e2ff81",
+              "on-error-container": "#520c00",
+              "secondary-dim": "#005863",
+              "surface": "#f5f6f7",
+              "inverse-surface": "#0c0f10",
+              "on-surface-variant": "#595c5d",
+              "error-dim": "#b92902",
+              "surface-container-lowest": "#ffffff",
+              "on-surface": "#2c2f30",
+              "on-secondary-container": "#004f59",
+              "on-primary-fixed-variant": "#546800",
+              "tertiary-container": "#fedf46",
+              "surface-container-high": "#e0e3e4",
+              "surface-container-low": "#eff1f2",
+              "surface-container": "#e6e8ea"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+      }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body min-h-screen selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top Navigation Bar -->
+<header class="bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl docked full-width top-0 sticky z-50">
+<nav class="flex justify-between items-center w-full px-8 py-4 max-w-screen-2xl mx-auto">
+<div class="text-2xl font-black tracking-tighter text-[#506300] dark:text-[#cffc00]">AERO MARINE</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-[#506300] dark:text-[#cffc00] font-bold border-b-2 border-[#506300] dark:border-[#cffc00] pb-1" href="#">Dashboard</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-[#506300] dark:hover:text-[#cffc00] transition-colors" href="#">Itinerary</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-[#506300] dark:hover:text-[#cffc00] transition-colors" href="#">Safety</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-[#506300] dark:hover:text-[#cffc00] transition-colors" href="#">Vessel</a>
+</div>
+<div class="flex items-center space-x-4">
+<button class="p-2 hover:bg-slate-100/50 dark:hover:bg-slate-800/50 transition-all rounded-full">
+<span class="material-symbols-outlined text-on-surface">notifications</span>
+</button>
+<button class="p-2 hover:bg-slate-100/50 dark:hover:bg-slate-800/50 transition-all rounded-full">
+<span class="material-symbols-outlined text-on-surface">account_circle</span>
+</button>
+</div>
+</nav>
+</header>
+<main class="relative px-6 md:px-12 py-8 max-w-screen-2xl mx-auto pb-32">
+<!-- Background Texture -->
+<div class="fixed inset-0 pointer-events-none z-[-1] overflow-hidden">
+<div class="absolute inset-0 opacity-20 grayscale brightness-125 bg-cover bg-center" data-alt="Soft blurred aerial view of clear blue ocean waves" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDX4Ps8gkhwOcpeDyEEle3GDisw3tprPd9EPnjxHCrGD45VI1Gx1jO9rD6eyGf4GaBVtvz-Hdb2JHA8Gt16C8HLFEIL0gnd4f_IzWSfPkyLxJK53y7eIhpGkqDatXdjDnH-1Pi8RqWADf4ggSeaTeWTb_ORWVv5GhVtNDdl7rXiXe1uoJHxYtkd4xx-p_oQKku_dXY36I_u6vwykxKiVOTL6v6kaSK66x-5qyS96ynCtVEVidk5ycX0mblhQB8NJLZ-tsV7QfI9HoQ')"></div>
+<div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-background to-transparent"></div>
+</div>
+<!-- Hero Section: Countdown -->
+<section class="mb-16">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<span class="font-bold text-primary tracking-[0.2em] text-xs uppercase mb-2 block">Next Voyage: Monaco Elite</span>
+<h1 class="font-headline font-extrabold text-[5rem] md:text-[8rem] leading-[0.85] tracking-[-0.04em] text-on-background">
+                        08
+                    </h1>
+<p class="font-headline font-black text-2xl md:text-4xl tracking-tight text-on-surface-variant uppercase">
+                        DAYS TO DEPARTURE
+                    </p>
+</div>
+<div class="pb-2">
+<button class="bg-primary text-on-primary px-8 py-4 rounded-full font-bold text-sm tracking-widest uppercase hover:bg-primary-dim transition-all active:scale-95">
+                        Prepare Vessel
+                    </button>
+</div>
+</div>
+</section>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-6">
+<!-- Live Telemetry Card -->
+<div class="md:col-span-2 md:row-span-2 glass-card rounded-[2.5rem] p-10 flex flex-col justify-between shadow-[0_20px_40px_rgba(0,0,0,0.04)] border border-white/40">
+<div>
+<div class="flex items-center justify-between mb-8">
+<span class="bg-primary-container text-on-primary-container text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-tighter">Live Status</span>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">speed</span>
+</div>
+<div class="space-y-12">
+<div>
+<p class="text-on-surface-variant font-bold text-[10px] uppercase tracking-widest mb-1">Current Speed</p>
+<div class="flex items-baseline gap-2">
+<span class="font-headline font-extrabold text-7xl text-on-background">32.4</span>
+<span class="text-2xl font-bold text-on-surface-variant">KN</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-8">
+<div>
+<p class="text-on-surface-variant font-bold text-[10px] uppercase tracking-widest mb-1">Wind Speed</p>
+<span class="text-3xl font-bold text-on-background">14.2 kt</span>
+</div>
+<div>
+<p class="text-on-surface-variant font-bold text-[10px] uppercase tracking-widest mb-1">Sea State</p>
+<span class="text-3xl font-bold text-on-background">Slight</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-8 pt-8 border-t border-slate-200/50">
+<p class="text-on-surface-variant font-bold text-[10px] uppercase tracking-widest mb-4">Position Tracking</p>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">explore</span>
+</div>
+<div class="font-headline font-bold text-lg tracking-tight">
+                            43° 44' 15" N, 7° 25' 28" E
+                        </div>
+</div>
+</div>
+</div>
+<!-- Navigation Cards (Liquid Glass) -->
+<div class="glass-card rounded-[2.5rem] p-8 flex flex-col justify-between border border-white/40 shadow-sm group hover:bg-primary-container/20 transition-all cursor-pointer">
+<div class="w-12 h-12 rounded-full bg-white flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary">map</span>
+</div>
+<div>
+<h3 class="font-headline font-extrabold text-2xl mb-1">Itinerary</h3>
+<p class="text-xs text-on-surface-variant font-medium">3 Waypoints Remaining</p>
+</div>
+</div>
+<div class="glass-card rounded-[2.5rem] p-8 flex flex-col justify-between border border-white/40 shadow-sm group hover:bg-error-container/10 transition-all cursor-pointer">
+<div class="w-12 h-12 rounded-full bg-white flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-error">emergency</span>
+</div>
+<div>
+<h3 class="font-headline font-extrabold text-2xl mb-1 text-on-background">Safety</h3>
+<p class="text-xs text-error font-bold uppercase tracking-tighter">System Check Req.</p>
+</div>
+</div>
+<!-- Full Width Tech Card -->
+<div class="md:col-span-2 glass-card rounded-[2.5rem] p-8 flex items-center justify-between border border-white/40 shadow-sm">
+<div class="flex items-center gap-6">
+<div class="relative w-16 h-16">
+<svg class="w-full h-full -rotate-90">
+<circle class="text-slate-200" cx="32" cy="32" fill="none" r="28" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-primary" cx="32" cy="32" fill="none" r="28" stroke="currentColor" stroke-dasharray="175.9" stroke-dashoffset="44" stroke-width="4"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="text-[10px] font-black">75%</span>
+</div>
+</div>
+<div>
+<h4 class="font-headline font-extrabold text-xl">Fuel Reserves</h4>
+<p class="text-xs text-on-surface-variant">Range: 420 Nautical Miles</p>
+</div>
+</div>
+<div class="flex -space-x-3">
+<div class="w-10 h-10 rounded-full border-4 border-white bg-slate-200 overflow-hidden" data-alt="Crew member portrait">
+<img alt="Crew" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmll7HfCx7XzAQ_J3ZiDVsJkCiABCkgGx7enkfwoUDFpKUwNNojEfWz_wPBclpcA7RoDPxF0SLCmEWZXSHaKkPQZ3U9NC2tqfaDPit4UFBhxi-iPEfDZdRiyzVrrX5K6KpPOxO-gY7LzT9quxxkhEQDdmAsH5IH3RsYW6oBVP3cxRuxjrNk47aoUd6kk-DwObLvfFwIIdufMym0pMQJdMElltTBBYZlGS6l_pBDHwCW0FjPljKKMQO9UfDfE9-8-jfkK63g3ffFm8"/>
+</div>
+<div class="w-10 h-10 rounded-full border-4 border-white bg-slate-200 overflow-hidden" data-alt="Crew member portrait">
+<img alt="Crew" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALzI0kZw0YhWqoZl-ed0peJHMsfzuZpW4c0A801NSgX-X3X11srkN0Vk2XD-gnztchDB9CUkEJ6XqGuA5LrJxldLWmXWqSP4MRqP-_UtsMrYK6hslLzJ6Fglon1EmDM48V5-JrOr03Uq4RQZ8d9nlMEQqyGVpI5CKZWpyUY88YXLTD_A2i81yY-HIlhe-HGey2lRYRpsTZWlRMAdFWPnbCOV7DqHHwcTkMNbZG7mx9EMO5elJyhBChyA3b9qkQ-3LvX_28UwjNWrY"/>
+</div>
+<div class="w-10 h-10 rounded-full border-4 border-white bg-primary text-on-primary flex items-center justify-center text-[10px] font-bold">
+                        +4
+                    </div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 rounded-t-[2rem] bg-white/70 backdrop-blur-2xl flex justify-around items-center px-4 pb-8 pt-4 shadow-[0_-10px_40px_rgba(0,0,0,0.04)]">
+<a class="flex flex-col items-center justify-center bg-[#506300] text-white rounded-full px-6 py-2 transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">speed</span>
+<span class="text-[10px] font-bold uppercase tracking-widest mt-1">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 px-4 py-2 hover:text-[#506300]" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="text-[10px] font-bold uppercase tracking-widest mt-1">Itinerary</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 px-4 py-2 hover:text-[#506300]" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-[10px] font-bold uppercase tracking-widest mt-1">Crew</span>
+</a>
+</nav>
+<!-- Footer -->
+<footer class="bg-slate-100 dark:bg-slate-950 full-width py-12 px-8">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="text-lg font-black text-slate-900 dark:text-slate-100">AERO MARINE</div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="text-slate-400 dark:text-slate-600 text-xs font-medium tracking-tight hover:text-slate-900 transition-colors" href="#">Vessel Specs</a>
+<a class="text-slate-400 dark:text-slate-600 text-xs font-medium tracking-tight hover:text-slate-900 transition-colors" href="#">Privacy</a>
+<a class="text-slate-400 dark:text-slate-600 text-xs font-medium tracking-tight hover:text-slate-900 transition-colors" href="#">Terms of Service</a>
+<a class="text-slate-400 dark:text-slate-600 text-xs font-medium tracking-tight hover:text-slate-900 transition-colors" href="#">Contact</a>
+</div>
+<div class="text-slate-400 dark:text-slate-600 text-xs font-medium tracking-tight">© 2024 AERO MARINE PERF.</div>
+</div>
+</footer>
+</body></html>
