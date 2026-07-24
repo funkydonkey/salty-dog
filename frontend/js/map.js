@@ -69,7 +69,7 @@ var SaltyMap = (function () {
     container.innerHTML =
       '<div class="map-placeholder">' +
         '<div class="map-placeholder-icon">&#x1F30A;</div>' +
-        '<p class="map-placeholder-text">&#x41C;&#x430;&#x440;&#x448;&#x440;&#x443;&#x442; &#x431;&#x443;&#x434;&#x435;&#x442; &#x434;&#x43E;&#x431;&#x430;&#x432;&#x43B;&#x435;&#x43D; &#x43F;&#x43E;&#x437;&#x436;&#x435;</p>' +
+        '<p class="map-placeholder-text">Капитан думает об этом, как надумает — так контент появится</p>' +
       '</div>';
   }
 
