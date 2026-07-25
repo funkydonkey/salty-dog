@@ -616,6 +616,10 @@ var SaltyTemplates = (function () {
       }
 
       html += '</div>';
+
+      if (cat.note) {
+        html += '<div class="tpl-placeholder">' + escLink(cat.note) + '</div>';
+      }
     }
 
     return html;

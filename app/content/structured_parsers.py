@@ -463,7 +463,7 @@ def parse_equipment_checklist(md: str) -> dict:
         cat_match = re.match(r"^##\s+(.+)$", stripped)
         if cat_match:
             cat_name = cat_match.group(1).strip()
-            current_cat = {"name": cat_name, "subcategories": []}
+            current_cat = {"name": cat_name, "subcategories": [], "note": ""}
             categories.append(current_cat)
             current_subcat = None
             continue
@@ -474,6 +474,11 @@ def parse_equipment_checklist(md: str) -> dict:
             subcat_name = subcat_match.group(1).strip()
             current_subcat = {"name": subcat_name, "items": []}
             current_cat["subcategories"].append(current_subcat)
+            continue
+
+        # Цитата-заметка (например, предупреждение)
+        if stripped.startswith(">") and current_cat:
+            current_cat["note"] = _clean_bold(stripped.lstrip("> ").strip())
             continue
 
         # Чекбокс-элемент

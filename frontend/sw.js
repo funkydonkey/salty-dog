@@ -10,7 +10,7 @@
 
 // Cache version — update this when deploying new frontend assets.
 // The content hash from the API is separate; this is for the app shell.
-var CACHE_VERSION = 'saltydog-v18';
+var CACHE_VERSION = 'saltydog-v19';
 var CACHE_NAME = CACHE_VERSION;
 var TILE_CACHE_NAME = 'saltydog-tiles-v1';
 
