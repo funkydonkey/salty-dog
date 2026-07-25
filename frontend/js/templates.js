@@ -806,28 +806,6 @@ var SaltyTemplates = (function () {
     var facts = data.facts || {};
     var factKeys = Object.keys(facts);
 
-    // Short summary — a handful of key facts, always visible
-    var shortKeys = ['Каюты', 'Спальных мест', 'Гальюнов', 'Бак воды'];
-    var shownShort = shortKeys.filter(function (k) { return facts[k]; });
-    if (shownShort.length > 0) {
-      html += '<div class="bento-grid">';
-      html += '<div class="bento-card bento-card--wide">';
-      html += '<div class="bento-card__label">Кратко</div>';
-      for (var sk = 0; sk < shownShort.length; sk++) {
-        var skey = shownShort[sk];
-        html += '<div class="bento-card__row">';
-        html += '<span class="bento-card__row-label">' + escLink(skey) + '</span>';
-        html += '<span class="bento-card__row-value">' + escLink(facts[skey]) + '</span>';
-        html += '</div>';
-      }
-      html += '</div>';
-      html += '</div>';
-    }
-
-    html += '<details class="tpl-details">';
-    html += '<summary class="tpl-details__summary">Подробнее о лодке</summary>';
-
-    // Full facts
     if (factKeys.length > 0) {
       html += '<div class="bento-grid">';
       html += '<div class="bento-card bento-card--wide">';
@@ -880,8 +858,6 @@ var SaltyTemplates = (function () {
       }
       html += '</div>';
     }
-
-    html += '</details>';
 
     return html;
   }
