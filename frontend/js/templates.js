@@ -342,8 +342,9 @@ var SaltyTemplates = (function () {
       html += '<div class="contact-card__title">\u0411\u043E\u043B\u044C\u043D\u0438\u0446\u044B</div>';
       for (var h = 0; h < hospitals.length; h++) {
         var hosp = hospitals[h];
+        var hospLabel = (hosp['\u0413\u043E\u0440\u043E\u0434'] || '') + (hasValue(hosp['\u0411\u043E\u043B\u044C\u043D\u0438\u0446\u0430']) ? ' \u2014 ' + hosp['\u0411\u043E\u043B\u044C\u043D\u0438\u0446\u0430'] : '');
         html += '<div class="contact-card__row">';
-        html += '<span class="contact-card__service">' + esc(hosp['\u0413\u043E\u0440\u043E\u0434'] || '') + '</span>';
+        html += '<span class="contact-card__service">' + esc(hospLabel) + '</span>';
         html += '<span class="contact-card__number">' + esc(hosp['\u0422\u0435\u043B\u0435\u0444\u043E\u043D'] || '') + '</span>';
         html += '</div>';
       }
