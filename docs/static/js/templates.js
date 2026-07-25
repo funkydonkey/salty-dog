@@ -111,8 +111,8 @@ var SaltyTemplates = (function () {
       html += '<div class="' + markerClass + '">' + pad2(d.day) + '</div>';
       html += '<div class="timeline__step-number">' + pad2(d.day) + '</div>';
       html += '<div class="timeline__card">';
-      html += '<div class="timeline__day-title">' + esc(dayLabel);
-      if (d.title) html += ' \u2014 ' + esc(d.title);
+      html += '<div class="timeline__day-title">' + escLink(dayLabel);
+      if (d.title) html += ' \u2014 ' + escLink(d.title);
       html += '</div>';
 
       // Details
@@ -129,8 +129,8 @@ var SaltyTemplates = (function () {
         for (var k = 0; k < details.length; k++) {
           if (hasValue(details[k][1])) {
             html += '<div class="timeline__detail-row">';
-            html += '<span class="timeline__detail-key">' + esc(details[k][0]) + '</span>';
-            html += '<span class="timeline__detail-value">' + esc(details[k][1]) + '</span>';
+            html += '<span class="timeline__detail-key">' + escLink(details[k][0]) + '</span>';
+            html += '<span class="timeline__detail-value">' + escLink(details[k][1]) + '</span>';
             html += '</div>';
           }
         }
@@ -140,7 +140,7 @@ var SaltyTemplates = (function () {
       if (d.bullets && d.bullets.length > 0) {
         html += '<ul class="timeline__bullets">';
         for (var b = 0; b < d.bullets.length; b++) {
-          html += '<li>' + esc(d.bullets[b]) + '</li>';
+          html += '<li>' + escLink(d.bullets[b]) + '</li>';
         }
         html += '</ul>';
       }
@@ -154,7 +154,7 @@ var SaltyTemplates = (function () {
       if (badges.length > 0) {
         html += '<div class="timeline__badges">';
         for (var bi = 0; bi < badges.length; bi++) {
-          html += '<span class="timeline__badge timeline__badge--' + badges[bi].type + '">' + esc(badges[bi].text) + '</span>';
+          html += '<span class="timeline__badge timeline__badge--' + badges[bi].type + '">' + escLink(badges[bi].text) + '</span>';
         }
         html += '</div>';
       }
@@ -192,8 +192,8 @@ var SaltyTemplates = (function () {
       for (var a = 0; a < airports.length; a++) {
         var ap = airports[a];
         html += '<div class="bento-card__row">';
-        html += '<span class="bento-card__row-label">' + esc(ap['\u0410\u044D\u0440\u043E\u043F\u043E\u0440\u0442'] || '') + '</span>';
-        html += '<span class="bento-card__row-value">' + esc(ap['\u041A\u043E\u0434'] || '') + '</span>';
+        html += '<span class="bento-card__row-label">' + escLink(ap['\u0410\u044D\u0440\u043E\u043F\u043E\u0440\u0442'] || '') + '</span>';
+        html += '<span class="bento-card__row-value">' + escLink(ap['\u041A\u043E\u0434'] || '') + '</span>';
         html += '</div>';
       }
       html += '</div>';
@@ -210,8 +210,8 @@ var SaltyTemplates = (function () {
         var from = fl['\u041E\u0442\u043A\u0443\u0434\u0430'] || '';
         if (hasValue(who) || hasValue(from)) {
           html += '<div class="bento-card__row">';
-          html += '<span class="bento-card__row-label">' + esc(who) + '</span>';
-          html += '<span class="bento-card__row-value">' + esc(from) + '</span>';
+          html += '<span class="bento-card__row-label">' + escLink(who) + '</span>';
+          html += '<span class="bento-card__row-value">' + escLink(from) + '</span>';
           html += '</div>';
         }
       }
@@ -230,8 +230,8 @@ var SaltyTemplates = (function () {
       for (var t = 0; t < transfers.length; t++) {
         var tr = transfers[t];
         html += '<div class="bento-card__row">';
-        html += '<span class="bento-card__row-label">' + esc(tr['\u0412\u0430\u0440\u0438\u0430\u043D\u0442'] || '') + '</span>';
-        html += '<span class="bento-card__row-value">' + esc(tr['\u0426\u0435\u043D\u0430'] || '') + '</span>';
+        html += '<span class="bento-card__row-label">' + escLink(tr['\u0412\u0430\u0440\u0438\u0430\u043D\u0442'] || '') + '</span>';
+        html += '<span class="bento-card__row-value">' + escLink(tr['\u0426\u0435\u043D\u0430'] || '') + '</span>';
         html += '</div>';
       }
       html += '</div>';
@@ -245,7 +245,7 @@ var SaltyTemplates = (function () {
       html += '<div class="bento-card__label">\u0420\u0443\u0447\u043D\u0430\u044F \u043A\u043B\u0430\u0434\u044C</div>';
       for (var c = 0; c < carryOn.length; c++) {
         html += '<div class="bento-card__row">';
-        html += '<span class="bento-card__row-label">' + esc(carryOn[c]) + '</span>';
+        html += '<span class="bento-card__row-label">' + escLink(carryOn[c]) + '</span>';
         html += '</div>';
       }
       html += '</div>';
@@ -277,7 +277,7 @@ var SaltyTemplates = (function () {
 
       html += '<div class="protocol-card' + (isEmergency ? ' protocol-card--emergency' : '') + '">';
       html += '<div class="protocol-card__header">';
-      html += '<div class="protocol-card__title">' + esc(sec.title) + '</div>';
+      html += '<div class="protocol-card__title">' + escLink(sec.title) + '</div>';
       html += '<div class="protocol-card__badge">' + pad2(sec.number) + '</div>';
       html += '</div>';
 
@@ -326,8 +326,8 @@ var SaltyTemplates = (function () {
         var isMain = num.indexOf('**') >= 0 || num === '112' || num.indexOf('112') >= 0;
         var cleanNum = num.replace(/\*\*/g, '');
         html += '<div class="contact-card__row">';
-        html += '<span class="contact-card__service">' + esc((svc['\u0421\u043B\u0443\u0436\u0431\u0430'] || '').replace(/\*\*/g, '')) + '</span>';
-        html += '<span class="contact-card__number' + (isMain ? ' contact-card__number--prominent' : '') + '">' + esc(cleanNum) + '</span>';
+        html += '<span class="contact-card__service">' + escLink((svc['\u0421\u043B\u0443\u0436\u0431\u0430'] || '').replace(/\*\*/g, '')) + '</span>';
+        html += '<span class="contact-card__number' + (isMain ? ' contact-card__number--prominent' : '') + '">' + escLink(cleanNum) + '</span>';
         html += '</div>';
       }
       html += '</div>';
@@ -344,8 +344,8 @@ var SaltyTemplates = (function () {
         var hosp = hospitals[h];
         var hospLabel = (hosp['\u0413\u043E\u0440\u043E\u0434'] || '') + (hasValue(hosp['\u0411\u043E\u043B\u044C\u043D\u0438\u0446\u0430']) ? ' \u2014 ' + hosp['\u0411\u043E\u043B\u044C\u043D\u0438\u0446\u0430'] : '');
         html += '<div class="contact-card__row">';
-        html += '<span class="contact-card__service">' + esc(hospLabel) + '</span>';
-        html += '<span class="contact-card__number">' + esc(hosp['\u0422\u0435\u043B\u0435\u0444\u043E\u043D'] || '') + '</span>';
+        html += '<span class="contact-card__service">' + escLink(hospLabel) + '</span>';
+        html += '<span class="contact-card__number">' + escLink(hosp['\u0422\u0435\u043B\u0435\u0444\u043E\u043D'] || '') + '</span>';
         html += '</div>';
       }
       html += '</div>';
@@ -361,8 +361,8 @@ var SaltyTemplates = (function () {
         var cv = charter[charterKeys[ck]];
         if (hasValue(cv)) {
           html += '<div class="contact-card__row">';
-          html += '<span class="contact-card__service">' + esc(charterKeys[ck]) + '</span>';
-          html += '<span class="contact-card__number">' + esc(cv) + '</span>';
+          html += '<span class="contact-card__service">' + escLink(charterKeys[ck]) + '</span>';
+          html += '<span class="contact-card__number">' + escLink(cv) + '</span>';
           html += '</div>';
         }
       }
@@ -381,8 +381,8 @@ var SaltyTemplates = (function () {
       html += '<div class="vhf-grid">';
       for (var v = 0; v < vhf.length; v++) {
         html += '<div class="vhf-card">';
-        html += '<div class="vhf-card__channel">' + esc(vhf[v]['\u041A\u0430\u043D\u0430\u043B'] || '') + '</div>';
-        html += '<div class="vhf-card__label">' + esc(vhf[v]['\u041D\u0430\u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435'] || '') + '</div>';
+        html += '<div class="vhf-card__channel">' + escLink(vhf[v]['\u041A\u0430\u043D\u0430\u043B'] || '') + '</div>';
+        html += '<div class="vhf-card__label">' + escLink(vhf[v]['\u041D\u0430\u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435'] || '') + '</div>';
         html += '</div>';
       }
       html += '</div>';
@@ -410,7 +410,7 @@ var SaltyTemplates = (function () {
       for (var r = 0; r < rules.length; r++) {
         html += '<div class="rules-list__item">';
         html += '<span class="rules-list__number">' + pad2(r + 1) + '</span>';
-        html += '<span class="rules-list__text">' + esc(rules[r]) + '</span>';
+        html += '<span class="rules-list__text">' + escLink(rules[r]) + '</span>';
         html += '</div>';
       }
       html += '</div>';
@@ -426,7 +426,7 @@ var SaltyTemplates = (function () {
         var doneClass = eq.checked ? ' checklist-card__item--done' : '';
         html += '<div class="checklist-card__item' + doneClass + '">';
         html += '<div class="checklist-card__item-check"></div>';
-        html += '<span>' + esc(eq.text) + '</span>';
+        html += '<span>' + escLink(eq.text) + '</span>';
         html += '</div>';
       }
       html += '</div>';
@@ -444,9 +444,9 @@ var SaltyTemplates = (function () {
         var items = activities[catName];
         var icon = icons[catName] || 'interests';
         html += '<div class="activity-card">';
-        html += '<div class="activity-card__title"><span class="material-symbols-outlined" style="font-size: 1.125rem;">' + icon + '</span>' + esc(catName) + '</div>';
+        html += '<div class="activity-card__title"><span class="material-symbols-outlined" style="font-size: 1.125rem;">' + icon + '</span>' + escLink(catName) + '</div>';
         for (var aii = 0; aii < items.length; aii++) {
-          html += '<div class="activity-card__item">' + esc(items[aii]) + '</div>';
+          html += '<div class="activity-card__item">' + escLink(items[aii]) + '</div>';
         }
         html += '</div>';
       }
@@ -461,8 +461,8 @@ var SaltyTemplates = (function () {
       for (var si = 0; si < schedule.length; si++) {
         var sch = schedule[si];
         html += '<div class="bento-card__row">';
-        html += '<span class="bento-card__row-label">' + esc(sch['\u0412\u0440\u0435\u043C\u044F'] || '') + '</span>';
-        html += '<span class="bento-card__row-value">' + esc(sch['\u0410\u043A\u0442\u0438\u0432\u043D\u043E\u0441\u0442\u044C'] || '') + '</span>';
+        html += '<span class="bento-card__row-label">' + escLink(sch['\u0412\u0440\u0435\u043C\u044F'] || '') + '</span>';
+        html += '<span class="bento-card__row-value">' + escLink(sch['\u0410\u043A\u0442\u0438\u0432\u043D\u043E\u0441\u0442\u044C'] || '') + '</span>';
         html += '</div>';
       }
       html += '</div>';
@@ -507,9 +507,9 @@ var SaltyTemplates = (function () {
         html += '<div class="crew-card">';
         html += '<div class="crew-card__avatar">' + esc(initials) + '</div>';
         html += '<div class="crew-card__info">';
-        html += '<div class="crew-card__name">' + (hasValue(name) ? esc(name) : '\u0423\u0447\u0430\u0441\u0442\u043D\u0438\u043A ' + esc(mem['#'] || '')) + '</div>';
-        if (hasValue(role)) html += '<span class="crew-card__role">' + esc(role) + '</span>';
-        if (hasValue(exp)) html += '<div class="crew-card__detail">' + esc(exp) + '</div>';
+        html += '<div class="crew-card__name">' + (hasValue(name) ? escLink(name) : '\u0423\u0447\u0430\u0441\u0442\u043D\u0438\u043A ' + escLink(mem['#'] || '')) + '</div>';
+        if (hasValue(role)) html += '<span class="crew-card__role">' + escLink(role) + '</span>';
+        if (hasValue(exp)) html += '<div class="crew-card__detail">' + escLink(exp) + '</div>';
         html += '</div></div>';
       }
       html += '</div>';
@@ -522,7 +522,7 @@ var SaltyTemplates = (function () {
       html += '<div class="bento-card">';
       for (var ri = 0; ri < roles.length; ri++) {
         html += '<div class="bento-card__row">';
-        html += '<span class="bento-card__row-label">' + esc(roles[ri]) + '</span>';
+        html += '<span class="bento-card__row-label">' + escLink(roles[ri]) + '</span>';
         html += '</div>';
       }
       html += '</div>';
@@ -541,8 +541,8 @@ var SaltyTemplates = (function () {
       for (var w = 0; w < watch.length; w++) {
         var ws = watch[w];
         html += '<div class="bento-card__row">';
-        html += '<span class="bento-card__row-label">' + esc(ws['\u0412\u0440\u0435\u043C\u044F'] || '') + '</span>';
-        html += '<span class="bento-card__row-value">' + esc(ws['\u0417\u0430\u0434\u0430\u0447\u0438'] || '') + '</span>';
+        html += '<span class="bento-card__row-label">' + escLink(ws['\u0412\u0440\u0435\u043C\u044F'] || '') + '</span>';
+        html += '<span class="bento-card__row-value">' + escLink(ws['\u0417\u0430\u0434\u0430\u0447\u0438'] || '') + '</span>';
         html += '</div>';
       }
       html += '</div>';
@@ -556,8 +556,8 @@ var SaltyTemplates = (function () {
       for (var lj = 0; lj < jackets.length; lj++) {
         var jk = jackets[lj];
         html += '<div class="bento-card__row">';
-        html += '<span class="bento-card__row-label">' + esc(jk['\u0420\u0435\u0431\u0451\u043D\u043E\u043A'] || '') + '</span>';
-        html += '<span class="bento-card__row-value">' + esc(jk['\u0420\u0430\u0437\u043C\u0435\u0440 \u0436\u0438\u043B\u0435\u0442\u0430'] || '') + '</span>';
+        html += '<span class="bento-card__row-label">' + escLink(jk['\u0420\u0435\u0431\u0451\u043D\u043E\u043A'] || '') + '</span>';
+        html += '<span class="bento-card__row-value">' + escLink(jk['\u0420\u0430\u0437\u043C\u0435\u0440 \u0436\u0438\u043B\u0435\u0442\u0430'] || '') + '</span>';
         html += '</div>';
       }
       html += '</div>';
@@ -584,7 +584,7 @@ var SaltyTemplates = (function () {
 
     for (var c = 0; c < categories.length; c++) {
       var cat = categories[c];
-      html += '<div class="tpl-section-title">' + esc(cat.name) + '</div>';
+      html += '<div class="tpl-section-title">' + escLink(cat.name) + '</div>';
       html += '<div class="checklist-grid">';
 
       var subcats = cat.subcategories || [];
@@ -598,7 +598,7 @@ var SaltyTemplates = (function () {
         html += '<div class="checklist-card">';
         html += '<div class="checklist-card__header">';
         if (showSubTitle) {
-          html += '<span class="checklist-card__title">' + esc(sub.name) + '</span>';
+          html += '<span class="checklist-card__title">' + escLink(sub.name) + '</span>';
         }
         html += '<span class="checklist-card__count">' + checked + '/' + total + '</span>';
         html += '</div>';
@@ -640,7 +640,7 @@ var SaltyTemplates = (function () {
       for (var s = 0; s < shopping.length; s++) {
         var cat = shopping[s];
         html += '<div class="provisions-card">';
-        html += '<div class="provisions-card__title">' + esc(cat.category) + '</div>';
+        html += '<div class="provisions-card__title">' + escLink(cat.category) + '</div>';
 
         var items = cat.items || [];
         for (var i = 0; i < items.length; i++) {
@@ -648,9 +648,9 @@ var SaltyTemplates = (function () {
           var product = item['\u041F\u0440\u043E\u0434\u0443\u043A\u0442'] || '';
           var qty = item['\u041A\u043E\u043B-\u0432\u043E'] || item['\u041A\u043E\u043B\u044C\u0447\u0435\u0441\u0442\u0432\u043E'] || '';
           html += '<div class="provisions-card__item">';
-          html += '<span class="provisions-card__product">' + esc(product) + '</span>';
+          html += '<span class="provisions-card__product">' + escLink(product) + '</span>';
           if (hasValue(qty)) {
-            html += '<span class="provisions-card__qty">' + esc(qty) + '</span>';
+            html += '<span class="provisions-card__qty">' + escLink(qty) + '</span>';
           }
           html += '</div>';
         }
@@ -668,10 +668,10 @@ var SaltyTemplates = (function () {
       for (var mp = 0; mp < mealPlan.length; mp++) {
         var meal = mealPlan[mp];
         html += '<div class="meal-plan-row">';
-        html += '<span class="meal-plan-row__day">' + esc(meal['\u0414\u0435\u043D\u044C'] || '') + '</span>';
-        html += '<span class="meal-plan-row__meal">' + esc(meal['\u0417\u0430\u0432\u0442\u0440\u0430\u043A'] || '') + '</span>';
-        html += '<span class="meal-plan-row__meal">' + esc(meal['\u041E\u0431\u0435\u0434'] || '') + '</span>';
-        html += '<span class="meal-plan-row__meal">' + esc(meal['\u0423\u0436\u0438\u043D'] || '') + '</span>';
+        html += '<span class="meal-plan-row__day">' + escLink(meal['\u0414\u0435\u043D\u044C'] || '') + '</span>';
+        html += '<span class="meal-plan-row__meal">' + escLink(meal['\u0417\u0430\u0432\u0442\u0440\u0430\u043A'] || '') + '</span>';
+        html += '<span class="meal-plan-row__meal">' + escLink(meal['\u041E\u0431\u0435\u0434'] || '') + '</span>';
+        html += '<span class="meal-plan-row__meal">' + escLink(meal['\u0423\u0436\u0438\u043D'] || '') + '</span>';
         html += '</div>';
       }
       html += '</div>';
@@ -684,7 +684,7 @@ var SaltyTemplates = (function () {
       html += '<div class="bento-card">';
       for (var rs = 0; rs < restock.length; rs++) {
         html += '<div class="bento-card__row">';
-        html += '<span class="bento-card__row-label">' + esc(restock[rs]) + '</span>';
+        html += '<span class="bento-card__row-label">' + escLink(restock[rs]) + '</span>';
         html += '</div>';
       }
       html += '</div>';
@@ -711,7 +711,7 @@ var SaltyTemplates = (function () {
       html += '<div class="countdown__unit">дней до выхода</div>';
       html += '</div>';
     } else {
-      html += '<div class="page-hero__title">' + esc((tripData && tripData.boat) || 'Trip overview') + '</div>';
+      html += '<div class="page-hero__title">' + escLink((tripData && tripData.boat) || 'Trip overview') + '</div>';
     }
     html += '</div>';
 
@@ -726,7 +726,7 @@ var SaltyTemplates = (function () {
         var key = factKeys[fk];
         html += '<div class="bento-card__row">';
         html += '<span class="bento-card__row-label">' + esc(key) + '</span>';
-        html += '<span class="bento-card__row-value">' + esc(facts[key]) + '</span>';
+        html += '<span class="bento-card__row-value">' + escLink(facts[key]) + '</span>';
         html += '</div>';
       }
       html += '</div>';
@@ -780,9 +780,9 @@ var SaltyTemplates = (function () {
           html += '<div class="crew-card">';
           html += '<div class="crew-card__avatar">' + esc(initials) + '</div>';
           html += '<div class="crew-card__info">';
-          html += '<div class="crew-card__name">' + esc(name) + '</div>';
-          if (hasValue(phone)) html += '<span class="crew-card__role">' + esc(phone) + '</span>';
-          if (hasValue(diet)) html += '<div class="crew-card__detail">' + esc(diet) + '</div>';
+          html += '<div class="crew-card__name">' + escLink(name) + '</div>';
+          if (hasValue(phone)) html += '<span class="crew-card__role">' + escLink(phone) + '</span>';
+          if (hasValue(diet)) html += '<div class="crew-card__detail">' + escLink(diet) + '</div>';
           html += '</div></div>';
         }
         html += '</div>';
@@ -800,7 +800,7 @@ var SaltyTemplates = (function () {
     var html = '';
     html += '<div class="page-hero">';
     html += '<div class="page-hero__label">О лодке</div>';
-    html += '<div class="page-hero__title">' + esc((tripData && tripData.boat) || 'Boat') + '</div>';
+    html += '<div class="page-hero__title">' + escLink((tripData && tripData.boat) || 'Boat') + '</div>';
     html += '</div>';
 
     var facts = data.facts || {};
@@ -816,8 +816,8 @@ var SaltyTemplates = (function () {
       for (var sk = 0; sk < shownShort.length; sk++) {
         var skey = shownShort[sk];
         html += '<div class="bento-card__row">';
-        html += '<span class="bento-card__row-label">' + esc(skey) + '</span>';
-        html += '<span class="bento-card__row-value">' + esc(facts[skey]) + '</span>';
+        html += '<span class="bento-card__row-label">' + escLink(skey) + '</span>';
+        html += '<span class="bento-card__row-value">' + escLink(facts[skey]) + '</span>';
         html += '</div>';
       }
       html += '</div>';
@@ -836,7 +836,7 @@ var SaltyTemplates = (function () {
         var key = factKeys[fk];
         html += '<div class="bento-card__row">';
         html += '<span class="bento-card__row-label">' + esc(key) + '</span>';
-        html += '<span class="bento-card__row-value">' + esc(facts[key]) + '</span>';
+        html += '<span class="bento-card__row-value">' + escLink(facts[key]) + '</span>';
         html += '</div>';
       }
       html += '</div>';
@@ -850,14 +850,14 @@ var SaltyTemplates = (function () {
       html += '<div class="bento-card">';
       for (var a = 0; a < amenities.length; a++) {
         html += '<div class="bento-card__row">';
-        html += '<span class="bento-card__row-label">' + esc(amenities[a]) + '</span>';
+        html += '<span class="bento-card__row-label">' + escLink(amenities[a]) + '</span>';
         html += '</div>';
       }
       html += '</div>';
     }
 
     if (data.note) {
-      html += '<div class="tpl-placeholder">' + esc(data.note) + '</div>';
+      html += '<div class="tpl-placeholder">' + escLink(data.note) + '</div>';
     }
 
     // Rules by category
@@ -869,11 +869,11 @@ var SaltyTemplates = (function () {
         var cat = rules[r];
         html += '<div class="checklist-card">';
         html += '<div class="checklist-card__header">';
-        html += '<span class="checklist-card__title">' + esc(cat.name) + '</span>';
+        html += '<span class="checklist-card__title">' + escLink(cat.name) + '</span>';
         html += '</div>';
         for (var it = 0; it < cat.items.length; it++) {
           html += '<div class="checklist-card__item">';
-          html += '<span>' + esc(cat.items[it]) + '</span>';
+          html += '<span>' + escLink(cat.items[it]) + '</span>';
           html += '</div>';
         }
         html += '</div>';
@@ -907,11 +907,11 @@ var SaltyTemplates = (function () {
 
         html += '<div class="checklist-card">';
         html += '<div class="checklist-card__header">';
-        html += '<span class="checklist-card__title">' + esc(cat.name) + '</span>';
+        html += '<span class="checklist-card__title">' + escLink(cat.name) + '</span>';
         html += '<span class="checklist-card__count">' + checked + '/' + total + '</span>';
         html += '</div>';
         if (cat.note) {
-          html += '<div class="tpl-placeholder">' + esc(cat.note) + '</div>';
+          html += '<div class="tpl-placeholder">' + escLink(cat.note) + '</div>';
         }
         for (var it = 0; it < cat.items.length; it++) {
           var item = cat.items[it];
@@ -933,8 +933,8 @@ var SaltyTemplates = (function () {
       html += '<div class="bento-card">';
       for (var f = 0; f < facts.length; f++) {
         html += '<div class="bento-card__row">';
-        html += '<span class="bento-card__row-label">' + esc(facts[f].label) + '</span>';
-        html += '<span class="bento-card__row-value">' + esc(facts[f].value) + '</span>';
+        html += '<span class="bento-card__row-label">' + escLink(facts[f].label) + '</span>';
+        html += '<span class="bento-card__row-value">' + escLink(facts[f].value) + '</span>';
         html += '</div>';
       }
       html += '</div>';
@@ -946,7 +946,7 @@ var SaltyTemplates = (function () {
       html += '<div class="bento-card">';
       for (var a = 0; a < apps.length; a++) {
         html += '<div class="bento-card__row">';
-        html += '<span class="bento-card__row-label">' + esc(apps[a]) + '</span>';
+        html += '<span class="bento-card__row-label">' + escLink(apps[a]) + '</span>';
         html += '</div>';
       }
       html += '</div>';
