@@ -259,14 +259,13 @@ var SaltyTemplates = (function () {
   // safety_briefing — Protocol cards with numbered steps
   // -----------------------------------------------------------------------
 
-  function renderSafetyBriefing(data) {
+  function renderSafetyBriefing(data, page) {
     var sections = data.sections || [];
     if (sections.length === 0) return '<div class="tpl-placeholder">\u0411\u0440\u0438\u0444\u0438\u043D\u0433 \u043D\u0435 \u0437\u0430\u0433\u0440\u0443\u0436\u0435\u043D</div>';
 
     var html = '';
     html += '<div class="page-hero">';
-    html += '<div class="page-hero__title">Safety Briefing</div>';
-    html += '<div class="page-hero__subtitle">\u041F\u0440\u043E\u0432\u0435\u0441\u0442\u0438 \u043F\u0435\u0440\u0435\u0434 \u0432\u044B\u0445\u043E\u0434\u043E\u043C \u0432 \u043F\u0435\u0440\u0432\u044B\u0439 \u0434\u0435\u043D\u044C</div>';
+    html += '<div class="page-hero__title">' + escLink((page && page.title) || 'Safety Briefing') + '</div>';
     html += '</div>';
 
     html += '<div class="protocol-grid">';
@@ -721,7 +720,7 @@ var SaltyTemplates = (function () {
     if (factKeys.length > 0) {
       html += '<div class="bento-grid">';
       html += '<div class="bento-card bento-card--wide">';
-      html += '<div class="bento-card__label">На одном экране</div>';
+      html += '<div class="bento-card__label">Общая информация</div>';
       for (var fk = 0; fk < factKeys.length; fk++) {
         var key = factKeys[fk];
         html += '<div class="bento-card__row">';
@@ -806,6 +805,27 @@ var SaltyTemplates = (function () {
     var facts = data.facts || {};
     var factKeys = Object.keys(facts);
 
+    // Short summary — a handful of key facts, always visible
+    var shortKeys = ['Каюты', 'Спальных мест', 'Гальюнов', 'Бак воды'];
+    var shownShort = shortKeys.filter(function (k) { return facts[k]; });
+    if (shownShort.length > 0) {
+      html += '<div class="bento-grid">';
+      html += '<div class="bento-card bento-card--wide">';
+      html += '<div class="bento-card__label">Кратко</div>';
+      for (var sk = 0; sk < shownShort.length; sk++) {
+        var skey = shownShort[sk];
+        html += '<div class="bento-card__row">';
+        html += '<span class="bento-card__row-label">' + esc(skey) + '</span>';
+        html += '<span class="bento-card__row-value">' + escLink(facts[skey]) + '</span>';
+        html += '</div>';
+      }
+      html += '</div>';
+      html += '</div>';
+    }
+
+    html += '<details class="tpl-details">';
+    html += '<summary class="tpl-details__summary">Подробнее о лодке</summary>';
+
     if (factKeys.length > 0) {
       html += '<div class="bento-grid">';
       html += '<div class="bento-card bento-card--wide">';
@@ -858,6 +878,8 @@ var SaltyTemplates = (function () {
       }
       html += '</div>';
     }
+
+    html += '</details>';
 
     return html;
   }

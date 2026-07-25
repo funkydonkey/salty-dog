@@ -552,7 +552,7 @@ def parse_trip_overview(md: str) -> dict:
     """Парсит Trip overview: вертикальная таблица фактов + статус (чекбоксы) + ростер (таблица)."""
     result = {}
 
-    table = _find_tables_after_header(md, r"^##\s+На одном экране")
+    table = _find_tables_after_header(md, r"^##\s+Общая информация")
     if table:
         result["facts"] = _parse_vertical_table(table)
 
