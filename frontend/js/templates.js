@@ -40,12 +40,14 @@ var SaltyTemplates = (function () {
   }
 
   /**
-   * Escape text, then turn markdown-style [label](url) links into <a> tags.
-   * Use for any free-text field (checklist items, step text) that may
-   * contain a link — plain esc() alone renders the brackets literally.
+   * Escape text, then turn markdown-style [label](url) links into <a> tags
+   * and **bold** into <strong>. Use for any free-text field (checklist
+   * items, table cells, step text) that may contain markdown — plain esc()
+   * alone renders the brackets/asterisks literally.
    */
   function escLink(str) {
     var escaped = esc(str);
+    escaped = escaped.replace(/\*\*([^*]+?)\*\*/g, '<strong>$1</strong>');
     return escaped.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, function (match, label, url) {
       var href = /^https?:\/\//i.test(url) ? url : 'https://' + url;
       return '<a href="' + href + '" target="_blank" rel="noopener noreferrer">' + label + '</a>';
@@ -184,18 +186,39 @@ var SaltyTemplates = (function () {
 
     html += '<div class="bento-grid">';
 
-    // Airports
+    // Airports + Transfers share one row, half-width each
     var airports = data.airports || [];
-    if (airports.length > 0) {
-      html += '<div class="bento-card bento-card--wide">';
-      html += '<div class="bento-card__label">\u0410\u044D\u0440\u043E\u043F\u043E\u0440\u0442\u044B</div>';
-      for (var a = 0; a < airports.length; a++) {
-        var ap = airports[a];
-        html += '<div class="bento-card__row">';
-        html += '<span class="bento-card__row-label">' + escLink(ap['\u0410\u044D\u0440\u043E\u043F\u043E\u0440\u0442'] || '') + '</span>';
-        html += '<span class="bento-card__row-value">' + escLink(ap['\u041A\u043E\u0434'] || '') + '</span>';
+    var transfers = data.transfers || [];
+    if (airports.length > 0 || transfers.length > 0) {
+      html += '<div class="bento-row bento-row--wide">';
+
+      if (airports.length > 0) {
+        html += '<div class="bento-card">';
+        html += '<div class="bento-card__label">\u0410\u044D\u0440\u043E\u043F\u043E\u0440\u0442\u044B</div>';
+        for (var a = 0; a < airports.length; a++) {
+          var ap = airports[a];
+          html += '<div class="bento-card__row">';
+          html += '<span class="bento-card__row-label">' + escLink(ap['\u0410\u044D\u0440\u043E\u043F\u043E\u0440\u0442'] || '') + '</span>';
+          html += '<span class="bento-card__row-value">' + escLink(ap['\u041A\u043E\u0434'] || '') + '</span>';
+          html += '</div>';
+        }
         html += '</div>';
       }
+
+      if (transfers.length > 0) {
+        html += '<div class="bento-card">';
+        html += '<div class="bento-card__icon"><span class="material-symbols-outlined">local_taxi</span></div>';
+        html += '<div class="bento-card__label">\u0422\u0440\u0430\u043D\u0441\u0444\u0435\u0440</div>';
+        for (var t = 0; t < transfers.length; t++) {
+          var tr = transfers[t];
+          html += '<div class="bento-card__row">';
+          html += '<span class="bento-card__row-label">' + escLink(tr['\u0412\u0430\u0440\u0438\u0430\u043D\u0442'] || '') + '</span>';
+          html += '<span class="bento-card__row-value">' + escLink(tr['\u0426\u0435\u043D\u0430'] || '') + '</span>';
+          html += '</div>';
+        }
+        html += '</div>';
+      }
+
       html += '</div>';
     }
 
@@ -217,22 +240,6 @@ var SaltyTemplates = (function () {
       }
       if (!flights.some(function(fl) { return hasValue(fl['\u0423\u0447\u0430\u0441\u0442\u043D\u0438\u043A / \u0441\u0435\u043C\u044C\u044F']); })) {
         html += '<div class="tpl-placeholder">\u0414\u0430\u043D\u043D\u044B\u0435 \u043E \u043F\u0435\u0440\u0435\u043B\u0451\u0442\u0430\u0445 \u0431\u0443\u0434\u0443\u0442 \u0434\u043E\u0431\u0430\u0432\u043B\u0435\u043D\u044B</div>';
-      }
-      html += '</div>';
-    }
-
-    // Transfers
-    var transfers = data.transfers || [];
-    if (transfers.length > 0) {
-      html += '<div class="bento-card">';
-      html += '<div class="bento-card__icon"><span class="material-symbols-outlined">local_taxi</span></div>';
-      html += '<div class="bento-card__label">\u0422\u0440\u0430\u043D\u0441\u0444\u0435\u0440</div>';
-      for (var t = 0; t < transfers.length; t++) {
-        var tr = transfers[t];
-        html += '<div class="bento-card__row">';
-        html += '<span class="bento-card__row-label">' + escLink(tr['\u0412\u0430\u0440\u0438\u0430\u043D\u0442'] || '') + '</span>';
-        html += '<span class="bento-card__row-value">' + escLink(tr['\u0426\u0435\u043D\u0430'] || '') + '</span>';
-        html += '</div>';
       }
       html += '</div>';
     }

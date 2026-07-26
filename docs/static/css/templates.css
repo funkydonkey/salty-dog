@@ -113,6 +113,22 @@
   grid-column: 1 / -1;
 }
 
+/* Two half-width cards forced onto one row, even on narrow phone screens
+   (unlike .bento-grid, which is single-column below the tablet breakpoint) */
+.bento-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.bento-row--wide {
+  grid-column: 1 / -1;
+}
+
+.bento-row .bento-card {
+  padding: 16px;
+}
+
 .bento-card__label {
   font-family: var(--font-label);
   font-size: 0.5625rem;
