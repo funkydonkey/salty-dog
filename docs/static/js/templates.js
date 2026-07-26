@@ -730,16 +730,21 @@ var SaltyTemplates = (function () {
       html += '</div>';
     }
 
-    // Prep checklist ("Че сделать заранее")
+    // Prep checklist ("Че сделать заранее") — styled like a protocol card
     var prepItems = data.prep_items || [];
     if (prepItems.length > 0) {
-      html += '<div class="tpl-section-title">Че сделать заранее</div>';
-      html += '<div class="bento-card">';
+      html += '<div class="protocol-grid">';
+      html += '<div class="protocol-card">';
+      html += '<div class="protocol-card__header">';
+      html += '<div class="protocol-card__title">Че сделать заранее</div>';
+      html += '</div>';
       for (var pi = 0; pi < prepItems.length; pi++) {
-        html += '<div class="bento-card__row">';
-        html += '<span class="bento-card__row-label">' + escLink(prepItems[pi]) + '</span>';
+        html += '<div class="protocol-card__step">';
+        html += '<span class="protocol-card__step-number">' + pad2(pi + 1) + '</span>';
+        html += '<span class="protocol-card__step-text">' + escLink(prepItems[pi]) + '</span>';
         html += '</div>';
       }
+      html += '</div>';
       html += '</div>';
     }
 

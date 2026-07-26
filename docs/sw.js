@@ -11,7 +11,7 @@
  * - Map tiles (OpenStreetMap): cache-first with network fallback
  */
 
-var CACHE_VERSION = 'saltydog-pages-v14';
+var CACHE_VERSION = 'saltydog-pages-v15';
 var CACHE_NAME = CACHE_VERSION;
 var TILE_CACHE_NAME = 'saltydog-tiles-v1';
 
