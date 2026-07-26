@@ -265,6 +265,7 @@ var SaltyTemplates = (function () {
 
     var html = '';
     html += '<div class="page-hero">';
+    html += '<div class="page-hero__label">Безопасность</div>';
     html += '<div class="page-hero__title">' + escLink((page && page.title) || 'Safety Briefing') + '</div>';
     html += '</div>';
 
