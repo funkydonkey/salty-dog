@@ -546,6 +546,21 @@ def parse_trip_overview(md: str) -> dict:
     if table:
         result["facts"] = _parse_vertical_table(table)
 
+    prep_items = []
+    in_prep = False
+    for line in md.split("\n"):
+        stripped = line.strip()
+        if re.match(r"^##\s+Че\s+сделать\s+заранее", stripped, re.IGNORECASE):
+            in_prep = True
+            continue
+        if in_prep:
+            if stripped.startswith("## "):
+                break
+            bullet_match = re.match(r"^-\s+(.+)$", stripped)
+            if bullet_match:
+                prep_items.append(_clean_bold(bullet_match.group(1)))
+    result["prep_items"] = prep_items
+
     status = []
     in_status = False
     for line in md.split("\n"):

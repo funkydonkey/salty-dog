@@ -730,6 +730,19 @@ var SaltyTemplates = (function () {
       html += '</div>';
     }
 
+    // Prep checklist ("Че сделать заранее")
+    var prepItems = data.prep_items || [];
+    if (prepItems.length > 0) {
+      html += '<div class="tpl-section-title">Че сделать заранее</div>';
+      html += '<div class="bento-card">';
+      for (var pi = 0; pi < prepItems.length; pi++) {
+        html += '<div class="bento-card__row">';
+        html += '<span class="bento-card__row-label">' + escLink(prepItems[pi]) + '</span>';
+        html += '</div>';
+      }
+      html += '</div>';
+    }
+
     // Status checklist
     var status = data.status || [];
     if (status.length > 0) {
