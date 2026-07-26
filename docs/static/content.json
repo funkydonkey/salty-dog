@@ -39,12 +39,12 @@
         {
           "filename": "Trip overview",
           "title": "Обзор поездки",
-          "html_content": "<h1>Обзор поездки</h1>\n<h2>Общая информация</h2>\n<table>\n<thead>\n<tr>\n<th></th>\n<th></th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>Даты</strong></td>\n<td>10–17 октября 2026 (7 ночей / 8 дней)</td>\n</tr>\n<tr>\n<td><strong>Лодка</strong></td>\n<td>Hanse 458 «Gobun» (2019)</td>\n</tr>\n<tr>\n<td><strong>Домашняя марина</strong></td>\n<td><a href=\"https://maps.app.goo.gl/GZLgKsXjGpEMhAzy7\">D-Marin Göçek Marina, Göçek, Турция</a></td>\n</tr>\n<tr>\n<td></td>\n<td></td>\n</tr>\n<tr>\n<td><strong>Маршрут</strong></td>\n<td>Göçek — Fethiye - Gemiler - Göçek</td>\n</tr>\n<tr>\n<td><strong>Сбор команды</strong></td>\n<td>10.07 с 13:00 в домашней марине</td>\n</tr>\n<tr>\n<td></td>\n<td></td>\n</tr>\n<tr>\n<td></td>\n<td></td>\n</tr>\n</tbody>\n</table>",
-          "raw_markdown": "# Обзор поездки\n\n## Общая информация\n|                     |                                                                                  |\n| ------------------- | -------------------------------------------------------------------------------- |\n| **Даты**            | 10–17 октября 2026 (7 ночей / 8 дней)                                            |\n| **Лодка**           | Hanse 458 «Gobun» (2019)                                                         |\n| **Домашняя марина** | [D-Marin Göçek Marina, Göçek, Турция](https://maps.app.goo.gl/GZLgKsXjGpEMhAzy7) |\n|                     |                                                                                  |\n| **Маршрут**         | Göçek — Fethiye - Gemiler - Göçek                                                |\n| **Сбор команды**    | 10.07 с 13:00 в домашней марине                                                  |\n|                     |                                                                                  |\n|                     |                                                                                  |",
+          "html_content": "<h1>Обзор поездки</h1>\n<h2>Общая информация</h2>\n<table>\n<thead>\n<tr>\n<th></th>\n<th></th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>Даты</strong></td>\n<td>10–17 октября 2026</td>\n</tr>\n<tr>\n<td><strong>Лодка</strong></td>\n<td>Hanse 458 «Gobun» (2019)</td>\n</tr>\n<tr>\n<td><strong>Домашняя марина</strong></td>\n<td><a href=\"https://maps.app.goo.gl/GZLgKsXjGpEMhAzy7\">D-Marin Göçek Marina, Göçek, Турция</a></td>\n</tr>\n<tr>\n<td></td>\n<td></td>\n</tr>\n<tr>\n<td><strong>Маршрут</strong></td>\n<td>Göçek — Fethiye - Gemiler - Göçek</td>\n</tr>\n<tr>\n<td><strong>Сбор команды</strong></td>\n<td>10.07 с 13:00 в домашней марине</td>\n</tr>\n<tr>\n<td></td>\n<td></td>\n</tr>\n<tr>\n<td></td>\n<td></td>\n</tr>\n</tbody>\n</table>\n<h2>Че сделать заранее</h2>\n<ul>\n<li>Купить страховку (см. ниже)</li>\n<li>Посмотреть список вещей (см. вкладку Сборы)</li>\n</ul>",
+          "raw_markdown": "# Обзор поездки\n\n## Общая информация\n|                     |                                                                                  |\n| ------------------- | -------------------------------------------------------------------------------- |\n| **Даты**            | 10–17 октября 2026                                                               |\n| **Лодка**           | Hanse 458 «Gobun» (2019)                                                         |\n| **Домашняя марина** | [D-Marin Göçek Marina, Göçek, Турция](https://maps.app.goo.gl/GZLgKsXjGpEMhAzy7) |\n|                     |                                                                                  |\n| **Маршрут**         | Göçek — Fethiye - Gemiler - Göçek                                                |\n| **Сбор команды**    | 10.07 с 13:00 в домашней марине                                                  |\n|                     |                                                                                  |\n|                     |                                                                                  |\n\n## Че сделать заранее\n- Купить страховку (см. ниже)\n- Посмотреть список вещей (см. вкладку Сборы)",
           "template": "trip_overview",
           "structured_data": {
             "facts": {
-              "Даты": "10–17 октября 2026 (7 ночей / 8 дней)",
+              "Даты": "10–17 октября 2026",
               "Лодка": "Hanse 458 «Gobun» (2019)",
               "Домашняя марина": "[D-Marin Göçek Marina, Göçek, Турция](https://maps.app.goo.gl/GZLgKsXjGpEMhAzy7)",
               "Маршрут": "Göçek — Fethiye - Gemiler - Göçek",
@@ -663,6 +663,6 @@
   "route": {
     "waypoints": []
   },
-  "content_hash": "251d2be4aae4",
-  "built_at": "2026-07-26T21:49:41.384880"
+  "content_hash": "95a153d8f328",
+  "built_at": "2026-07-26T21:59:07.975017"
 }
