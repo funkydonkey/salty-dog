@@ -223,21 +223,6 @@ def parse_travel_logistics(md: str) -> dict:
     if table:
         result["coordination"] = _parse_horizontal_table(table)
 
-    # Ручная кладь
-    carry_on = []
-    in_carry_on = False
-    for line in md.split("\n"):
-        stripped = line.strip()
-        if re.match(r"^##\s+Что взять", stripped, re.IGNORECASE):
-            in_carry_on = True
-            continue
-        if in_carry_on:
-            if stripped.startswith("## "):
-                break
-            if stripped.startswith("- "):
-                carry_on.append(stripped[2:].strip())
-    result["carry_on"] = carry_on
-
     return result if any(result.values()) else {}
 
 

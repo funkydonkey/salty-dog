@@ -237,20 +237,6 @@ var SaltyTemplates = (function () {
       html += '</div>';
     }
 
-    // Carry-on
-    var carryOn = data.carry_on || [];
-    if (carryOn.length > 0) {
-      html += '<div class="bento-card">';
-      html += '<div class="bento-card__icon"><span class="material-symbols-outlined">luggage</span></div>';
-      html += '<div class="bento-card__label">\u0420\u0443\u0447\u043D\u0430\u044F \u043A\u043B\u0430\u0434\u044C</div>';
-      for (var c = 0; c < carryOn.length; c++) {
-        html += '<div class="bento-card__row">';
-        html += '<span class="bento-card__row-label">' + escLink(carryOn[c]) + '</span>';
-        html += '</div>';
-      }
-      html += '</div>';
-    }
-
     html += '</div>';
     return html;
   }
