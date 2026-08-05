@@ -353,3 +353,49 @@ class TestWriteContentJson:
         import json
         data = json.loads(output_path.read_text(encoding="utf-8"))
         assert data["trip"]["name"] == "Modified Trip"
+
+
+def test_route_plan_photos_resolved_and_copied(tmp_path):
+    from PIL import Image
+
+    from app.content.builder import build_content
+
+    vault = tmp_path / "vault"
+    vault.mkdir()
+    (vault / "_app.yaml").write_text(
+        "trip:\n  name: Test\n"
+        "sections:\n"
+        "  - id: route\n"
+        "    title: Маршрут\n"
+        "    icon: 🗺️\n"
+        "    tab: map\n"
+        "    files:\n"
+        "      - file: Route plan\n"
+        "        template: route_plan\n",
+        encoding="utf-8",
+    )
+    (vault / "Route plan.md").write_text(
+        "## День 1 — Тест\n\n"
+        "| **Откуда** | A |\n"
+        "|---|---|\n\n"
+        "### Блок\n"
+        "Текст.\n"
+        "![[foto1.jpg]]\n",
+        encoding="utf-8",
+    )
+    attachments = vault / "attachments"
+    attachments.mkdir()
+    Image.new("RGB", (2000, 1000), color=(10, 20, 30)).save(attachments / "foto1.jpg")
+
+    import app.content.builder as builder_module
+    output_dir1 = tmp_path / "assets1"
+    output_dir2 = tmp_path / "assets2"
+    monkey_dirs = [output_dir1, output_dir2]
+
+    bundle = build_content(vault, route_photo_output_dirs=monkey_dirs)
+
+    route_page = bundle.sections[0].pages[0]
+    photos = route_page.structured_data["days"][0]["blocks"][0]["photos"]
+    assert photos == ["route/foto1.jpg"]
+    assert (output_dir1 / "route" / "foto1.jpg").exists()
+    assert (output_dir2 / "route" / "foto1.jpg").exists()

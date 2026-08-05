@@ -13,6 +13,7 @@ from pathlib import Path
 
 import yaml
 
+from app.content.image_pipeline import process_route_photos
 from app.content.models import ContentBundle, Route, Section, TripConfig
 from app.content.parser import parse_markdown_file
 from app.content.route_parser import extract_waypoints
@@ -37,7 +38,11 @@ def _find_markdown_file(vault_path: Path, name: str) -> Path | None:
     return None
 
 
-def _build_sections(vault_path: Path, sections_config: list[dict]) -> tuple[list[Section], Route]:
+def _build_sections(
+    vault_path: Path,
+    sections_config: list[dict],
+    route_photo_output_dirs: list[Path] | None = None,
+) -> tuple[list[Section], Route]:
     """Собирает секции и маршрут из конфигурации."""
     sections = []
     all_waypoints = []
@@ -63,6 +68,10 @@ def _build_sections(vault_path: Path, sections_config: list[dict]) -> tuple[list
                 continue
 
             page = parse_markdown_file(filepath, template=template)
+
+            if template == "route_plan":
+                _resolve_route_photos(page, vault_path, route_photo_output_dirs)
+
             pages.append(page)
 
             # Из файлов маршрутной секции извлекаем координаты
@@ -82,6 +91,28 @@ def _build_sections(vault_path: Path, sections_config: list[dict]) -> tuple[list
     return sections, Route(waypoints=all_waypoints)
 
 
+def _resolve_route_photos(page, vault_path: Path, output_dirs: list[Path] | None) -> None:
+    """Заменяет сырые имена файлов фото в structured_data на пути в ассетах
+    (или убирает фото, если файл не нашёлся в vault)."""
+    days = page.structured_data.get("days", [])
+    all_filenames = [
+        filename
+        for day in days
+        for block in day.get("blocks", [])
+        for filename in block.get("photos", [])
+    ]
+    if not all_filenames or not output_dirs:
+        return
+
+    resolved = process_route_photos(vault_path, all_filenames, output_dirs)
+
+    for day in days:
+        for block in day.get("blocks", []):
+            block["photos"] = [
+                resolved[name] for name in block["photos"] if name in resolved
+            ]
+
+
 def _compute_hash(bundle: ContentBundle) -> str:
     """Вычисляет хеш контента для инвалидации кеша на фронтенде."""
     # Хешируем JSON без мета-полей (hash и built_at)
@@ -90,16 +121,26 @@ def _compute_hash(bundle: ContentBundle) -> str:
     return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:12]
 
 
-def build_content(vault_path: str | Path) -> ContentBundle:
+def build_content(
+    vault_path: str | Path,
+    route_photo_output_dirs: list[Path] | None = None,
+) -> ContentBundle:
     """Главная функция: собирает ContentBundle из vault."""
     vault = Path(vault_path)
     if not vault.is_dir():
         raise FileNotFoundError(f"Vault не найден: {vault}")
 
+    if route_photo_output_dirs is None:
+        project_root = Path(__file__).resolve().parent.parent.parent
+        route_photo_output_dirs = [
+            project_root / "frontend" / "assets",
+            project_root / "docs" / "static" / "assets",
+        ]
+
     config = _load_app_config(vault)
 
     trip = TripConfig(**config.get("trip", {}))
-    sections, route = _build_sections(vault, config.get("sections", []))
+    sections, route = _build_sections(vault, config.get("sections", []), route_photo_output_dirs)
 
     bundle = ContentBundle(
         trip=trip,
