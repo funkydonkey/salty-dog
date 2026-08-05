@@ -27,7 +27,7 @@ class TestExtractStructuredData:
     """Тесты диспетчера: маршрутизация по имени шаблона."""
 
     def test_dispatches_to_route_plan(self):
-        md = "### День 1 — Сплит\n| **Откуда** | Марина Кашела |\n| **Куда** | Масленица |"
+        md = "## День 1 — Сплит\n| **Откуда** | Марина Кашела |\n| **Куда** | Масленица |"
         result = extract_structured_data("route_plan", md)
         assert "days" in result
         assert result["days"][0]["day"] == 1
@@ -69,13 +69,13 @@ class TestExtractStructuredData:
 # ---------------------------------------------------------------------------
 
 class TestParseRoutePlan:
-    """Парсер маршрутного плана: ### День N + вертикальные таблицы."""
+    """Парсер маршрутного плана: ## День N + ### под-блоки + вертикальные таблицы."""
 
     ROUTE_MD = """\
 - Идём только днём, ночные переходы исключены
 - Якорные стоянки в приоритете над маринами
 
-### День 1 — Сплит → Масленица (Шолта)
+## День 1 — Сплит → Масленица (Шолта)
 
 | **Откуда** | Марина Кашела |
 |---|---|
@@ -90,7 +90,7 @@ class TestParseRoutePlan:
 - Заправка в марине перед выходом
 - Купить лёд
 
-### День 2 — Масленица → Вис
+## День 2 — Масленица → Вис
 
 | **Откуда** | Масленица |
 |---|---|
@@ -150,7 +150,7 @@ class TestParseRoutePlan:
 
     def test_day_without_table(self):
         """День с заголовком, но без таблицы — поля будут пустыми строками."""
-        md = "### День 1 — Только заголовок\n\nПросто текст."
+        md = "## День 1 — Только заголовок\n\nПросто текст."
         result = parse_route_plan(md)
 
         assert len(result["days"]) == 1
@@ -158,17 +158,72 @@ class TestParseRoutePlan:
         assert result["days"][0]["to"] == ""
 
     def test_bold_markers_stripped_from_principles(self):
-        md = "- **Важный** принцип навигации\n\n### День 1 — Тест\n| **Откуда** | A |"
+        md = "- **Важный** принцип навигации\n\n## День 1 — Тест\n| **Откуда** | A |"
         result = parse_route_plan(md)
 
         assert "Важный принцип навигации" in result["principles"]
 
     def test_day_with_dash_separator(self):
         """Поддержка разных разделителей: тире, длинное тире, дефис."""
-        md = "### День 3 – Хвар → Корчула\n| **Откуда** | Хвар |"
+        md = "## День 3 – Хвар → Корчула\n| **Откуда** | Хвар |"
         result = parse_route_plan(md)
         assert result["days"][0]["day"] == 3
         assert "Хвар" in result["days"][0]["title"]
+
+    BLOCKS_MD = """\
+## День 1 — Острова Терсане и Яшика
+
+| **Откуда** | Göçek |
+|---|---|
+| **Куда** | Tersane Adası |
+| **Дистанция** | 8 nm |
+| **Стоянка** | бухта Yassıca |
+
+Общий текст дня про купание.
+
+### Переход до Фетхие
+Текст блока.
+![[foto1.jpg]]
+![[foto2.jpg]]
+
+### После обеда — Канакой
+На тачке едем в Канакёй.
+![[foto3.jpg]]
+
+## День 2 — Без блоков
+
+| **Откуда** | A |
+|---|---|
+| **Куда** | B |
+
+Просто текст, без под-заголовков.
+"""
+
+    def test_intro_extracted(self):
+        result = parse_route_plan(self.BLOCKS_MD)
+        assert result["days"][0]["intro"] == "Общий текст дня про купание."
+
+    def test_blocks_extracted(self):
+        result = parse_route_plan(self.BLOCKS_MD)
+        blocks = result["days"][0]["blocks"]
+        assert len(blocks) == 2
+        assert blocks[0]["title"] == "Переход до Фетхие"
+        assert blocks[0]["text"] == "Текст блока."
+        assert blocks[0]["photos"] == ["foto1.jpg", "foto2.jpg"]
+        assert blocks[1]["title"] == "После обеда — Канакой"
+        assert blocks[1]["text"] == "На тачке едем в Канакёй."
+        assert blocks[1]["photos"] == ["foto3.jpg"]
+
+    def test_day_without_blocks_has_intro_and_empty_blocks(self):
+        result = parse_route_plan(self.BLOCKS_MD)
+        day2 = result["days"][1]
+        assert day2["blocks"] == []
+        assert day2["intro"] == "Просто текст, без под-заголовков."
+
+    def test_block_with_no_photos(self):
+        md = "## День 1 — Тест\n\n### Блок без фото\nТолько текст.\n"
+        result = parse_route_plan(md)
+        assert result["days"][0]["blocks"][0]["photos"] == []
 
 
 # ---------------------------------------------------------------------------
@@ -881,7 +936,7 @@ class TestDraftAndEdgeCases:
 
     def test_route_plan_with_empty_table_values(self):
         md = """\
-### День 1 — TBD
+## День 1 — TBD
 
 | **Откуда** |  |
 |---|---|

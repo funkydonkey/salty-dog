@@ -145,31 +145,63 @@ def _clean_bold(text: str) -> str:
 # ---------------------------------------------------------------------------
 
 def parse_route_plan(md: str) -> dict:
-    """Парсит Route plan: ### День N заголовки + вертикальные таблицы."""
+    """Парсит Route plan: ## День N заголовки, вертикальные таблицы,
+    и вложенные ### под-блоки (текст + фото ![[файл.jpg]])."""
     days = []
-    sections = re.split(r"^### ", md, flags=re.MULTILINE)
+    day_sections = re.split(r"^## ", md, flags=re.MULTILINE)
 
-    for section in sections[1:]:  # Пропускаем текст до первого ###
+    for section in day_sections[1:]:  # Пропускаем текст до первого ##
         lines = section.split("\n")
         header = lines[0].strip()
 
-        # Извлекаем номер дня и описание
         day_match = re.match(r"День\s+(\d+)\s*[—–-]?\s*(.*)", header)
         if not day_match:
             continue
 
         day_num = int(day_match.group(1))
         title = day_match.group(2).strip()
+        body = "\n".join(lines[1:])
 
-        # Ищем таблицу (вертикальная: ключ|значение)
-        table_data = _parse_vertical_table(lines[1:])
+        # Делим тело дня на intro (до первого ###) и под-блоки
+        block_parts = re.split(r"^### ", body, flags=re.MULTILINE)
+        intro_raw_lines = block_parts[0].split("\n")
 
-        # Также собираем пункты-буллеты
+        table_data = _parse_vertical_table(intro_raw_lines)
+
         bullets = []
-        for line in lines[1:]:
+        intro_prose_lines = []
+        for line in intro_raw_lines:
             stripped = line.strip()
-            if stripped.startswith("- ") and not stripped.startswith("|"):
+            if not stripped:
+                continue
+            if stripped.startswith("|"):
+                continue
+            if stripped.startswith("- "):
                 bullets.append(_clean_bold(stripped[2:]))
+                continue
+            intro_prose_lines.append(stripped)
+        intro = " ".join(intro_prose_lines).strip()
+
+        blocks = []
+        for block_part in block_parts[1:]:
+            block_lines = block_part.split("\n")
+            block_title = block_lines[0].strip()
+            photos = []
+            text_lines = []
+            for line in block_lines[1:]:
+                stripped = line.strip()
+                if not stripped:
+                    continue
+                photo_match = re.match(r"!\[\[(.+?)\]\]", stripped)
+                if photo_match:
+                    photos.append(photo_match.group(1))
+                    continue
+                text_lines.append(stripped)
+            blocks.append({
+                "title": block_title,
+                "text": _clean_bold(" ".join(text_lines).strip()),
+                "photos": photos,
+            })
 
         day = {
             "day": day_num,
@@ -183,15 +215,17 @@ def parse_route_plan(md: str) -> dict:
             "kids": table_data.get("Для детей", ""),
             "note": table_data.get("Примечание", ""),
             "bullets": bullets,
+            "intro": intro,
+            "blocks": blocks,
         }
         days.append(day)
 
     if not days:
         return {}
 
-    # Извлекаем общие принципы (текст до первого ###)
+    # Извлекаем общие принципы (текст до первого ##)
     principles = []
-    for line in md.split("### ")[0].split("\n"):
+    for line in md.split("## ")[0].split("\n"):
         stripped = line.strip()
         if stripped.startswith("- "):
             principles.append(_clean_bold(stripped[2:]))
