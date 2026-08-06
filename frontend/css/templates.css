@@ -1058,3 +1058,55 @@
 .sub-tab-content.active {
   display: block;
 }
+
+/* route_plan — day sub-blocks with photo carousel */
+.route-block__day-intro {
+  margin: 8px 0 4px;
+  color: var(--text-secondary, #555);
+}
+
+.route-block {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color, #e5e5e5);
+}
+
+.route-block__title {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.route-block__text {
+  margin: 0 0 8px;
+}
+
+.route-block__carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 8px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.route-block__photo {
+  flex: 0 0 85%;
+  scroll-snap-align: start;
+  border-radius: 12px;
+  max-height: 240px;
+  object-fit: cover;
+  width: 85%;
+}
+
+.route-block__dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.route-block__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--border-color, #d0d0d0);
+}
