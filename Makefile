@@ -18,6 +18,7 @@ deploy: build test
 publish: build
 	cp app/static/content.json docs/static/content.json
 	git add app/static/content.json docs/static/content.json
+	git add frontend/assets/route docs/static/assets/route
 	git commit -m "Update content" || echo "Nothing to commit"
 	git push origin main
 	@echo "Pushed. Render redeploys automatically; GitHub Pages rebuilds in a couple of minutes."
