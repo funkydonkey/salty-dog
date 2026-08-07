@@ -106,7 +106,8 @@ var SaltyTemplates = (function () {
     for (var i = 0; i < days.length; i++) {
       var d = days[i];
       var dayLabel = '\u0414\u0435\u043D\u044C ' + d.day;
-      var isEmpty = !hasValue(d.from) && !hasValue(d.to) && d.bullets.length === 0;
+      var isEmpty = !hasValue(d.from) && !hasValue(d.to) && d.bullets.length === 0 &&
+                    !hasValue(d.intro) && (d.blocks || []).length === 0;
       var markerClass = isEmpty ? 'timeline__marker timeline__marker--empty' : 'timeline__marker';
 
       html += '<div class="timeline__day">';
@@ -157,6 +158,37 @@ var SaltyTemplates = (function () {
         html += '<div class="timeline__badges">';
         for (var bi = 0; bi < badges.length; bi++) {
           html += '<span class="timeline__badge timeline__badge--' + badges[bi].type + '">' + escLink(badges[bi].text) + '</span>';
+        }
+        html += '</div>';
+      }
+
+      if (hasValue(d.intro)) {
+        html += '<p class="route-block__day-intro">' + escLink(d.intro) + '</p>';
+      }
+
+      var blocks = d.blocks || [];
+      for (var bi2 = 0; bi2 < blocks.length; bi2++) {
+        var block = blocks[bi2];
+        html += '<div class="route-block">';
+        html += '<div class="route-block__title">' + escLink(block.title) + '</div>';
+        if (hasValue(block.text)) {
+          html += '<p class="route-block__text">' + escLink(block.text) + '</p>';
+        }
+        var photos = block.photos || [];
+        if (photos.length > 0) {
+          html += '<div class="route-block__carousel">';
+          for (var pi = 0; pi < photos.length; pi++) {
+            var assetBase = window.SALTY_ASSET_BASE || '/assets/';
+            html += '<img class="route-block__photo" src="' + assetBase + photos[pi] + '" alt="' + escLink(block.title) + '" loading="lazy">';
+          }
+          html += '</div>';
+          if (photos.length > 1) {
+            html += '<div class="route-block__dots">';
+            for (var di = 0; di < photos.length; di++) {
+              html += '<span class="route-block__dot"></span>';
+            }
+            html += '</div>';
+          }
         }
         html += '</div>';
       }

@@ -14,7 +14,10 @@ ASSET_SUBDIR = "route"
 def resolve_vault_image(vault_path: Path, filename: str) -> Path | None:
     """Ищет файл по имени рекурсивно по всему vault. При нескольких
     совпадениях берёт первое найденное (порядок файловой системы)."""
-    matches = list(vault_path.rglob(filename))
+    safe_name = Path(filename).name
+    if not safe_name:
+        return None
+    matches = list(vault_path.rglob(safe_name))
     return matches[0] if matches else None
 
 
