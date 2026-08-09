@@ -225,6 +225,12 @@ class TestParseRoutePlan:
         result = parse_route_plan(md)
         assert result["days"][0]["blocks"][0]["photos"] == []
 
+    def test_photo_with_obsidian_resize_suffix_strips_it(self):
+        """![[foto.jpg|680]] — Obsidian-синтаксис ресайза, берём только имя файла."""
+        md = "## День 1 — Тест\n\n### Блок\n![[foto.jpg|680]]\n"
+        result = parse_route_plan(md)
+        assert result["days"][0]["blocks"][0]["photos"] == ["foto.jpg"]
+
 
 # ---------------------------------------------------------------------------
 # parse_travel_logistics

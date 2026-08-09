@@ -194,7 +194,8 @@ def parse_route_plan(md: str) -> dict:
                     continue
                 photo_match = re.match(r"!\[\[(.+?)\]\]", stripped)
                 if photo_match:
-                    photos.append(photo_match.group(1))
+                    # Obsidian resize syntax: ![[file.jpg|680]] — берём только имя файла
+                    photos.append(photo_match.group(1).split("|")[0].strip())
                     continue
                 text_lines.append(stripped)
             blocks.append({
