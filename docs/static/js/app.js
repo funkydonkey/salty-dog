@@ -405,6 +405,15 @@
     // Collect waypoints from the route section or top-level route object
     var waypoints = extractWaypoints();
 
+    var container = document.getElementById('map-container');
+    if (waypoints.length === 0) {
+      // No waypoint data yet — hide the map entirely instead of a big empty placeholder
+      if (container) container.style.display = 'none';
+      mapInitialized = true;
+      return;
+    }
+    if (container) container.style.display = '';
+
     SaltyMap.init('map-container', waypoints);
     mapInitialized = true;
   }
