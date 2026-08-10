@@ -133,9 +133,20 @@
   <!-- Service Worker registration -->
   <script>
     if ('serviceWorker' in navigator) {
+      var swRefreshing = false;
+      navigator.serviceWorker.addEventListener('controllerchange', function () {
+        if (swRefreshing) return;
+        swRefreshing = true;
+        window.location.reload();
+      });
+
       navigator.serviceWorker.register('sw.js')
         .then(function(reg) {
           console.log('SW registered, scope:', reg.scope);
+          // Some browsers (notably Safari) can serve a stale cached copy of
+          // sw.js when checking for updates on plain navigation/reload.
+          // Force an explicit update check on every load.
+          reg.update();
         })
         .catch(function(err) {
           console.warn('SW registration failed:', err);
