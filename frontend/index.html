@@ -117,6 +117,12 @@
     </button>
   </nav>
 
+  <!-- Photo lightbox (tap-to-open fullscreen viewer) -->
+  <div class="lightbox hidden" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+    <button class="lightbox__close" id="lightbox-close" type="button" aria-label="Закрыть">&times;</button>
+    <img class="lightbox__img" id="lightbox-img" src="" alt="">
+  </div>
+
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
           integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
@@ -131,6 +137,13 @@
   <!-- Service Worker registration -->
   <script>
     if ('serviceWorker' in navigator) {
+      var swRefreshing = false;
+      navigator.serviceWorker.addEventListener('controllerchange', function () {
+        if (swRefreshing) return;
+        swRefreshing = true;
+        window.location.reload();
+      });
+
       // SW must be served from root scope for full caching.
       // Try root first (requires backend route), fall back to /static/.
       navigator.serviceWorker.register('/sw.js', { scope: '/' })
@@ -138,7 +151,12 @@
           return navigator.serviceWorker.register('/static/sw.js', { scope: '/static/' });
         })
         .then(function(reg) {
-          if (reg) console.log('SW registered, scope:', reg.scope);
+          if (!reg) return;
+          console.log('SW registered, scope:', reg.scope);
+          // Some browsers (notably Safari) can serve a stale cached copy of
+          // sw.js when checking for updates on plain navigation/reload.
+          // Force an explicit update check on every load.
+          reg.update();
         })
         .catch(function(err) {
           console.warn('SW registration failed:', err);
