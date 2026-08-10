@@ -654,6 +654,42 @@
   }
 
   // -----------------------------------------------------------------------
+  // Photo lightbox (tap a route-block carousel photo to view fullscreen)
+  // -----------------------------------------------------------------------
+
+  function openLightbox(src, alt) {
+    var lb = document.getElementById('lightbox');
+    var img = document.getElementById('lightbox-img');
+    if (!lb || !img) return;
+    img.src = src;
+    img.alt = alt || '';
+    lb.classList.remove('hidden');
+    lb.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    var lb = document.getElementById('lightbox');
+    var img = document.getElementById('lightbox-img');
+    if (!lb) return;
+    lb.classList.add('hidden');
+    lb.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (img) img.src = '';
+  }
+
+  function handlePhotoClick(e) {
+    var photo = e.target.closest('.route-block__photo');
+    if (photo) {
+      openLightbox(photo.src, photo.alt);
+      return;
+    }
+    if (e.target.closest('#lightbox-close') || e.target.id === 'lightbox') {
+      closeLightbox();
+    }
+  }
+
+  // -----------------------------------------------------------------------
   // Header updates
   // -----------------------------------------------------------------------
 
@@ -752,6 +788,12 @@
 
     // Wikilink clicks (delegated to document)
     document.addEventListener('click', handleWikilinkClick);
+
+    // Photo lightbox: open on carousel photo tap, close on backdrop/close/Escape
+    document.addEventListener('click', handlePhotoClick);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeLightbox();
+    });
 
     // Load content
     loadContent();

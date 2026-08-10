@@ -1082,21 +1082,26 @@
 
 .route-block__carousel {
   display: flex;
+  align-items: flex-start;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   gap: 8px;
   -webkit-overflow-scrolling: touch;
 }
 
+/* Height follows each photo's own aspect ratio (capped by max-height) instead
+   of a fixed box — landscape photos no longer end up tiny inside a portrait-
+   shaped frame, and portraits no longer get hard-cropped. */
 .route-block__photo {
   flex: 0 0 92%;
   scroll-snap-align: start;
   border-radius: 12px;
-  height: 320px;
+  width: 92%;
+  height: auto;
   max-height: 60vh;
   object-fit: contain;
   background: var(--md-surface-container-high);
-  width: 92%;
+  cursor: pointer;
 }
 
 .route-block__dots {
