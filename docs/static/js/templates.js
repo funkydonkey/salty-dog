@@ -48,7 +48,10 @@ var SaltyTemplates = (function () {
   function escLink(str) {
     var escaped = esc(str);
     escaped = escaped.replace(/\*\*([^*]+?)\*\*/g, '<strong>$1</strong>');
-    return escaped.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, function (match, label, url) {
+    return escaped.replace(/\[([^\]]+)\]\(([^)\s]+)\)|(https?:\/\/[^\s<]+)/g, function (match, label, url, bareUrl) {
+      if (bareUrl) {
+        return '<a href="' + bareUrl + '" target="_blank" rel="noopener noreferrer">' + bareUrl + '</a>';
+      }
       var href = /^https?:\/\//i.test(url) ? url : 'https://' + url;
       return '<a href="' + href + '" target="_blank" rel="noopener noreferrer">' + label + '</a>';
     });
@@ -118,24 +121,14 @@ var SaltyTemplates = (function () {
       if (d.title) html += ' \u2014 ' + escLink(d.title);
       html += '</div>';
 
-      // Details
-      var details = [
-        ['Откуда', d.from], ['Куда', d.to], ['Дистанция', d.nm],
-        ['Курс', d.course], ['Стоянка', d.anchorage]
-      ];
-      var hasDetails = false;
-      for (var j = 0; j < details.length; j++) {
-        if (hasValue(details[j][1])) { hasDetails = true; break; }
-      }
-
-      if (hasDetails) {
-        for (var k = 0; k < details.length; k++) {
-          if (hasValue(details[k][1])) {
-            html += '<div class="timeline__detail-row">';
-            html += '<span class="timeline__detail-key">' + escLink(details[k][0]) + '</span>';
-            html += '<span class="timeline__detail-value">' + escLink(details[k][1]) + '</span>';
-            html += '</div>';
-          }
+      // Details table (all rows from the vault's vertical table, any keys)
+      var table = d.table || [];
+      for (var k = 0; k < table.length; k++) {
+        if (hasValue(table[k].value)) {
+          html += '<div class="timeline__detail-row">';
+          html += '<span class="timeline__detail-key">' + escLink(table[k].key) + '</span>';
+          html += '<span class="timeline__detail-value">' + escLink(table[k].value) + '</span>';
+          html += '</div>';
         }
       }
 

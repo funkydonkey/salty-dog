@@ -1089,12 +1089,14 @@
 }
 
 .route-block__photo {
-  flex: 0 0 85%;
+  flex: 0 0 92%;
   scroll-snap-align: start;
   border-radius: 12px;
-  max-height: 240px;
-  object-fit: cover;
-  width: 85%;
+  height: 320px;
+  max-height: 60vh;
+  object-fit: contain;
+  background: var(--md-surface-container-high);
+  width: 92%;
 }
 
 .route-block__dots {

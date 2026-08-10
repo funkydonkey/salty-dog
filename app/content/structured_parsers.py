@@ -67,7 +67,7 @@ def _parse_vertical_table(lines: list[str]) -> dict:
             continue
         cells = [c.strip() for c in line.strip("|").split("|")]
         if len(cells) >= 2:
-            key = re.sub(r"\*\*(.+?)\*\*", r"\1", cells[0]).strip()
+            key = cells[0].replace("*", "").strip()
             value = cells[1].strip()
             if key:
                 result[key] = value
@@ -192,10 +192,14 @@ def parse_route_plan(md: str) -> dict:
                 stripped = line.strip()
                 if not stripped:
                     continue
-                photo_match = re.match(r"!\[\[(.+?)\]\]", stripped)
-                if photo_match:
-                    # Obsidian resize syntax: ![[file.jpg|680]] — берём только имя файла
-                    photos.append(photo_match.group(1).split("|")[0].strip())
+                photo_matches = re.findall(r"!\[\[(.+?)\]\]", stripped)
+                if photo_matches:
+                    for pm in photo_matches:
+                        # Obsidian resize syntax: ![[file.jpg|680]] — берём только имя файла
+                        photos.append(pm.split("|")[0].strip())
+                    remainder = re.sub(r"!\[\[.+?\]\]", "", stripped).strip()
+                    if remainder:
+                        text_lines.append(remainder)
                     continue
                 text_lines.append(stripped)
             blocks.append({
@@ -218,6 +222,7 @@ def parse_route_plan(md: str) -> dict:
             "bullets": bullets,
             "intro": intro,
             "blocks": blocks,
+            "table": [{"key": k, "value": v} for k, v in table_data.items()],
         }
         days.append(day)
 
