@@ -66,12 +66,13 @@
   /**
    * Switch to a given tab. Updates URL hash, button states, and panel visibility.
    */
-  function switchTab(tabId) {
+  function switchTab(tabId, keepHash) {
     if (TABS.indexOf(tabId) === -1) tabId = 'map';
     activeTab = tabId;
 
-    // Update hash without triggering hashchange
-    if (window.location.hash !== '#' + tabId) {
+    // Update hash without triggering hashchange. Deep links to a card pass
+    // keepHash so the card anchor is not overwritten by the tab name.
+    if (!keepHash && window.location.hash !== '#' + tabId) {
       history.replaceState(null, '', '#' + tabId);
     }
 
@@ -95,16 +96,123 @@
       }
     }
 
-    // Scroll content area to top on tab switch
-    window.scrollTo(0, 0);
+    // Scroll content area to top on tab switch. Deep links scroll to their
+    // own target instead, so skip it there.
+    if (!keepHash) window.scrollTo(0, 0);
+  }
+
+  // -----------------------------------------------------------------------
+  // Card anchors
+  //
+  // Every content page renders inside an element with id="page-<slug>".
+  // A short hash (#provisions) is the public form of that id, so cards can be
+  // linked from outside the app. Tab names win over card slugs on collision.
+  // -----------------------------------------------------------------------
+
+  /**
+   * Return the tab whose panel contains the given element id, or null.
+   */
+  function findPanelForId(targetId) {
+    for (var i = 0; i < TABS.length; i++) {
+      var panel = dom.panels[TABS[i]];
+      if (panel && panel.querySelector('#' + CSS.escape(targetId))) return TABS[i];
+    }
+    return null;
+  }
+
+  var settleTimers = [];
+
+  function cancelSettleTimers() {
+    for (var i = 0; i < settleTimers.length; i++) clearTimeout(settleTimers[i]);
+    settleTimers = [];
   }
 
   /**
-   * Read the current hash and switch to that tab. Falls back to 'map'.
+   * Expand a collapsed card and bring it into view.
+   * On a fresh page load, fonts and images keep reflowing the document after
+   * the first scroll, so settle=true re-runs the scroll once things stop moving.
+   */
+  function revealCard(el, settle) {
+    var body = el.querySelector('.card-body');
+    var header = el.querySelector('.card-header');
+    if (body && !body.classList.contains('open') && header) {
+      body.classList.add('open');
+      header.setAttribute('aria-expanded', 'true');
+    }
+
+    if (!settle) {
+      cancelSettleTimers();
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+
+    // Deep link: jump straight there, then re-correct as fonts and images
+    // finish loading and push the document around. Smooth scrolling would
+    // just animate towards a position that is about to become wrong.
+    var target = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+    var correct = function () {
+      if (Math.abs(el.getBoundingClientRect().top - target) > 4) {
+        el.scrollIntoView({ block: 'start' });
+      }
+    };
+
+    // Drop pending corrections aimed at a previously requested card, or they
+    // would drag the page back after a quick second navigation.
+    cancelSettleTimers();
+    correct();
+    settleTimers.push(setTimeout(correct, 300));
+    settleTimers.push(setTimeout(correct, 900));
+  }
+
+  /**
+   * Scroll to a card by element id, switching tabs when it lives elsewhere.
+   * Returns false when no such card exists.
+   */
+  function navigateToCard(targetId, settle) {
+    var tab = findPanelForId(targetId);
+    if (!tab) return false;
+
+    cancelSettleTimers();
+
+    if (tab !== activeTab) {
+      switchTab(tab, true);
+      // The panel is only measurable once it is visible
+      settleTimers.push(setTimeout(function () {
+        var el = document.getElementById(targetId);
+        if (el) revealCard(el, settle);
+      }, 250));
+    } else {
+      var el = document.getElementById(targetId);
+      if (el) revealCard(el, settle);
+    }
+    return true;
+  }
+
+  /**
+   * Put the short card anchor in the address bar without re-triggering routing.
+   */
+  function setAnchorHash(targetId) {
+    var short = targetId.replace(/^page-/, '');
+    if (window.location.hash !== '#' + short) {
+      history.replaceState(null, '', '#' + short);
+    }
+  }
+
+  /**
+   * Read the current hash and route to a tab or a card anchor.
    */
   function handleHashRoute() {
     var hash = window.location.hash.replace('#', '');
-    switchTab(hash || 'map');
+    if (hash) {
+      try { hash = decodeURIComponent(hash); } catch (e) { /* use raw hash */ }
+    }
+
+    if (!hash) { switchTab('map'); return; }
+    if (TABS.indexOf(hash) !== -1) { switchTab(hash); return; }
+
+    // Accept the short form (#provisions) and the raw id (#page-provisions)
+    var targetId = hash.indexOf('page-') === 0 ? hash : 'page-' + hash;
+    if (!navigateToCard(targetId, true)) switchTab('map');
   }
 
   // -----------------------------------------------------------------------
@@ -182,6 +290,7 @@
       html += '<span class="day-badge">' + escapeHtml(opts.dayBadge) + '</span>';
     }
     html += '<span class="card-title">' + escapeHtml(page.title) + '</span>';
+    html += anchorButton(slug);
     html += chevronSvg();
     html += '</div>';
 
@@ -208,6 +317,7 @@
       html += '<span class="card-icon">' + opts.icon + '</span>';
     }
     html += '<span class="card-title">' + escapeHtml(page.title) + '</span>';
+    html += anchorButton(slug);
     html += '</div>';
     html += '<div class="card-body">';
     html += postProcessHtml(page.html_content, slug);
@@ -219,10 +329,24 @@
   /**
    * Render a page using rich template if available, otherwise fallback.
    */
+  /**
+   * Button that copies a permalink to the card it sits in.
+   */
+  function anchorButton(slug) {
+    var label = '\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0441\u0441\u044b\u043b\u043a\u0443 \u043d\u0430 \u0440\u0430\u0437\u0434\u0435\u043b';
+    return '<button class="anchor-link" type="button" data-anchor="' + slug + '" ' +
+           'title="' + label + '" aria-label="' + label + '">#</button>';
+  }
+
   function renderPageOrFallback(page, section, fallbackOpts) {
     if (typeof SaltyTemplates !== 'undefined' && SaltyTemplates.canRender(page)) {
       var result = SaltyTemplates.render(page, section, contentData.trip);
-      if (result !== null) return result;
+      if (result !== null) {
+        // Templates emit bare markup, so wrap it to make the page linkable
+        var slug = slugify(page.filename || page.title);
+        return '<div class="page-anchor" id="page-' + slug + '">' +
+               anchorButton(slug) + result + '</div>';
+      }
     }
     return renderAccordionCard(page, fallbackOpts);
   }
@@ -467,6 +591,9 @@
    * Toggle an accordion card open/closed.
    */
   function toggleAccordion(e) {
+    // The anchor button sits inside the header; its click is not a toggle
+    if (e && e.target && e.target.closest('.anchor-link')) return;
+
     var header = e.currentTarget;
     var targetId = header.getAttribute('aria-controls');
     var body = document.getElementById(targetId);
@@ -597,7 +724,7 @@
   // -----------------------------------------------------------------------
 
   /**
-   * Handle clicks on wikilinks — scroll to the target page card or switch tabs.
+   * Handle clicks on wikilinks - scroll to the target page card or switch tabs.
    */
   function handleWikilinkClick(e) {
     var link = e.target.closest('a.wikilink');
@@ -608,49 +735,70 @@
     if (!href || href.charAt(0) !== '#') return;
 
     var targetId = href.substring(1); // e.g., "page-safety-briefing"
-    var target = document.getElementById(targetId);
+    if (navigateToCard(targetId)) setAnchorHash(targetId);
+  }
 
-    if (target) {
-      // Target is in the current tab — scroll to it and open if collapsed
-      var body = target.querySelector('.card-body');
-      var header = target.querySelector('.card-header');
-      if (body && !body.classList.contains('open') && header) {
-        body.classList.add('open');
-        header.setAttribute('aria-expanded', 'true');
-      }
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      return;
+  // -----------------------------------------------------------------------
+  // Anchor links (tap the # next to a card title to copy its permalink)
+  // -----------------------------------------------------------------------
+
+  var toastTimer = null;
+
+  function showToast(message) {
+    var el = document.getElementById('toast');
+    if (!el) return;
+    el.textContent = message;
+    el.classList.add('visible');
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () {
+      el.classList.remove('visible');
+    }, 2000);
+  }
+
+  /**
+   * Copy text using a hidden textarea. Needed on iOS Safari and whenever the
+   * page is not served over https, where navigator.clipboard is unavailable.
+   */
+  function legacyCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.top = '0';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    ta.setSelectionRange(0, text.length);
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+
+  function copyToClipboard(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text).catch(function () {
+        legacyCopy(text);
+      });
     }
+    legacyCopy(text);
+    return Promise.resolve();
+  }
 
-    // Target might be in a different tab — search all panels
-    for (var i = 0; i < TABS.length; i++) {
-      var panel = dom.panels[TABS[i]];
-      // Temporarily show panel to find element
-      var wasHidden = panel.classList.contains('hidden');
-      if (wasHidden) panel.classList.remove('hidden');
+  function handleAnchorClick(e) {
+    var btn = e.target.closest('.anchor-link');
+    if (!btn) return;
 
-      var found = panel.querySelector('#' + CSS.escape(targetId));
+    e.preventDefault();
+    e.stopPropagation();
 
-      if (wasHidden) panel.classList.add('hidden');
+    var slug = btn.getAttribute('data-anchor');
+    if (!slug) return;
 
-      if (found) {
-        switchTab(TABS[i]);
-        // Wait for tab switch animation, then scroll
-        setTimeout(function () {
-          var el = document.getElementById(targetId);
-          if (el) {
-            var elBody = el.querySelector('.card-body');
-            var elHeader = el.querySelector('.card-header');
-            if (elBody && !elBody.classList.contains('open') && elHeader) {
-              elBody.classList.add('open');
-              elHeader.setAttribute('aria-expanded', 'true');
-            }
-            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        }, 250);
-        return;
-      }
-    }
+    var url = window.location.origin + window.location.pathname + '#' + slug;
+    copyToClipboard(url);
+    setAnchorHash('page-' + slug);
+    showToast('\u0421\u0441\u044b\u043b\u043a\u0430 \u0441\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u0430');
   }
 
   // -----------------------------------------------------------------------
@@ -788,6 +936,9 @@
 
     // Wikilink clicks (delegated to document)
     document.addEventListener('click', handleWikilinkClick);
+
+    // Anchor buttons (delegated)
+    document.addEventListener('click', handleAnchorClick);
 
     // Photo lightbox: open on carousel photo tap, close on backdrop/close/Escape
     document.addEventListener('click', handlePhotoClick);

@@ -11,3 +11,6 @@ htmlcov/
 
 # Случайно уроненные заметки из vault
 \# Sailing*.md
+
+# Playwright MCP artifacts
+.playwright-mcp/

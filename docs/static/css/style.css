@@ -996,3 +996,100 @@ img {
   .card-body p,
   .card-body li { font-size: 1rem; }
 }
+
+/* =========================================================================
+   Anchor links — copy a permalink to a card
+   ========================================================================= */
+
+.page-anchor {
+  position: relative;
+}
+
+/* Keep anchored cards clear of the fixed header when scrolled to */
+.card,
+.page-anchor {
+  scroll-margin-top: calc(var(--header-height) + env(safe-area-inset-top, 0px) + 12px);
+}
+
+.anchor-link {
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  padding: 4px 8px;
+  min-width: 32px;
+  min-height: 32px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-headline);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--md-outline-variant);
+  cursor: pointer;
+  transition: opacity 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+}
+
+.anchor-link:hover,
+.anchor-link:focus-visible {
+  color: var(--md-primary);
+  background-color: rgba(80, 99, 0, 0.08);
+}
+
+.anchor-link:active {
+  transform: scale(0.92);
+}
+
+/* Template pages emit bare markup, so the button floats over the hero block */
+.page-anchor > .anchor-link {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  color: var(--md-on-surface-variant);
+}
+
+/* Touch devices have no hover, so the button stays visible but muted.
+   On pointer devices it only appears once the card is hovered. */
+.anchor-link {
+  opacity: 0.4;
+}
+
+@media (hover: hover) {
+  .anchor-link {
+    opacity: 0;
+  }
+
+  .card:hover .anchor-link,
+  .page-anchor:hover > .anchor-link,
+  .anchor-link:focus-visible {
+    opacity: 1;
+  }
+}
+
+/* =========================================================================
+   Toast
+   ========================================================================= */
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--tab-bar-height) + var(--safe-bottom) + 16px);
+  transform: translate(-50%, 12px);
+  z-index: 1200;
+  max-width: calc(100vw - 32px);
+  padding: 10px 18px;
+  border-radius: var(--radius-full);
+  background-color: var(--md-inverse-surface);
+  color: var(--md-surface-container-lowest);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.toast.visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
