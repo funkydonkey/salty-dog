@@ -648,68 +648,191 @@ var SaltyTemplates = (function () {
   // provisions — Shopping cards + meal plan
   // -----------------------------------------------------------------------
 
-  function renderProvisions(data) {
+  function renderMealCards(title, rows) {
+    if (!rows || rows.length === 0) return '';
+    var html = '<div class="menu-block">';
+    html += '<div class="menu-block__title">' + escLink(title) + '</div>';
+    html += '<div class="menu-grid">';
+    for (var i = 0; i < rows.length; i++) {
+      var row = rows[i];
+      var code = row['#'] || '';
+      var dish = row['\u0411\u043B\u044E\u0434\u043E'] || '';
+      var products = row['\u041A\u043B\u044E\u0447\u0435\u0432\u044B\u0435 \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u044B'] || '';
+      var check = row['\u0427\u0435\u043A'] || '';
+      html += '<div class="menu-card">';
+      html += '<div class="menu-card__header">';
+      if (hasValue(code)) {
+        html += '<span class="menu-card__code">' + escLink(code) + '</span>';
+      }
+      html += '<span class="menu-card__dish">' + escLink(dish) + '</span>';
+      if (hasValue(check)) {
+        html += '<span class="menu-card__check">' + escLink(check) + '</span>';
+      }
+      html += '</div>';
+      if (hasValue(products)) {
+        html += '<div class="menu-card__products">' + escLink(products) + '</div>';
+      }
+      html += '</div>';
+    }
+    html += '</div></div>';
+    return html;
+  }
+
+  function renderProvisionRules(title, rules) {
+    if (!rules || rules.length === 0) return '';
+    var html = '<div class="tpl-section-title">' + escLink(title) + '</div>';
+    html += '<div class="rules-list">';
+    for (var r = 0; r < rules.length; r++) {
+      html += '<div class="rules-list__item">';
+      html += '<span class="rules-list__number">' + pad2(r + 1) + '</span>';
+      html += '<span class="rules-list__text">' + escLink(rules[r]) + '</span>';
+      html += '</div>';
+    }
+    html += '</div>';
+    return html;
+  }
+
+  function renderProvisions(data, page) {
     var html = '';
     html += '<div class="page-hero">';
     html += '<div class="page-hero__label">\u041F\u0440\u043E\u0432\u0438\u0437\u0438\u044F</div>';
     html += '<div class="page-hero__title">Provisions</div>';
+    if (data.intro) {
+      html += '<div class="page-hero__subtitle">' + escLink(data.intro) + '</div>';
+    }
     html += '</div>';
 
-    // Shopping lists
-    var shopping = data.shopping || [];
-    if (shopping.length > 0) {
+    // \u041B\u043E\u0433\u0438\u043A\u0430 \u0434\u0432\u0443\u0445 \u0447\u0435\u043A\u043E\u0432 \u2014 \u043A\u0430\u0440\u0442\u043E\u0447\u043A\u0430 \u043D\u0430 \u043A\u0430\u0436\u0434\u044B\u0439 \u0447\u0435\u043A
+    var logic = data.checks_logic || [];
+    if (logic.length > 0) {
+      var keys = Object.keys(logic[0]);
+      var labelKey = keys[0];
+      html += '<div class="tpl-section-title">\u041B\u043E\u0433\u0438\u043A\u0430 \u0434\u0432\u0443\u0445 \u0447\u0435\u043A\u043E\u0432</div>';
       html += '<div class="provisions-grid">';
-      for (var s = 0; s < shopping.length; s++) {
-        var cat = shopping[s];
+      for (var c = 1; c < keys.length; c++) {
         html += '<div class="provisions-card">';
-        html += '<div class="provisions-card__title">' + escLink(cat.category) + '</div>';
+        html += '<div class="provisions-card__title">' + escLink(keys[c]) + '</div>';
+        for (var lr = 0; lr < logic.length; lr++) {
+          html += '<div class="prov-row">';
+          html += '<span class="prov-row__label">' + escLink(logic[lr][labelKey] || '') + '</span>';
+          html += '<span class="prov-row__value">' + escLink(logic[lr][keys[c]] || '') + '</span>';
+          html += '</div>';
+        }
+        html += '</div>';
+      }
+      html += '</div>';
+    }
 
-        var items = cat.items || [];
-        for (var i = 0; i < items.length; i++) {
-          var item = items[i];
-          var product = item['\u041F\u0440\u043E\u0434\u0443\u043A\u0442'] || '';
-          var qty = item['\u041A\u043E\u043B-\u0432\u043E'] || item['\u041A\u043E\u043B\u044C\u0447\u0435\u0441\u0442\u0432\u043E'] || '';
+    html += renderProvisionRules('\u041F\u0440\u0430\u0432\u0438\u043B\u0430 \u043A\u0430\u043C\u0431\u0443\u0437\u0430', data.galley_rules);
+
+    // \u041C\u0435\u043D\u044E
+    var breakfasts = data.breakfasts || [];
+    var lunches = data.lunches || [];
+    var dinners = data.dinners || [];
+    if (breakfasts.length > 0 || lunches.length > 0 || dinners.length > 0) {
+      html += '<div class="tpl-section-title">\u041C\u0435\u043D\u044E</div>';
+      if (breakfasts.length > 0) {
+        html += '<div class="menu-block">';
+        html += '<div class="menu-block__title">\u0417\u0430\u0432\u0442\u0440\u0430\u043A\u0438</div>';
+        html += '<div class="provisions-card">';
+        for (var b = 0; b < breakfasts.length; b++) {
           html += '<div class="provisions-card__item">';
-          html += '<span class="provisions-card__product">' + escLink(product) + '</span>';
-          if (hasValue(qty)) {
-            html += '<span class="provisions-card__qty">' + escLink(qty) + '</span>';
+          html += '<span class="provisions-card__product">' + escLink(breakfasts[b]) + '</span>';
+          html += '</div>';
+        }
+        html += '</div></div>';
+      }
+      html += renderMealCards('\u041E\u0431\u0435\u0434\u044B', lunches);
+      html += renderMealCards('\u0423\u0436\u0438\u043D\u044B', dinners);
+    }
+
+    var menuNotes = data.menu_notes || [];
+    if (menuNotes.length > 0) {
+      html += '<div class="bento-card">';
+      html += '<div class="bento-card__label">\u0417\u0430\u043C\u0435\u0442\u043A\u0438 \u043F\u043E \u043C\u0435\u043D\u044E</div>';
+      for (var mn = 0; mn < menuNotes.length; mn++) {
+        html += '<div class="prov-note">' + escLink(menuNotes[mn]) + '</div>';
+      }
+      html += '</div>';
+    }
+
+    // \u0421\u043F\u0438\u0441\u043A\u0438 \u0437\u0430\u043A\u0443\u043F\u043A\u0438 \u2014 \u0447\u0435\u043A\u0431\u043E\u043A\u0441\u044B \u0441 \u0441\u043E\u0445\u0440\u0430\u043D\u0435\u043D\u0438\u0435\u043C \u0441\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u044F
+    var lists = data.lists || [];
+    for (var li = 0; li < lists.length; li++) {
+      var list = lists[li];
+      html += '<div class="tpl-section-title">' + escLink(list.name) + '</div>';
+      html += '<div class="checklist-grid">';
+      var cats = list.categories || [];
+      for (var ci = 0; ci < cats.length; ci++) {
+        var cat = cats[ci];
+        var items = cat.items || [];
+        var checked = items.filter(function (it) { return it.checked; }).length;
+        html += '<div class="checklist-card">';
+        html += '<div class="checklist-card__header">';
+        html += '<span class="checklist-card__title">' + escLink(cat.name) + '</span>';
+        html += '<span class="checklist-card__count">' + checked + '/' + items.length + '</span>';
+        html += '</div>';
+        for (var ii = 0; ii < items.length; ii++) {
+          var item = items[ii];
+          var done = item.checked ? ' checklist-card__item--done' : '';
+          var key = checklistKey(page, list.name + ' ' + cat.name, item.text);
+          html += '<div class="checklist-card__item' + done + '" data-check-key="' + esc(key) + '">';
+          html += '<div class="checklist-card__item-check"></div>';
+          html += '<span>' + escLink(item.text) + '</span>';
+          html += '</div>';
+        }
+        html += '</div>';
+      }
+      html += '</div>';
+    }
+
+    // \u0414\u0435\u0436\u0443\u0440\u0441\u0442\u0432\u0430 \u043D\u0430 \u043A\u0430\u043C\u0431\u0443\u0437\u0435
+    var rota = data.duty_rota || [];
+    if (data.duty_intro || rota.length > 0) {
+      html += '<div class="tpl-section-title">\u0414\u0435\u0436\u0443\u0440\u0441\u0442\u0432\u0430 \u043D\u0430 \u043A\u0430\u043C\u0431\u0443\u0437\u0435</div>';
+      if (data.duty_intro) {
+        html += '<div class="bento-card"><div class="prov-note">' + escLink(data.duty_intro) + '</div></div>';
+      }
+      if (rota.length > 0) {
+        var rotaKeys = Object.keys(rota[0]);
+        html += '<div class="meal-plan-grid">';
+        html += '<div class="meal-plan-row meal-plan-row--head">';
+        for (var hk = 0; hk < rotaKeys.length; hk++) {
+          html += '<span class="meal-plan-row__day">' + escLink(rotaKeys[hk]) + '</span>';
+        }
+        html += '</div>';
+        for (var ri = 0; ri < rota.length; ri++) {
+          html += '<div class="meal-plan-row">';
+          for (var rk = 0; rk < rotaKeys.length; rk++) {
+            var cls = rk === 0 ? 'meal-plan-row__day' : 'meal-plan-row__meal';
+            html += '<span class="' + cls + '">' + escLink(rota[ri][rotaKeys[rk]] || '') + '</span>';
           }
           html += '</div>';
         }
+        html += '</div>';
+      }
+    }
 
+    html += renderProvisionRules('\u041F\u0440\u0430\u0432\u0438\u043B\u0430 \u0434\u0435\u0436\u0443\u0440\u0441\u0442\u0432\u0430', data.duty_rules);
+
+    // \u0413\u0434\u0435 \u043F\u043E\u043A\u0443\u043F\u0430\u0442\u044C
+    var shops = data.shops || [];
+    if (shops.length > 0) {
+      var shopKeys = Object.keys(shops[0]);
+      html += '<div class="tpl-section-title">\u0413\u0434\u0435 \u043F\u043E\u043A\u0443\u043F\u0430\u0442\u044C</div>';
+      html += '<div class="provisions-grid">';
+      for (var si = 0; si < shops.length; si++) {
+        html += '<div class="provisions-card">';
+        html += '<div class="provisions-card__title">' + escLink(shops[si][shopKeys[0]] || '') + '</div>';
+        html += '<div class="prov-note">' + escLink(shops[si][shopKeys[1]] || '') + '</div>';
         html += '</div>';
       }
       html += '</div>';
     }
 
-    // Meal plan
-    var mealPlan = data.meal_plan || [];
-    if (mealPlan.length > 0) {
-      html += '<div class="tpl-section-title">\u041F\u043B\u0430\u043D \u043F\u0438\u0442\u0430\u043D\u0438\u044F</div>';
-      html += '<div class="meal-plan-grid">';
-      for (var mp = 0; mp < mealPlan.length; mp++) {
-        var meal = mealPlan[mp];
-        html += '<div class="meal-plan-row">';
-        html += '<span class="meal-plan-row__day">' + escLink(meal['\u0414\u0435\u043D\u044C'] || '') + '</span>';
-        html += '<span class="meal-plan-row__meal">' + escLink(meal['\u0417\u0430\u0432\u0442\u0440\u0430\u043A'] || '') + '</span>';
-        html += '<span class="meal-plan-row__meal">' + escLink(meal['\u041E\u0431\u0435\u0434'] || '') + '</span>';
-        html += '<span class="meal-plan-row__meal">' + escLink(meal['\u0423\u0436\u0438\u043D'] || '') + '</span>';
-        html += '</div>';
-      }
-      html += '</div>';
-    }
-
-    // Restock
-    var restock = data.restock || [];
-    if (restock.length > 0) {
-      html += '<div class="tpl-section-title">\u0414\u043E\u043A\u0443\u043F\u043A\u0430 \u0432 \u043F\u0443\u0442\u0438</div>';
-      html += '<div class="bento-card">';
-      for (var rs = 0; rs < restock.length; rs++) {
-        html += '<div class="bento-card__row">';
-        html += '<span class="bento-card__row-label">' + escLink(restock[rs]) + '</span>';
-        html += '</div>';
-      }
-      html += '</div>';
+    if (data.logistics) {
+      html += '<div class="tpl-section-title">\u041B\u043E\u0433\u0438\u0441\u0442\u0438\u043A\u0430 \u0437\u0430\u043A\u0443\u043F\u043A\u0438</div>';
+      html += '<div class="bento-card"><div class="prov-note">' + escLink(data.logistics) + '</div></div>';
     }
 
     return html;

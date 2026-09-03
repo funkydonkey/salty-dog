@@ -17,9 +17,9 @@ deploy: build test
 
 publish: build
 	cp app/static/content.json docs/static/content.json
-	cp frontend/js/templates.js docs/static/js/templates.js
-	cp frontend/css/templates.css docs/static/css/templates.css
-	git add app/static/content.json docs/static/content.json docs/static/js/templates.js docs/static/css/templates.css
+	cp frontend/js/*.js docs/static/js/
+	cp frontend/css/*.css docs/static/css/
+	git add app/static/content.json docs/static/content.json docs/static/js docs/static/css
 	-git add frontend/assets/route docs/static/assets/route
 	git commit -m "Update content" || echo "Nothing to commit"
 	git push origin main

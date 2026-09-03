@@ -524,56 +524,110 @@ def parse_equipment_checklist(md: str) -> dict:
     return {"categories": categories} if categories else {}
 
 
-def parse_provisions(md: str) -> dict:
-    """Парсит Provisions: ### Category таблицы + план питания + докупка."""
-    result = {}
-
-    # Основная закупка — таблицы по категориям
-    shopping = []
-    sections = re.split(r"^### ", md, flags=re.MULTILINE)
-
-    for section in sections[1:]:
-        lines = section.split("\n")
-        cat_name = lines[0].strip()
-
-        # Ищем таблицу в этой секции
-        table_lines = []
-        for line in lines[1:]:
-            stripped = line.strip()
-            if stripped.startswith("|"):
-                table_lines.append(stripped)
-            elif table_lines:
-                break
-            elif stripped.startswith("### ") or stripped.startswith("## "):
-                break
-
-        if table_lines:
-            items = _parse_horizontal_table(table_lines)
-            if items:
-                shopping.append({"category": cat_name, "items": items})
-
-    result["shopping"] = shopping
-
-    # План питания по дням
-    table = _find_tables_after_header(md, r"^##\s+План питания")
-    if table:
-        result["meal_plan"] = _parse_horizontal_table(table)
-
-    # Докупка
-    restock = []
-    in_restock = False
+def _split_h2_sections(md: str) -> list[tuple[str, str]]:
+    """Разбивает markdown на блоки верхнего уровня: [(заголовок ##, тело), ...]."""
+    sections: list[tuple[str, list[str]]] = []
     for line in md.split("\n"):
+        h2 = re.match(r"^##\s+([^#].*)$", line.strip())
+        if h2:
+            sections.append((h2.group(1).strip(), []))
+        elif sections:
+            sections[-1][1].append(line)
+    return [(name, "\n".join(body)) for name, body in sections]
+
+
+def _parse_bullets(text: str) -> list[str]:
+    """Собирает обычные (не чекбокс) буллеты в список строк."""
+    bullets = []
+    for line in text.split("\n"):
         stripped = line.strip()
-        if re.match(r"^##\s+Докупка", stripped):
-            in_restock = True
+        if stripped.startswith("---"):
             continue
-        if in_restock:
-            if stripped.startswith("## "):
+        m = re.match(r"^-\s+(?!\[[ xX]\])(.+)$", stripped)
+        if m:
+            bullets.append(_clean_bold(m.group(1)))
+    return bullets
+
+
+def _parse_checklist_categories(text: str) -> list[dict]:
+    """Парсит `### Категория` + чекбоксы в список категорий."""
+    categories: list[dict] = []
+    for line in text.split("\n"):
+        stripped = line.strip()
+        h3 = re.match(r"^###\s+(.+)$", stripped)
+        if h3:
+            categories.append({"name": h3.group(1).strip(), "items": []})
+            continue
+        cb = re.match(r"^-\s*\[([ xX])\]\s*(.+)$", stripped)
+        if cb:
+            if not categories:
+                categories.append({"name": "", "items": []})
+            categories[-1]["items"].append({
+                "text": _clean_bold(cb.group(2)),
+                "checked": cb.group(1).lower() == "x",
+            })
+    return [c for c in categories if c["items"]]
+
+
+def _first_paragraph(text: str) -> str:
+    """Первый прозаический абзац секции (без буллетов и таблиц)."""
+    lines = []
+    for line in text.split("\n"):
+        stripped = line.strip()
+        if not stripped:
+            if lines:
                 break
-            bullet_match = re.match(r"^-\s+(.+)$", stripped)
-            if bullet_match:
-                restock.append(bullet_match.group(1).strip())
-    result["restock"] = restock
+            continue
+        if stripped.startswith(("-", "|", "#", ">")):
+            break
+        lines.append(stripped)
+    return _clean_bold(" ".join(lines))
+
+
+def parse_provisions(md: str) -> dict:
+    """Парсит Provisions: интро, меню, чеки-закупки, дежурства, магазины."""
+    result: dict = {}
+
+    # Интро — прозаический текст до первого `##`
+    head = re.split(r"^##\s", md, maxsplit=1, flags=re.MULTILINE)[0]
+    head = re.sub(r"^#\s+.*$", "", head, count=1, flags=re.MULTILINE)
+    intro = _first_paragraph(head)
+    if intro:
+        result["intro"] = intro
+
+    lists = []
+    for name, body in _split_h2_sections(md):
+        low = name.lower()
+        table = _parse_horizontal_table(_extract_table_lines(body, 0))
+
+        if low.startswith("логика"):
+            result["checks_logic"] = table
+        elif low.startswith("правила камбуза"):
+            result["galley_rules"] = _parse_bullets(body)
+        elif low.startswith("завтраки"):
+            result["breakfasts"] = _parse_bullets(body)
+        elif low.startswith("обеды"):
+            result["lunches"] = table
+        elif low.startswith("ужины"):
+            result["dinners"] = table
+        elif low.startswith("заметки по меню"):
+            result["menu_notes"] = _parse_bullets(body)
+        elif low.startswith("чек"):
+            categories = _parse_checklist_categories(body)
+            if categories:
+                lists.append({"name": name, "categories": categories})
+        elif low.startswith("правила дежурства"):
+            result["duty_rules"] = _parse_bullets(body)
+        elif low.startswith("дежурства"):
+            result["duty_intro"] = _first_paragraph(body)
+            result["duty_rota"] = table
+        elif low.startswith("где покупать"):
+            result["shops"] = table
+        elif low.startswith("логистика"):
+            result["logistics"] = _first_paragraph(body)
+
+    if lists:
+        result["lists"] = lists
 
     return result if any(v for v in result.values()) else {}
 

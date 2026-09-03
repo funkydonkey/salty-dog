@@ -822,115 +822,171 @@ class TestParseEquipmentChecklist:
 # ---------------------------------------------------------------------------
 
 class TestParseProvisions:
-    """Парсер провизии: ### Категория таблицы + план питания + докупка."""
+    """Парсер провизии: интро, меню, чеки-закупки, дежурства, магазины."""
 
     PROVISIONS_MD = """\
-# Провизия
+# Provisions — Провизия
 
-## Основная закупка
+8 человек, 7 дней, докупка один раз.
 
-### Овощи и фрукты
+## Логика двух чеков
 
-| Продукт | Количество | Примечание |
+| | Чек [A] — марина | Чек [B] — середина |
 |---|---|---|
-| Помидоры | 3 кг | Черри + обычные |
-| Огурцы | 2 кг | |
-| Лимоны | 10 шт | Для воды и рыбы |
+| Что берём | Бакалея и вода | Скоропорт |
+| Вес | Тяжёлый | Лёгкий |
 
-### Мясо и рыба
+## Правила камбуза
 
-| Продукт | Количество | Примечание |
-|---|---|---|
-| Куриные бёдра | 2 кг | Для гриля |
-| Фарш говяжий | 1 кг | Болоньезе |
+- **One-pot блюда.** Одна кастрюля.
+- Рецепты на ≤30 минут.
 
-### Напитки
+## Завтраки
 
-| Продукт | Количество | Примечание |
-|---|---|---|
-| Вода 5л | 6 бут | |
-| Пиво | 24 бан | Местное |
+- Ночная овсянка
+- Омлет с творогом
 
-## План питания
+## Обеды
 
-| День | Завтрак | Обед | Ужин |
+| # | Блюдо | Ключевые продукты | Чек |
 |---|---|---|---|
-| День 1 | Круассаны | Салат | Гриль на борту |
-| День 2 | Омлет | Сэндвичи | Ресторан на берегу |
+| L1 | Паста с песто | паста 700 г, песто | A |
+| L5 | Кускус с кюфте | кускус 600 г, фарш 1 кг | B |
 
-## Докупка на месте
+## Ужины
 
-- Свежий хлеб (каждое утро)
-- Рыба на местном рынке
-- Лёд для кулера
+| # | Блюдо | Ключевые продукты | Чек |
+|---|---|---|---|
+| U1 | Путтанеска | паста 800 г, тунец | A |
+
+## Заметки по меню
+
+- Гарнир — чобан-салат.
+
+## Чек A — домашняя марина
+
+### Мясо
+- [ ] Куриное филе — 1,6 кг
+- [x] Sucuk — 1,3 кг
+
+### Вода
+- [ ] 5 л — 18 шт
+
+## Чек B — середина маршрута
+
+### Скоропорт
+- [ ] Фарш — 1,7 кг
+
+## Дежурства на камбузе
+
+18 приёмов пищи за 7 дней. Капитаны вне ротации.
+
+| Дни | Завтрак | Обед | Ужин |
+|---|---|---|---|
+| 1-3 | готовит A, моет C | готовит B, моет A | готовит C, моет B |
+
+## Правила дежурства
+
+- **Мойка в две руки:** один намыливает, второй ополаскивает.
+
+## Где покупать
+
+| Магазин | Что |
+|---|---|
+| Migros | Основная закупка |
+| Tekel | Алкоголь |
+
+## Логистика закупки
+
+Заказать в марине тележку или такси до Migros.
 """
 
-    def test_shopping_categories_parsed(self):
+    def test_intro_parsed(self):
         result = parse_provisions(self.PROVISIONS_MD)
-        shopping = result["shopping"]
+        assert result["intro"] == "8 человек, 7 дней, докупка один раз."
 
-        assert len(shopping) == 3
-        assert shopping[0]["category"] == "Овощи и фрукты"
-        assert shopping[1]["category"] == "Мясо и рыба"
-        assert shopping[2]["category"] == "Напитки"
-
-    def test_shopping_items(self):
+    def test_checks_logic_table(self):
         result = parse_provisions(self.PROVISIONS_MD)
-        vegs = result["shopping"][0]["items"]
+        logic = result["checks_logic"]
 
-        assert len(vegs) == 3
-        assert vegs[0]["Продукт"] == "Помидоры"
-        assert vegs[0]["Количество"] == "3 кг"
-        assert vegs[2]["Примечание"] == "Для воды и рыбы"
+        assert len(logic) == 2
+        assert logic[0][""] == "Что берём"
+        assert logic[0]["Чек [A] — марина"] == "Бакалея и вода"
+        assert logic[1]["Чек [B] — середина"] == "Лёгкий"
 
-    def test_empty_cells_handled(self):
-        """Пустые ячейки в таблице не вызывают ошибку."""
+    def test_galley_rules_bold_stripped(self):
         result = parse_provisions(self.PROVISIONS_MD)
-        vegs = result["shopping"][0]["items"]
+        assert result["galley_rules"][0] == "One-pot блюда. Одна кастрюля."
+        assert len(result["galley_rules"]) == 2
 
-        # Огурцы — пустое примечание
-        assert vegs[1]["Примечание"] == ""
-
-    def test_meal_plan_parsed(self):
+    def test_breakfasts_parsed(self):
         result = parse_provisions(self.PROVISIONS_MD)
-        plan = result["meal_plan"]
+        assert result["breakfasts"] == ["Ночная овсянка", "Омлет с творогом"]
 
-        assert len(plan) == 2
-        assert plan[0]["День"] == "День 1"
-        assert plan[0]["Ужин"] == "Гриль на борту"
-        assert plan[1]["Завтрак"] == "Омлет"
-
-    def test_restock_list_parsed(self):
+    def test_lunches_and_dinners(self):
         result = parse_provisions(self.PROVISIONS_MD)
-        restock = result["restock"]
 
-        assert len(restock) == 3
-        assert "Свежий хлеб (каждое утро)" in restock
-        assert "Лёд для кулера" in restock
+        assert len(result["lunches"]) == 2
+        assert result["lunches"][0]["#"] == "L1"
+        assert result["lunches"][1]["Чек"] == "B"
+        assert len(result["dinners"]) == 1
+        assert result["dinners"][0]["Блюдо"] == "Путтанеска"
+
+    def test_menu_notes(self):
+        result = parse_provisions(self.PROVISIONS_MD)
+        assert result["menu_notes"] == ["Гарнир — чобан-салат."]
+
+    def test_shopping_lists_by_check(self):
+        result = parse_provisions(self.PROVISIONS_MD)
+        lists = result["lists"]
+
+        assert len(lists) == 2
+        assert lists[0]["name"] == "Чек A — домашняя марина"
+        assert [c["name"] for c in lists[0]["categories"]] == ["Мясо", "Вода"]
+        assert lists[1]["categories"][0]["items"][0]["text"] == "Фарш — 1,7 кг"
+
+    def test_checked_state_parsed(self):
+        result = parse_provisions(self.PROVISIONS_MD)
+        meat = result["lists"][0]["categories"][0]["items"]
+
+        assert meat[0]["checked"] is False
+        assert meat[1]["checked"] is True
+
+    def test_duty_intro_and_rota(self):
+        result = parse_provisions(self.PROVISIONS_MD)
+
+        assert result["duty_intro"].startswith("18 приёмов пищи")
+        assert len(result["duty_rota"]) == 1
+        assert result["duty_rota"][0]["Дни"] == "1-3"
+        assert result["duty_rota"][0]["Ужин"] == "готовит C, моет B"
+
+    def test_duty_rules_separate_from_galley_rules(self):
+        result = parse_provisions(self.PROVISIONS_MD)
+        assert result["duty_rules"] == [
+            "Мойка в две руки: один намыливает, второй ополаскивает."
+        ]
+
+    def test_shops_and_logistics(self):
+        result = parse_provisions(self.PROVISIONS_MD)
+
+        assert len(result["shops"]) == 2
+        assert result["shops"][0]["Магазин"] == "Migros"
+        assert result["logistics"].startswith("Заказать в марине тележку")
 
     def test_empty_input_returns_empty(self):
         assert parse_provisions("") == {}
 
-    def test_only_meal_plan(self):
-        md = """\
-## План питания
-
-| День | Завтрак |
-|---|---|
-| 1 | Каша |
-"""
-        result = parse_provisions(md)
-        assert len(result["meal_plan"]) == 1
-        assert result["shopping"] == []
-
-    def test_only_restock(self):
-        md = "## Докупка\n\n- Хлеб\n- Молоко"
-        result = parse_provisions(md)
-        assert result["restock"] == ["Хлеб", "Молоко"]
-
     def test_no_matching_sections(self):
         md = "# Просто текст\n\nБез провизии."
-        assert parse_provisions(md) == {}
+        result = parse_provisions(md)
+        assert result == {"intro": "Без провизии."}
+
+    def test_only_shopping_list(self):
+        md = "## Чек A\n\n### Хлеб\n- [ ] Лаваш\n"
+        result = parse_provisions(md)
+        assert result["lists"][0]["categories"][0]["items"][0]["text"] == "Лаваш"
+        assert "lunches" not in result
+
 
 
 # ---------------------------------------------------------------------------
@@ -984,19 +1040,20 @@ class TestDraftAndEdgeCases:
         assert len(items) == 2  # Только два чекбокса
 
     def test_provisions_table_with_missing_columns(self):
-        """Таблица с меньшим числом столбцов в строке — не падает."""
+        """Строка таблицы меню с меньшим числом столбцов — не падает."""
         md = """\
-### Еда
+## Обеды
 
-| Продукт | Количество | Примечание |
-|---|---|---|
-| Хлеб | 2 |
+| # | Блюдо | Ключевые продукты | Чек |
+|---|---|---|---|
+| L1 | Паста | паста 700 г |
 """
         result = parse_provisions(md)
-        item = result["shopping"][0]["items"][0]
-        assert item["Продукт"] == "Хлеб"
-        assert item["Количество"] == "2"
-        # Примечание — пустая строка (столбец отсутствует, но не падает)
+        item = result["lunches"][0]
+        assert item["Блюдо"] == "Паста"
+        assert item["Ключевые продукты"] == "паста 700 г"
+        # Чек — пустая строка (столбец отсутствует, но не падает)
+        assert item["Чек"] == ""
 
     def test_crew_list_table_with_extra_pipes(self):
         """Лишние пробелы и пайпы в таблице."""
